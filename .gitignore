@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+
+# Environment
+.env
+*.env
+
+# Outputs and temp
+outputs/
+temp_datasheet.docx
+stocks_alert/.last_sent_date
+
+# Sensitive bots (Telegram tokens inside — keep off GitHub)
+stocks_alert/
+research_bot/
+
+# OS
+.DS_Store
+Thumbs.db

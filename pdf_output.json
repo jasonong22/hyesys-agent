@@ -1,0 +1,569 @@
+{
+  "total_pages": 141,
+  "pages": [
+    {
+      "page": 1,
+      "text": "FDM6200 Fire Dynamics Workshop 2\nCompartment Fires and Fire Safety\nDC Teong How Hwa\nDeputy Commissioner (Strategy & Corporate Services)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 2,
+      "text": "Workshop 2 Learning Outcom\nes\n▪ To understand the characteristics of fire development and fire\ngrowth stages in a compartment and impact on fire safety.\n▪ To appreciate how temperatures and heat release rate can be\nestimated in compartment fires including flashover prediction.\n▪ To appreciate the factors influencing human behaviour in fires\nand attendant fire safety considerations.\n▪ To appreciate the conduct of fire research including learning visit\nto SCDF Civil Defence Academy.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 3,
+      "text": "References\n▪ Drysdale, D. (2011) An introduction to fire dynamics. 3rd ed.\nWiley-Blackwell.\n▪ Hurley, M.J., Gottuk, D.T., Hall Jr., J.R., Harada, K., Kuligowski,\nE.D., Puchovsky, M., Torero, J.L., Watts Jr., J.M. and Wieczorek,\nC.J., eds. (2016) SFPE handbook of fire protection engineering.\n5th ed. NFPA\n▪ Andrew H. Buchanan (2002), Structural Design for Fire Safety\n▪ BS EN 1991-1-2:2002\n▪ Singapore Fire Safety Engineering Guidelines 2015\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 4,
+      "text": "Introduction\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 5,
+      "text": "What is Compartment Fire?\n▪ The term ‘compartment fire’ in this module is used to describe\na fire which is confined within a room or similar enclosure\nwithin a building.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 6,
+      "text": "Fire Growth Stages\n▪ Compartment fires are often discussed in terms of growth stages.\n▪ The growth stages are:\n➢ Ignition\n➢ Growth\n➢ Fully-developed fire\n➢ Decay\nWhat will this chart look like if it\nIgnition\nis variation of HRR with time?\nIdealised variation of temperature with time along with growth stages\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 7,
+      "text": "Fire Growth Stages\nDrysdale (2011)\nAt what stage are the temperature and HRR the greatest?\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 8,
+      "text": "General Description\n▪ Ignition Stage:\n✓ The period during which the fire begins.\n▪ Growth Stage:\n➢ During the initial part of growth stage, the fire grows independent of the\nsize, shape and material of the compartment (unless the fire and\ncompartment boundaries are in contact).\n➢ Temperature rises are localised and escape is relatively easy.\n➢ If there is sufficient fuel and oxygen, the fire will continue to grow causing\nan increase in the temperature particularly in the upper part of the\ncompartment.\n➢ Such fires which have sufficient oxygen are said to be ‘fuel-controlled.’\n➢ The latter part of the developing stage generally represents the last\nopportunity for escape from the compartment.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 9,
+      "text": "General Description\n▪ Flashover:\n✓ The transition from the growth stage to the fully-developed stage.\n✓ Occurs over a relatively short period.\n✓ Characterised by the rapid involvement in fire of all combustible materials\nwithin the compartment and a rapid rise in temperature.\n✓ Various criteria for its onset:\na) A critical gas temperature of the upper layer of 500-600oC\nb) A critical radiant heat flux at floor level of 20 kW/m2\nc) The ignition of incompletely combusted material in the upper layer, or\nd) The appearance of flames from openings in the compartment\n*Flashover Video\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 10,
+      "text": "Flashover vs Backdraught\n▪ There is clear distinction between flashover and backdraught.\n▪ Backdraught is preceded by burning under conditions of very\npoor ventilation and is initiated by the sudden influx of air\nwhen a door opens or a window breaks.\n▪ The development of flashover occurs under conditions where\na fire in a compartment already has adequate ventilation.\n*Backdraught Video\nWhy is backdraught a concern for firefighters?\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 11,
+      "text": "General Description\n▪ Fully-Developed Stage:\n✓ Once flashover has occurred, the fire is said to be fully developed.\n✓ The Heat Release Rate (HRR) is at its maximum.\n✓ Fire is generally ‘ventilation-controlled’ i.e. there is insufficient air within the\ncompartment, and some of the pyrolysis products will leave the\ncompartment, possibly to react outside the compartment.\n✓ Such ‘ventilation-controlled’ fires produce large amounts of carbon\nmonoxide and conditions are therefore untenable for humans.\n✓ The high thermal stress of the building structure and compartment\nboundaries may be sufficient to cause structural damage.\n✓ Spread may also occur through open doors and ducts (internal spread)\nand open windows (external spread) involving adjacent enclosures in fire.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 12,
+      "text": "General Description\n▪ Decay Stage:\n✓ After reaching a maximum rate of heat release, the fully-developed fire\nbegins to diminish in size as the fuel is consumed.\n✓ This decay stage may be considered to commence when the average\ntemperature in the compartment has fallen to 80% of its peak value.\n✓ The fire may change from ventilation to fuel-controlled during this period.\n✓ Ultimately, the fire may cease flaming and become a smouldering mass of\nglowing embers.\n✓ Not of great significance as far as the safety of the occupants and\ndamage to the building is concerned.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 13,
+      "text": "Fire @ 229 Toa Payoh Lor 8 (29 Jul 2025)\nHas flashover occurred? What stage is fire at?\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 14,
+      "text": "Pre-Flashover Fires\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 15,
+      "text": "Pre-Flashover Fires\n▪ In fire engineering design process, understanding\npre-flashover fire behaviour is essential when designing for\nlife safety in fires.\n▪ The growth or pre-flashover phase is a critical phase from the point\nof view of detection, escape of people, fire control and\nsuppression in the enclosure of origin.\n▪ Once flashover has occurred, escape is unlikely and fire control is\ndifficult.\n▪ Necessary for designer to know the expected rate of fire growth,\nand the resulting temperature of the hot upper layer in the fire\nroom (which can be used to predict the likelihood of flashover).\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 16,
+      "text": "Single Fuel Item\n▪ In the early stages of growth, the fire is unaffected by the\nenclosure and behaves similarly to a fire in the open.\n▪ The rate of burning 𝑚ሶ ′′ is determined by the heat flux from the\nflame to the surface 𝑄 ሶ ′′\n𝐹\n𝑄ሶ ′′ − 𝑄ሶ ′′\n𝑚ሶ ′′ = 𝐹 𝐿\n𝐿\n𝑣\n𝑚ሶ ′′ is the rate of burning (kg/m2.s)\n𝑄 ሶ ′′ is the heat flux from flame to surface (kW/m2)\n𝐹\n𝑄 ሶ ′′ is the rate of heat loss per unit area (kW/m2)\n𝐿\n𝐿 is the latent heat of volatilization (kJ/kg)\nv\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 17,
+      "text": "Single Fuel Item\n▪ If the fuel bed is greater than about 0.3 m in diameter, 𝑄 ሶ ′′ will be\n𝐹\npredominantly radiative flux.\n▪ For most fires, 𝑄 ሶ ′′ is relatively small as only 30% of the heat liberated in\n𝐹\nthe flame is radiated to the total environment, and\n▪ 70% is lost convectively in the fire’s buoyant plume.\n▪ As the fire grows, the effect of the compartment ceiling becomes\napparent because the plume interacts with the ceiling to form a\n‘ceiling jet’ trapping the heat and increasing the ceiling temperature.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 18,
+      "text": "Single Fuel Item\n▪ The ceiling jet consisting of hot smoky gases (and in some cases\nflame) will radiate downwards to the lower parts of the room and\nthe burning fuel with increasing intensity as the layer thickness,\nsmoke concentration and temperature increase.\n▪ The rate of burning of the fuel will thus increase due to the\nadditional radiant flux 𝑄 ሶ ′′ so that\n𝐸\n𝑄ሶ ′′ − 𝑄ሶ ′′ 𝑄ሶ ′′\n𝑚ሶ ′′ = 𝐹 𝐿 + 𝐸\n𝐿 𝐿\n𝑣 𝑣\nFree burning rate Increase due to\nexternal radiation\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 19,
+      "text": "Energy Generated by the Fire\nሶ\nHRR (𝑄)\n▪ HRR = rate at which the fire releases energy a.k.a. fire power (kW)\n▪ The rate of energy release is equal to the mass loss rate of the fuel\ntimes the heat of combustion of the fuel:\nሶ \"\n𝑄 = 𝑚ሶ 𝜒∆𝐻 = 𝑚ሶ 𝐴 𝜒∆𝐻\n𝑐 𝑓 𝑐\nwhere 𝑚ሶ = rate of burning of fuel (kg/s)\n𝑚ሶ \" = rate of burning of fuel per unit area (kg/m2.s)\n𝐴 = area of fuel undergoing burning (m2)\n𝑓\n𝜒 = combustion efficiency (0 ≤ 𝜒 ≤ 1)\n∆𝐻 = heat of combustion fuel (kJ/kg)\n𝑐\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 20,
+      "text": "Enclosure Effect\n• Experiments using PMMA as fuel has\nshown that the confinement of the fire\nplume by a ceiling increases the burning\nrate by about 3 times and maximum\nburning rate is achieved in a far shorter\ntime.\n➢ Unrestricted air access from four sides\n➢ Max rate of burning ~ 3 times of open\nburning rate\n➢ Achieve in approximately 1/3 the time\nThe effect of enclosure on the rate of burning of a slab of\nPMMA (0.76m x 0.76m) (Friedman, 1975) Drysdale (2011)\n*Bradford Football Stadium Fire Video\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 21,
+      "text": "Multiple Fuel Items\n▪ In the practical situation, there will generally be more than one fuel\nitem in a compartment.\n▪ The spread of fire from the item ignited first to the other items can\noccur in a number of ways:\n➢ Direct flame contact\n➢ Radiant heat transfer\n➢ By way of flashover\n▪ Direct Flame Contact: If adjacent items are touching or sufficiently\nclose, direct flame contact can occur, and fire spread and growth\nwill generally be rapid. In some cases, thermoplastics materials may\nfacilitate spread by the formation of a flaming pool fire.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 22,
+      "text": "Multiple Fuel Items\n▪ Ignition by Radiant Heat Transfer: Depends on the flux produced by\nthe item ignited first, the ignitability of the second item, the relative\ngeometry of the two items and the distance between them.\nExperimental measurements of radiant heat flux contours generally\nrequired.\n▪ One might expect a substantial item which burns rapidly (e.g. a\npolyurethane padded chair covered with a polypropylene fabric to\nignite combustible items within a radius of about a metre.)\n▪ Flashover: All combustible items within the compartment become\ninvolved in the fire. Spread of fire from one item to another may occur\nindirectly through this pathway.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 23,
+      "text": "Parabolic Growth\n▪ Despite all the complexities involved in the spread of fire in fuel loads\ncomprising multiple items and the varying rates of spread as different\nparts of a given item become involved, the growth phase of many\nfires can be represented by a parabolic function of the type:\nሶ\n𝑄 = 𝛼 (𝑡 − 𝑡 )2\n𝑓 𝑜\nWhere\n𝑄ሶ\nis the heat release rate (kW)\n𝛼 is the fire growth coefficient (kW/s2)\n𝑓\n𝑡 is the time (s)\n𝑡 is the effective ignition time (s)\n𝑜\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 24,
+      "text": "Parabolic Growth\n▪ The effective ignition time (𝑡 ) is the intercept on the x-axis obtained\n𝑜\nwhen the parabolic function is extrapolated.\n▪ This recognizes that there is an incubation period before growth\nbecomes established after ignition.\n▪ ‘Recognition of the parabolic relationship has been formalized in terms\nof ‘standard 𝒕𝟐 fires’ representing fuel loads with varying rates of growth.\nDrysdale (2011)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 25,
+      "text": "Standard 𝒕𝟐 Fires\n▪ ‘Slow’ where 𝑄 ሶ = 0.00293𝑡2\n▪ ‘Medium’ where 𝑄 ሶ = 0.01172𝑡2\n▪ ‘Fast’ where 𝑄 ሶ = 0.0469𝑡2\n▪ ‘Ultra-Fast’ where 𝑄 ሶ = 0.1876𝑡2\n▪ Equivalent to the attainment of 1050 kW in 75, 150, 300 and 600 seconds\nrespectively.\nDrysdale (2011)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 26,
+      "text": "Application of 𝒕𝟐 Fires\nDrysdale (2011)\nSingapore Fire Safety Engineering\nGuidelines 2015\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 27,
+      "text": "Predicting Pre-Flashover Temperatures\n▪ Pre-flashover temperatures can be estimated using a simple\ntwo-layer zone model based on a heat balance equation\napplied to the upper layer.\n▪ Upper layer assumed to be well-mixed and uniform in\ntemperature.\nሶ ሶ\n𝑄 = 𝑚ሶ 𝑐 (𝑇 – 𝑇 )+ 𝑄\n𝑔 𝑝 𝑔 ∞ 𝑙𝑜𝑠𝑠\nwhere:\n𝑄ሶ is the rate of heat release of the fire(kW)\n𝑚ሶ is the mass flow rate of gas leaving the enclosure(kg/s)\n𝑔\n𝑐 is the specific heat of the gas leaving the enclosure gas (kJ/kg.K)\n𝑝\n𝑇 is the temperature of the upper hot gas layer (K)\n𝑔\n𝑇 is the ambient temperature (K)\n∞\n𝑄ሶ is the rate of heat transfer from the upper layer to the compartment\n𝑙𝑜𝑠𝑠\nboundaries by radiation and convection (kW)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 28,
+      "text": "Predicting Pre-Flashover Temperatures\n𝑄 ሶ = ℎ 𝐴 (𝑇 – 𝑇 )\n𝑙𝑜𝑠𝑠 𝑘 𝑇 𝑔 ∞\nwhere:\nℎ is the effective heat transfer coefficient of enclosure boundaries (kW/m2K)\n𝑘\n𝐴 is the internal surface area of the enclosure (m2)\n𝑇\n𝑇 is the temperature of the upper gas layer (K)\n𝑔\n𝑇 is the ambient temperature (K)\n∞\n𝑚ሶ ∝ 𝑔ρ 𝐴 𝐻\n𝑔 ∞ 𝑜 𝑜\nwhere:\ng is the gravitational constant (9.81 m/s2)\nρ is density of ambient air (kg/m3)\n∞\n𝐴 is the vent area (m2)\n𝑜\n𝐻 is the vent height (m)\n𝑜\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 29,
+      "text": "Predicting Pre-Flashover Temperatures\nሶ\n▪ Substitution of 𝑄 and 𝑚ሶ and manipulation gives\n𝑙𝑜𝑠𝑠 𝑔\nΔ 𝑇 𝑄ሶ ℎ 𝐴\n𝑔 = 𝐶 ( )\n𝑁\n( 𝑘 𝑇 )\n𝑀\n𝑇 𝑔𝑐 ρ 𝑇 𝐴 𝐻 𝑔𝑐 ρ 𝐴 𝐻\n𝑜 𝑜\n∞ 𝑝 ∞ ∞ 𝑜 𝑝 ∞ 𝑜\nwhere: Δ𝑇 is the upper gas layer temperature rise above ambient (𝑇 - 𝑇 ) (K)\n𝑔 𝑔 ∞\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 30,
+      "text": "Predicting Pre-Flashover Temperatures\n▪ Experimental measurement of the temperatures of the upper\nlayer in a number of naturally ventilated fires has given C = 1.63,\nN =2/3 and M = -1/3.\n▪ This relationship can be simplified by substituting values for typical\nambient conditions where:\n𝑐 = 1.0 kJ/kg.K at 1 atmosphere ▪ The numbers 1.63, 2/3 and -1/3 were\n𝑝\ndetermined by correlating the expression with\n𝜌 = 1.18 kg/m3\n∞ the data from over 100 experimental fires:\n𝑇 = 295 K\n➢ Steady-state and transient fires\n∞\ng = 9.81 m/s2 ➢ Cellulosic, plastic & gaseous fuels\n➢ Compartment height 0.3 m < H < 2.7 m\n𝑸ሶ 𝟐 ➢ Floor area 0.14 m2 < Area < 12 m2\nto give: Δ𝑻 = 𝟔. 𝟖𝟓 ( ) 𝟏/𝟑\n𝒈\n𝒉 𝑨 𝑨 𝑯\n𝒌 𝑻 𝒐 𝒐\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 31,
+      "text": "Predicting Pre-Flashover Temperatures\nThe limitations on the use of this method for estimating temperatures are:\n▪ The correlation holds for compartment upper layer gas temperatures up to\napproximately 600oC\n▪ It applies to steady-state as well as time-dependent fires, provided the\nprimary transient response is the wall conduction phenomenon\n▪ It is not applicable to rapidly developing fires in large enclosures in which\nsignificant fire growth has occurred before the combustion products have\nexited the compartment.\n▪ The energy release rate of the fire must be determined from data or\nother correlations.\n▪ The characteristic fire growth time and thermal penetration time of the\nroom-lining materials must be determined in order to evaluate the\neffective heat transfer coefficient.\n▪ The correlation is based on data from a limited number of experiments\nand does not contain extensive data on ventilation-controlled fires nor\ndata on combustible walls or ceilings.\n▪ Most of the fuel in the test fires was near the centre of the room.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 32,
+      "text": "Predicting Pre-Flashover Temperatures\n▪ The temperature rise of the upper layer depends on the rate\nof heat release of the fire, the thermal properties and area of\nthe boundaries and the size of the opening in the enclosure.\n▪ To calculate the temperature rise of the upper layer (Δ𝑇 ) as a\n𝑔\nሶ\nfunction of the rate of heat source (𝑄), values for the effective\nthermal heat transfer coefficient (ℎ ) are required.\n𝑘\n▪ The values depend on the duration of the fire and the thermal\ncharacteristics of the enclosure boundaries and two situations\ncan be identified.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 33,
+      "text": "Predicting Pre-Flashover Temperatures\n▪ Where the exposure or ‘characteristic burning time’ (𝑡 ) is greater\n𝑐\nthan the ‘thermal penetration time’ of the boundaries (𝑡 ) and\n𝑝\nheat is being conducted in a quasi-steady state fashion to the\nexterior of the enclosure (𝒕 > 𝒕 ), the following expression applies:\n𝒄 𝒑\n𝑘\nℎ =\n𝑘\nδ\nwhere:\nℎ is the effective heat transfer coefficient of enclosure boundaries (kW/m2.K)\n𝑘\nk is the thermal conductivity of the boundary material (kW/m.K)\nδ is the thickness of the boundary (m)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 34,
+      "text": "Predicting Pre-Flashover Temperatures\n▪ Where the characteristic burning time is less than or equal to\nthe thermal penetration time (𝒕 ≤ 𝒕 ), the boundaries will be\n𝒄 𝒑\nstoring heat and little will be lost to the exterior and the\nfollowing expression applies:\n𝑘 𝑘𝜌𝑐\nℎ = =\n𝑘\n𝛼𝑡 𝑡\n𝑐 𝑐\nwhere:\n𝑘𝐽2\n𝑘𝜌𝑐 is the 𝑡ℎ𝑒𝑟𝑚𝑎𝑙 𝑖𝑛𝑒𝑟𝑡𝑖𝑎 ( )\n𝑚4𝐾2𝑠\n𝛼 = 𝑘Τ𝜌𝑐 is the thermal diffusivity of the material (𝑚2Τ𝑠)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 35,
+      "text": "Predicting Pre-Flashover Temperatures\nThe thermal penetration time is calculated using the relationship:\n2\n𝛿 𝜌𝑐 δ\n𝑡 = = ( ) 2\np\n4𝛼 𝑘 2\n𝜌 = density of the compartment surface (kg/m3)\n𝑐 = specific heat of the compartment surface material (kJ/kg.K)\n𝑘 = thermal conductivity of compartment surface (kW/m.K)\nδ = thickness of boundary (m)\n𝛼 = 𝑘Τ𝜌𝑐 is the thermal diffusivity of the boundary material (𝑚2Τ𝑠)\n𝑡 = thermal penetration time (s)\np\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 36,
+      "text": "Predicting Pre-Flashover Temperatures\nIf there are several walls and/or ceiling materials in the\ncompartment, an area-weighted average for ℎ should be\n𝑘\nused i.e.\n1\n𝑛\n(ℎ ) = σ ℎ 𝐴\n𝑘 EFF 𝑖=1 𝑘 𝑖 𝑖\n𝐴\n𝑇\n𝑄ሶ2\nRecall: Δ𝑇 = 6.85 ( )1/3\n𝑔\nℎ 𝐴 𝐴 𝐻\n𝑘 𝑇 𝑜 𝑜\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 37,
+      "text": "Predicting Pre-Flashover Temperatures\nExercise 1\nCalculate the upper layer temperature of a room 3 x 3 m\nin floor area and 2.4 m high with a door opening 1.8 m\nhigh and 0.6 m wide. The fire source is a steady 750 kW fire.\nThe wall-lining material is 0.016 m gypsum plaster on metal\nlath. Perform the calculation at times of 10, 60, and 600 s\nafter ignition.\n– 𝜌 = 1440 kg/m3\n– 𝑘 = 0.48 × 10-3 kW/m.K\n– 𝑐 = 0.84 kJ/kg.K\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 38,
+      "text": "Conservation of Mass\n▪ The mass flow into the compartment and the flow out are\nrelated by:\n𝑚ሶ = 𝑚ሶ + 𝑚ሶ (kg/s)\n𝑔 𝑎 𝑓\nHot Upper Layer\n𝑇 𝑇 𝑚ሶ\n∞ 𝑔 𝑔\n𝐻\n𝑜\n𝑚ሶ\n𝑎\n𝑚ሶ\n𝑓\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 39,
+      "text": "Conservation of Mass\n▪ The mass flow rate of air, 𝑚ሶ (kg/s), into a door or window is:\n𝑎\n𝑚ሶ = 0.5𝐴 𝐻\n𝑎 𝑜 𝑜\nwhere:\n𝐴 = area of opening (m2)\n𝑜\n𝐻 = height of opening (m)\n𝑜\n▪ Many aspects of compartment fire behaviour (both before\nand after flashover) vary with the term 𝑨 𝑯 , commonly\n𝒐 𝒐\nknown as the ventilation factor (attributed to Kawagoe).\n▪ Empirical observations on wood fire:\n𝑚ሶ = 0.09𝐴 𝐻\n𝑓 𝑜 𝑜\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 40,
+      "text": "Flashover\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 41,
+      "text": "Flashover\n▪ Flashover is the culmination of the growth phase and involves the\nignition of all the combustible materials in the compartment (other\nthan those already burning) by virtue of radiant heat.\n▪ The heat may be radiated from:\n➢ The flames of the developing fire\n➢ The hot surfaces of the upper part of the compartment\n➢ Flames under the ceiling and/or\n➢ Hot combustion products in the upper layer of the compartment\n▪ The relative importance of these sources of radiant heat will vary as\nthe fire develops and at flashover depend on a number of factors\nsuch as the nature of the fuel and the type and degree of ventilation.\n▪ For most fuels, a distinct smoky layer is produced and radiation from\nthis layer will predominate at flashover.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 42,
+      "text": "Enclosure Situations\n▪ The quantity of heat radiated will depend on factors such as\nthe thickness of the layer, its temperature, and its emissivity.\n▪ Three typical enclosure situations may be identified to illustrate\nthese factors.\n▪ Well-Ventilated Room Fire\n➢ In this scenario, the fire develops freely and establishes a well-mixed\nhot layer of smoke and gases in the upper part of the room.\n➢ This is the classic two-layer zone model used to study the\ndevelopment of a fire to flashover.\n➢ A large proportion of the heat radiated to the combustibles in the\nroom is from this hot layer.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 43,
+      "text": "Enclosure Situations\n▪ A Room Fire with Reduced Ventilation\n➢ In this scenario, which may occur during the latter stages of fire\ndevelopment, there is retarded inflow of air and outflow of\ncombustion products due to the deeper layer of smoke and gases.\n➢ Again, a large part of the heat radiated to the combustibles in the\nlower part of the room is from the upper layer.\n➢ Calculations and experimental work have indicated that, for fires\nwhich produce considerable amounts of smoke under conditions of\nrestricted ventilation (e.g. polyurethane foam), up to 85% of the heat\nradiated to the floor comes from the upper layer.\n➢ If the rate of heat release from the fire is sufficient, the heat radiated\nto the lower parts of the compartment will be sufficient (20 kW/m2 at\nfloor level) to cause flashover.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 44,
+      "text": "Enclosure Situations\n▪ A Corridor\n➢ For a corridor scenario with a fire at one (closed) end, the fire plume is deflected by\nthe ceiling to form a one-dimensional jet the depth of which will depend on the\nwidth of the corridor and the rate of flow of hot gases into the ceiling jet.\n➢ If the fire is sufficiently large, flames will enter the ceiling jet and the nature of\nburning under the ceiling will depend on whether the gases comprising the ceiling\njet are ‘fuel lean’ or ‘fuel rich’.\n➢ For the ‘fuel lean’ situation, there will be sufficient oxygen for combustion and the\nflames in the ceiling jet will be limited in extent and burn close to the ceiling lining.\n➢ For the ‘fuel rich’ situation, the flames are extended along the upper layer in the\ncorridor and burn at the bottom of the layer.\n➢ This leads to significant increase in radiant heat flux at the floor level remote from\nthe fire source and increases the likelihood of flashover (and flame spread along\nthe corridor).\n➢ As much as 55% of the heat of combustion released into the upper layer is lost by\nradiation.\n➢ If the ceiling lining is combustible, flame extension is further increased and the\nradiant heat flux to the floor (and lower levels of the corridor) is increased\ncorrespondingly.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 45,
+      "text": "Heat Release Required for Flashover\n▪ A minimum rate of heat release is required for flashover to\noccur in a given compartment.\nሶ\n▪ The value (𝑄 ) is a measure of the size of the fire necessary.\n𝐹𝑂\n▪ It may be determined by rearrangement of the expression\nderived for determination of the temperature in the hot layer:\n𝑄ሶ2\nRecall: Δ𝑇 = 6.85 ( )1/3\n𝑔\nℎ 𝐴 𝐴 𝐻\n𝑘 𝑇 𝑜 𝑜\nሶ\nStoichiometric heat release rate 𝑸 = 𝟏𝟓𝟎𝟎𝑨 𝑯 (kW)\n𝒎𝒂𝒙 𝒐 𝒐\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 46,
+      "text": "Heat Release Required for Flashover\n▪ Substituting Δ𝑇 by Δ𝑇 (the temperature increase required for\n𝑔 𝐹𝑂\nሶ ሶ\nflashover) and 𝑄 by 𝑄 and rearranging the equation gives:\n𝐹𝑂\nΔ\n𝑇\n𝑄 ሶ = ( 𝐹𝑂) 3/2 (ℎ 𝐴 𝐴 𝐻 )1/2\n𝐹𝑂 𝑘 𝑇 𝑜 𝑜\n6.85\n▪ If a temperature rise of 500oC is taken as a (conservative)\ncriteria for the upper layer temperature at the onset of\nflashover (Δ𝑇 ):\n𝐹𝑂\n𝑸 ሶ = 𝟔𝟏𝟎(𝒉 𝑨 𝑨 𝑯 )1/2\n𝑭𝑶 k 𝑻 𝒐 𝒐\n*Method of McCaffrey, Quintiere and Harkleroad (MQH)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 47,
+      "text": "Heat Release Required for Flashover\n▪ The expression can be further simplified, if it is assumed that\nbefore flashover occurs, the enclosure has been well heated,\n𝒌\ni.e. 𝒕 > 𝒕 so that 𝒉 = to become:\n𝒄 𝒑 𝒌\n𝜹\n𝒌\nሶ\n𝑄 = 610( 𝐴 𝐴 𝐻 )1/2\n𝐹𝑂 𝑇 𝑜 𝑜\n𝜹\n▪ It should be emphasized that these expressions are based\nupon a number of assumptions:\n➢ The compartment is near cubicle with heights in the range of 2.5±0.3m\nand of ‘domestic’ size\n➢ The compartment is freely ventilated\n➢ The upper layer is well-mixed and of uniform temperature\n➢ There is no thermal ‘feedback’ from the boundaries and\n➢ The fire is in the centre of the compartment\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 48,
+      "text": "Method of Babrauskas\n▪ Assume for pre-flashover fires 𝑚ሶ ≈ 0.5𝐴 𝐻\n𝑔 𝑜 𝑜\nሶ\n▪ Theoretical maximum heat release rate 𝑄 = 1500𝐴 𝐻\n𝑚𝑎𝑥 𝑜 𝑜\n▪ Correlation developed using experimental data\n✓ 33 room fires involving wood & polyurethane\n✓ Ventilation factor 0.03 m5/2 < 𝐴 𝐻 < 7.31 m5/2\n𝑜 𝑜\n✓ Ratio of surface area to ventilation factor\n𝐴\n9 m-1/2 < 𝑇 < 65 m-1/2\n𝐴 𝐻\n𝑜 𝑜\nሶ ሶ\n✓ Finding 𝑄 ~ 0.5 𝑄\n𝐹𝑂 𝑚𝑎𝑥\nሶ\n𝑸 = 𝟕𝟓𝟎𝑨 𝑯\n𝑭𝑶 𝒐 𝒐\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 49,
+      "text": "Method of Thomas\nሶ\n▪ Heat release rate for hot layer: 𝑄 = ℎ 𝐴 (𝑇 – 𝑇 )\n𝑙𝑜𝑠𝑠 𝑘 𝑇 𝑔 ∞\n▪ Assum𝑝𝑡𝑖𝑜𝑛𝑠 𝑎𝑡 𝑓𝑙𝑎𝑠ℎ𝑜𝑣𝑒𝑟\n✓ Gas flow rate out of the opening 𝑚ሶ ≈ 0.5𝐴 𝐻\n𝑔 𝑜 𝑜\n✓ 𝑐 = 1.26 kJ/kg.K\n𝑝\n✓ Δ𝑇 = 600K\n𝑔\nሶ\n▪ Correlation with experimental data: 𝑄 ~ 7.8 𝐴\n𝑙𝑜𝑠𝑠 𝑇\nሶ\n𝑸 = 7.8𝑨 + 𝟑𝟕𝟖𝑨 𝑯\n𝑭𝑶 𝑻 𝒐 𝒐\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 50,
+      "text": "Heat Release Required for Flashover\n▪ Method of McCaffrey, Quintiere and Harkleroad (MQH)\n𝑄 ሶ = 610(ℎ 𝐴 𝐴 𝐻 )1/2 (kW)\n𝐹𝑂 k 𝑇 𝑜 𝑜\n▪ Method of Babrauskas\nሶ\n𝑄 = 750𝐴 𝐻 (kW)\n𝐹𝑂 𝑜 𝑜\n▪ Method of Thomas\n3 methods to predict HRR\nሶ\n𝑄 = 7.8𝐴 + 378𝐴 𝐻 (kW)\n𝐹𝑂 𝑇 𝑜 𝑜 required for flashover\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 51,
+      "text": "Heat Release Required for Flashover\n▪ If the fire is next to a wall or in a corner, the rate of heat release\nrequired for flashover is reduced.\n▪ Because the flame spread to the upper layer is enhanced.\n▪ This has been demonstrated experimentally for an enclosure 3\nx 3 x 2.3m high (see Drysdale).\nDrysdale (2011)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 52,
+      "text": "Heat Release Required for Flashover\n▪ If the fire is next to a wall or in a corner, the rate of heat release\nrequired for flashover is reduced.\n▪ Because the flame spread to the upper layer is enhanced.\n▪ This has been demonstrated experimentally for an enclosure 3\nx 3 x 2.3m high (see Drysdale).\nDrysdale (2011)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 53,
+      "text": "Time to Flashover\n▪ The time to flashover in an enclosure is of importance to life\nsafety for this generally represents the maximum escape time\nfrom that enclosure.\n▪ Experimental studies have shown that there are four factors\nwhich have a major effect on time to flashover:\n➢ The area of ignition: The larger the area of fuel which was initially ignited,\nthe shorter the time to flashover.\n➢ The fuel height: The closer the fuel is to the ceiling of the enclosure, the\nsooner the flames reach the ceiling and promote flame spread over the\ncombustible surfaces thus decreasing the time to flashover.\n➢ The ignition of adjacent items: Flame spread to items adjacent to the item\nignited first leads to a greater rate of increase in the fire area and\ndecreases the time to flashover.\n➢ Lining material properties: The burning of combustible lining materials\ndecreases the time to flashover.\nHow would the thermal properties of the lining\nmaterials affect the time to flashover?\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 54,
+      "text": "Time to Flashover\nDrysdale (2011)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 55,
+      "text": "Exercise 2\nEstimate the energy release rate required for flashover of a\ncompartment. Assume that the room is 3 𝑚 × 3 𝑚 in floor area\nand 2.4 𝑚 high with a door opening 1.8 𝑚 high and 0.6 𝑚 wide.\nThe wall lining material is 0.016 𝑚 gypsum plaster on metal lath.\nUse MQH (Assume 𝑡 > 𝑡 ), Brabrauskas and Thomas methods.\np\nProperties of the lining material are given below.\n– 𝜌 = 1440 kg/m3\n– 𝑘 = 0.48 × 10-3 kW/m.K\n– 𝑐 = 0.84 kJ/kg.K\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 56,
+      "text": "Exercise 3\nA fire starts in a compartment which has a floor area of 3.6 x 4.2 m2 and a\nheight of 2.8 m. The walls and floor of the compartment are made of brick\n(0.07 m) and the ceiling of concrete (0.1 m). There are two identical\nwindows (H=0.8m, W=0.6m) which are located at the same height and\nopen during the fire.\nThermal properties of brick: k=0.00073 kW/m.K, ρ=1800 kg/m3 and c = 0.9 kJ/kg.K\nThermal properties of concrete: k=0.0013 kW/m.K, ρ=2200 kg/m3 and c =1.1 kJ/kg.K\na)Assuming a constant HRR of 350 kW, calculate the gas temperature at\none hour after the start of the fire.\nb)Estimate using the MQH method the minimal HRR to achieve flashover for\nthis compartment.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 57,
+      "text": "Post-Flashover Fires\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 58,
+      "text": "Post-Flashover Fires\n▪ The behaviour of the fire changes dramatically after flashover.\n▪ The flows of air and combustion gases become very turbulent.\n▪ The very high temperatures and radiant heat fluxes\nthroughout the room cause all exposed combustible surfaces\nto pyrolyse, producing large quantities of combustible gases,\nwhich burn where there is sufficient oxygen.\n▪ The most important information for structural design is the\ntemperature in the room during the post-flashover fire.\n▪ Post-flashover fires provide the greatest threat to structural\nmembers and other fire-resistant building elements.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 59,
+      "text": "Ventilation-Controlled Burning\n▪ In typical rooms, post-flashover fires are ventilation-controlled\n▪ So, the rate of combustion depends on the size and shape of\nventilation openings.\n▪ Usually conservatively assumed that all window glass will break\nand fall out at the time of flashover (due to rapid rise in\ntemperature).\n▪ If the glass does not fall out, the fire will burn for a longer time\nat a lower rate of heat release.\n▪ A fully-developed fire may be either fuel-controlled or\nventilation-controlled but in the absence of information to the\ncontrary, it is often assumed to be ventilation-controlled.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 60,
+      "text": "Fuel-Controlled Burning\n▪ The rate of burning may sometimes be controlled by the surface area\nof the fuel, especially in large well-ventilated rooms containing fuel\nitems which have a limited area of combustible surfaces.\n▪ The rate of burning similar to that for fuel item burning in the open air,\nwith enhancement from radiant feedback from the hot upper layer\nof gases or hot wall and ceiling surfaces.\n▪ The rate of burning is independent of the size of the openings in the\ncompartment i.e. increasing the opening size does not affect the\nburning, and depends particularly on the burning characteristics and\nsurface area of the fuel.\n▪ Generally less severe; produces less hazardous combustion products\n▪ Most fires become fuel-controlled in the decay period.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 61,
+      "text": "Wood Crib Fuel Sources\n▪ Much experimental and theoretical work on fully-developed fires has used\nwood cribs\n▪ Provide ready means of a series of reproducible and reliable fires of many sizes\n▪ Structure consists of layers of crossed sticks with air gaps between. Tends to\nconfine heat of combustion and facilitate cross-radiation between burning\nsurfaces within the crib\n▪ Facilitate efficient burning of the sticks but do not generally operate in the case\nof ‘real’ fuel items\n▪ Burning surfaces of the crib shielded from the environment particularly from\nradiation from the enclosure boundaries and any hot upper layer\n▪ Rate of burning thus relatively insensitive to the thermal environment.\n▪ Conclusions drawn for studies of crib fires must be applied to other fuels with\nsome caution.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 62,
+      "text": "Wood Crib Fuel Sources\n▪ Simplest expression of the rate of burning 𝒎ሶ for ventilation-controlled fires is:\n𝒎ሶ = 0.09𝑨 𝑯 (kg/s) or 5.5𝑨 𝑯 (kg/min)\n𝒐 𝒐 𝒐 𝒐\n▪ This expression was initially determined experimentally by burning wood cribs in\nenclosures of varying size with ventilation openings of different dimensions.\n▪ The expression can be theoretically derived from an analysis of the flow of gases\nin and out of a burning enclosure if a number of assumptions are made:\n➢ Flow of gases in and out of the enclosure is driven by buoyancy forces\n➢ Hot gases leave the enclosure above a neutral plane and cold air enters below that plane\n➢ There is no interaction between the inflowing and outflowing gases\n➢ The properties of the gases are uniform throughout the enclosure i.e. the gases are ‘well-stirred’\n➢ Buoyancy does not create a net flow of gases within the compartment\n➢ Stoichiometric burning occurs within the compartment (the stoichiometric air requirement for wood is\n5.7 kg of air per kg of wood) and there is no radiative feedback from the surroundings to the burning\nfuel i.e. rate of burning is directly coupled to the rate of air inflow\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 63,
+      "text": "Wood Crib Fuel Sources\n▪ Rate of burning 𝒎ሶ for ventilation-controlled fires 𝒎ሶ = 0.09𝑨 𝑯 (kg/s)\n𝒐 𝒐\n▪ This correlation of burning rate with 𝑨 𝑯 (known as the ‘ventilation factor’)\n𝒐 𝒐\nholds over a limited range of values of 𝑨 𝑯 .\n𝒐 𝒐\n▪ For large ventilation openings, the rate of burning becomes essentially\nindependent of the size of the opening and becomes ‘fuel-controlled’ with the\nsurface area and burning characteristics of the fuel being the determining\nfactors.\n▪ Further experimental work on wood crib fires in enclosures has produced a\ndistinction between the requirements for fuel and ventilation-controlled fires\nwhich incorporates the ventilation factor (𝑨 𝑯 )and the fuel area (A)\n𝒐 𝒐 f\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 64,
+      "text": "Wood Crib Fuel Sources\n▪ For fuel-controlled fires:\n𝜌\n𝑔𝐴 𝐻 𝐴\n∞ 𝑜 𝑜 > 0.290 or 𝑇 > 8-10 (m-1/2)\n𝐴 𝐴 𝐻\n𝑓\n𝑜 𝑜\n▪ For ventilation-controlled fires:\n𝜌\n𝑔𝐴 𝐻 𝐴\n∞ 𝑜 𝑜 < 0.235 or 𝑇 < 8-10 (m-1/2)\n𝐴 𝐴 𝐻\n𝑓\n𝑜 𝑜\nWhere\n𝜌 is the density of air (kg/m3)\n∞\ng is the gravitational acceleration constant (9.81 m/s2)\n*The ‘gap’ between the two requirements is due to the transition from one regime\nto the other being ill-defined.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 65,
+      "text": "Wood Crib Fuel Sources\n▪ In summary, theoretical and experimental studies have\ndemonstrated that a number of factors affect the rate of\nburning of the fuel and the temperatures attained:\n➢ The heat of volatilization of the fuel\n➢ The area of the fuel\n➢ The area of the enclosure boundaries\n➢ The thermal properties of the enclosure boundaries\n➢ The heat radiated back to the fuel from the enclosure boundaries\nand atmosphere and\n➢ The ventilation factor 𝑨 𝑯\n𝒐 𝒐\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 66,
+      "text": "Prediction of Compartment Temperatures\n▪ Estimation of temperatures in post-flashover fires essential part\nof structural design for fire safety.\n▪ Range of methods for estimating temperatures for design\npurposes.\n▪ Temperatures in post-flashover fires usually at least 1000oC.\n▪ Temperature at any time depends on the balance between\nthe heat released within the compartment and all the heat\nlosses; through openings by radiation and convection, and by\nconduction into the walls, floor and ceilings.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 67,
+      "text": "Model for Post-Flashover Fire Severity\n▪ Basic Assumptions\n✓ Ventilation: assume unprotected openings are open and fire-\nrated closures remain intact.\n✓ Heat release: heat released during post-flashover phase,\nሶ\n𝑄 = 1500𝐴 𝐻 (kW) (maximum possible value).\n𝑜 𝑜\n✓ Fuel load: total fuel load is consumed.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 68,
+      "text": "Model for Post-Flashover Fire Severity\nTemperature of Fire Gases and Duration of Fire\n▪ Temperature of fire gases can be expressed as\n𝑇 (𝑡) - 𝑇 (0) = β𝑡1/6\n𝑓 𝑓\nWhere:\n𝐴 𝐻\nβ is a constant = 3𝑇 (0)( 𝑜 𝑜 )1/3 (𝐾/ s-1/6 )\n𝑓\n𝐴 𝑘𝑝𝑐\n𝑇\n𝑡 is time since ignition (s)\n▪ Duration of post-flashover fire: 𝑡 (s)\n𝐷\n𝐿𝐴\n𝑡 (s) = 𝐹\n𝐷\n0.09𝐴 𝐻\n𝑜 𝑜\nwhere 𝐿 is the fuel load (kg/m2) and 𝐴 the floor area (m2)\n𝐹\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 69,
+      "text": "Model for Post-Flashover Fire Severity\nResponses of Assembly\n▪ Heat absorbed by per unit square area of fire separations or\nstructural members during post-flashover fire: 𝑞ሶ\" (𝑘𝐽/𝑚2)\n𝑞ሶ\" (𝑡 ) = 3β 𝑘𝑝𝑐 𝑡 2/3\n𝐷 𝐷\n2\nWhere:\nFor ISO 834: β = 230 𝐾/ s-1/6\nFor ASTM E119: β = 229 𝐾/ s-1/6\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 70,
+      "text": "Model for Post-Flashover Fire Severity\nResponses of Assembly\n▪ Normalised heat load concept (Harmathy & Mehaffey)\n▪ Compartment fire of duration 𝑡 is equivalent in severity to an ISO834 fire\n𝐷\ntest of duration 𝑡 in which same heat is absorbed per unit area\n𝑒𝑞\nβ\n𝑡 = ( )3/2 𝑡\n𝑒𝑞 𝐷\n230\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 71,
+      "text": "Model for Post-Flashover Fire Severity\nDesign Consideration\n▪ Fuel Load\n✓ Use percentile in fuel load distribution\n▪ Ventilation\n✓ Assume unprotected openings are open\n✓ Assume fire-rated closures remain intact\n✓ If there is more than one vent & they are all at approximately the same elevation\n(𝐴 ℎ ) = σ (𝐴 ℎ )\nave 𝑖 i\n▪ Compartment Boundaries\n✓ Boundaries do not include internal partitions\n✓ If there is more than one boundary material\n(𝐴 𝑘𝑝𝑐 ) = σ (𝐴 𝑘𝑝𝑐 )\n𝑇 ave 𝑖 𝑇 i\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 72,
+      "text": "Model for Post-Flashover Fire Severity\nFuel Load Distribution\n▪ Quantity of fuel in a room commonly expressed in terms of calorifically\nequivalent quantity of wood\n𝑚𝑎𝑠𝑠 𝑜𝑓 𝑓𝑢𝑒𝑙\n▪ 𝐿 = Specific fire load (kg/m2) =\n𝑓𝑙𝑜𝑜𝑟 𝑎𝑟𝑒𝑎\nത\n▪ 𝐿 is a random variable with mean 𝐿 and\nstandard deviation 𝜎\n𝐿\nOccupancy 𝐿 ത (kg/m2) 𝜎 (kg/m2)\n𝐿\nDwelling 30.1 4.4\nOffice 24.8 8.6\nSchool 17.5 5.1\nHospital 25.1 7.8\nHotel 14.6 4.2\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 73,
+      "text": "Model for Post-Flashover Fire Severity Thermal\nProperties of Common Construction Materials at\nElevated Temperatures\nMaterial 𝒌𝒑𝒄 𝒌𝑱/ (𝒎𝟐𝒔𝟏/𝟐𝑲)\nSteel (structural) 13.177\nMarble (common) 2.273\nNormal weight concrete 2.192\nFire clay brick 1.640\nBrick (common) 1.520\nLight weight concrete 0.931\nGypsum board 0.742\nVermiculite plaster 0.667\nWood (softwood) 0.436\nInsulating firebrick 0.425\nMineral wool (fibrefrax) 0.086\nPolyurethane foam 0.03\nPolystyrene foamOFFICIAL (OPEN) 0.026"
+    },
+    {
+      "page": 74,
+      "text": "Model for Post-Flashover Fire Severity\nExample\n▪ An office room dimension 6.0 m x 4.0 m x 2.4 m (height). Walls\nand ceiling are made of gypsum board and floor of normal\nweight concrete (NWC)\n▪ Floor area (𝐴 ): 6.0 m x 4.0 m = 24 m2\n𝐹\n▪ Window dimensions: 4.0 m x 1.5 m (height)\n▪ Fuel load: 95th percentile\n▪ Ventilation: window breaks and door remains intact\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 75,
+      "text": "Model for Post-Flashover Fire Severity\nExample\n▪ Fuel load: 95th percentile\n𝐿 = 𝐿 ത + 1.64𝜎 = 24.8 + 1.64 x 8.6 = 38.9 kg/m2\n95 𝐿\n▪ Ventilation: window breaks, and door remains intact\n𝐴 𝐻 = (4 x 1.5) 1.5 = 7.35 m5/2\n𝑜 𝑜\n▪ Compartment boundaries\n(𝐴 𝑘𝑝𝑐 ) = (𝐴 𝑘𝑝𝑐 ) +(𝐴 𝑘𝑝𝑐 ) = 101.58 kJ/𝑠1/2𝐾\n𝑇 ave 𝑇 ceiling + walls – vents 𝑇 floor\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 76,
+      "text": "Model for Post-Flashover Fire Severity\nExample\n▪ Constant β\n𝐴 𝐻 7.35\nβ = 3𝑇 (0)( 𝑜 𝑜 )1/3 = 3 x 293( )1/3 = 366 𝐾/s-1/6\n𝑓\n𝐴 𝑘𝑝𝑐 101.58\n𝑇\n▪ Temperature of fire gas at any given time 𝑡 can be found from:\n𝑇 (𝑡) - 𝑇 (0) = β𝑡1/6 => 𝑇 (𝑡) = 366𝑡1/6 + 298 (K)\n𝑓 𝑓 𝑓\n▪ Duration of post-flashover fire:\n𝐿𝐴 38.9 𝑥 24\n𝑡 (s) = 𝐹 = = 1411s = 23.5 min\n𝐷\n0.09𝐴 𝐻 0.09 𝑥 7.35\n𝑜 𝑜\n▪ Duration of equivalent fire resistance test:\nβ 366\n𝑡 = ( ) 3/2 𝑡 = ( ) 3/2 x 23.5 = 47.2 min\n𝑒𝑞 𝐷\n230 230\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 77,
+      "text": "Ventilation Factors\n▪ The amount of ventilation in a fire compartment is often described by the\nventilation factor (or opening factor) 𝐹 (𝑚0.5)\n𝑉\n𝐹 = 𝐴 𝐻 /𝐴\n𝑣 𝑣 𝑣 𝑡\nwhere:\n𝐴 = area of the window opening (m2)\n𝑣\n𝐻 = height of the window opening (m)\n𝑣\n𝐴 = total internal area of the bounding surfaces (including openings) (m2)\n𝑡\n▪ The ventilation factor 𝐹 has units of 𝑚0.5 which has little intuitive meaning. But if\n𝑉\nacceleration of gravity 𝑔 (m/s2) is introduced, the term 𝐴 𝑔𝐻 )/𝐴𝑡 has units of\n𝑣 𝑣\nm/s which is related to the velocity of gas flow through the openings.\n▪ It can also be seen that the rate of burning is a function of 𝐴 𝐻 (𝑚2.5) whose\n𝑣 𝑣\nunits also have little intuitive meaning. If acceleration of gravity is introduced\nagain, the term 𝐴 𝑔𝐻 has units of m3/s which is related to the volumetric flow\n𝑣 𝑣\nof gases through the openings.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 78,
+      "text": "Multiple Openings\nH = (A H + A H +…)/A\nv 1 1 2 2 v\nA = A + A +… = B H + B H +…\nv 1 2 1 1 2 2\nA = 2(l l + l H +l H )\nt 1 2 1 r 2 r\nBuchanan (2002)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 79,
+      "text": "Post-Flashover Fire Temperature:\n‘Swedish Fire Curves’\nMost widely referenced time-temperature\ncurves for real fire exposure by\nMagnusson and Thelandersson (1970)\nDerived from heat balance calculations\nusing Kawagoe’s equation for the\nburning rate of ventilation-controlled fires.\nm = 0.092 𝐴 𝐻\n𝑣 𝑣\n• Read off the figures using interpolation\n• Obtain values from published tables\n• No simple formulae are available\nBuchanan (2002)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 80,
+      "text": "Post-Flashover Fire Temperature:\n‘Swedish Fire Curves’\nAt 𝑡 = 2hr (200 MJ/m2 fuel load)\n• F = 0.12, T ≈ 700 oC\nv\n• F = 0.04, T ≈ 350 oC\nv\n• F = 0.02, T ≈ 50 oC\nv\nHigher ventilation = hotter but shorter fire\nDifferent rate of burning\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 81,
+      "text": "Published Tables\nDrysdale (2011)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 82,
+      "text": "Post-Flashover Fire Temperature\n▪ In the Swedish model, the compartment is considered to be a\ncalorimeter and the heat balance in the compartment is\nformulated, viz: 𝒒ሶ = 𝒒ሶ + 𝒒ሶ + 𝒒ሶ + 𝒒ሶ (kW)\n𝒄 𝑳 𝑾 𝑹 𝑩\nDrysdale (2011)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 83,
+      "text": "Post-Flashover Fire Temperature\n▪ The following assumptions are made to simplify the model:\n✓ Combustion is complete and takes place entirely within the confines of\nthe compartment;\n✓ The temperature is uniform within the compartment at all times;\n✓ A single surface heat transfer coefficient may be used for the entire inner\nsurface of the compartment;\n✓ The heat flow to and through the compartment boundaries is\nunidimensional i.e. corners and edges are ignored and the boundaries\nare assumed to be ‘infinite slabs’ and\n✓ The rate of heat storage 𝒒ሶ in the gas volume can be neglected.\n𝑩\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 84,
+      "text": "Post-Flashover Fire Temperature\n▪ Each of the heat factors can be calculated (see Drysdale page 841-\n846) for given fire load densities (expressed in ‘wood equivalents’\nbased upon ∆𝑯𝑪 value or heat of combustion of fuel) and opening\n𝑨 𝑯\nfactors 𝒐 𝒐 and standard graphs or tables of temperature vs time\n𝑨\n𝑻\n(𝑡 = start of fully developed fire) produced.\n𝑜\n▪ The graphs and tables refer to a ‘standard enclosure’ of wall\nthickness 0.2 m, k = 0.8 W/m.K and Q 1700 kJ/m3.K but correction\nc\nfactors are available if the enclosed materials have different\nparameters.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 85,
+      "text": "Fire Spread from an Enclosure\n▪ In most fully-developed fires, there is a period when the rate at\nwhich air enters the enclosure does not provide sufficient oxygen to\nburn all the volatiles present (‘ventilation-controlled’ conditions).\n▪ The excess volatiles will be carried through ventilation openings.\n▪ In such situations, external burning of the excess volatiles occurs to\nproduce flames.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 86,
+      "text": "Fire Spread from an Enclosure\n▪ If the opening is an open or broken window, the flame will extend up\nthe building façade and may cause structural damage and break\nwindows at floors above, enabling fire spread to these floors.\n▪ Some empirical correlations have been made between flame\nheight, flame reach, burning rate of the fuel and window geometry,\nusing crib fires, viz:\nWhere:\n𝑚ሶ\n𝑧 + 𝐻 = 12.8 ( )2/3 • H and B are the height and width of the ventilation\n𝑩 opening respectively (m)\n• z is the height of flame tip above the window\n𝑥 0.454 soffit (m)\n= • 𝑚ሶ is the rate of burning (kg/s)\n𝐻 𝑛0.53\n• x is the horizontal reach from face of building (m) and\n• 𝑛 is 2B/H (‘shape factor’)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 87,
+      "text": "Fire Spread from an Enclosure\n▪ If the opening is an open or broken window, the flame will extend up\nthe building façade and may cause structural damage and break\nwindows at floors above, enabling fire spread to these floors.\n▪ Some empirical correlations have been made between flame\nheight, flame reach, burning rate of the fuel and window geometry,\nusing crib fires, viz:\n𝑚ሶ\n𝑧 + 𝐻 = 12.8 ( )2/3\n𝑩\n𝑥 0.454\n=\n𝐻 𝑛0.53\nDrysdale (2011)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 88,
+      "text": "Fire Spread from an Enclosure\n▪ These correlations only hold for certain conditions and do not apply if:\ni. If there are substantial heat losses from the projecting flame to the\nfaçade of the building.\nii. If there is a wind (the flame will be deflected and reduced in length).\niii. If there is a fire on a lower floor (flames will lengthen due to oxygen\ndepletion by the rising combustion products).\niv. If the fuel bed has a very large surface area (𝑚ሶ will be higher than\nanticipated by the above equations and the flames will be longer).\nv. If the fuel is non-cellulosic and has a low value of L (the heat required to\nv\nproduce the volatiles (as (iv)).\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 89,
+      "text": "Fire Spread from an Enclosure\n▪ If the opening is a door, the flames may ignite wall and ceiling linings\nin the adjacent enclosure (room, corridor etc) and heat other\ncombustibles leading to flashover and further spread.\n▪ Similarly, spread may occur by way of unsealed service penetrations,\nfacilitated by the positive pressures that prevail in the upper part of\nthe enclosure.\n▪ Lastly, the compartment boundaries may suffer loss of ‘integrity’ as a\nresult of a fire exposure sufficient to overcome the ‘fire resistance’ of\nthe boundary.\n*Windsor Tower Fire and Partial Collapse Video\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 90,
+      "text": "Exercise 4\nAn experimental fire compartment is 3 x 3 x 3 m in size, with a 1 m2 square\nopening in a wall. This is packed with wooden cribs. During a fire\nexperiment, the fuel is lit and grows to flashover conditions. After a few\nminutes, the burning rate reaches a quasi-steady mass loss in the\ncompartment of 0.2 kg/s. Assume the effective heat of combustion of\nwood to be 15 KJ/g.\na)Estimate the quasi-steady heat release rate in the compartment and the\nquasi-steady heat release rate of the external flaming.\nb)Estimate the height above the compartment opening and how far the\nflame project outward from the facade.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 91,
+      "text": "Smoke Filling\nKlote & Milke method (ASHRAE & SFPE)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 92,
+      "text": "Interface Height\n▪ Empirical correlations for interface height\nሶ ሶ\n- For a constant 𝑄 𝑡 = 𝑄 (kW)\n𝑜\nZ / H = 1.11 – 0.28 ln[𝑡𝑄 ሶ1/3 𝐻−4/3(𝑆𝐻−2 )−1]\ni 𝑜\n- For a growth (𝑡2) fire, 𝑄 ሶ 𝑡  𝑡2 = 1000 (𝑡/𝑡 )2(kW)\n𝑖𝑔\nZ / H = 0.91[𝑡𝑡 −2/5 𝐻−4/5(𝑆𝐻−2 )−3/5]−1.45\ni 𝑖𝑔\nα (kW/s2) Time to reach\n1055 kW (s)\n1000\nWhere 𝑡 = ( )1/2\n𝑖𝑔 α Slow 0.00293 600\nMedium 0.01172 300\nBoth equations are valid for:\nFast 0.0469 150\n0.2 ≤ Z / H ≤ 1.0\ni\nUltrafast 0.1876 75\n0.9 ≤ 𝑆𝐻−2 ≤ 14.0\nUnobstructed plume flow (fires far from walls)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 93,
+      "text": "Upper Layer Temperature\n▪ Heat release rate can be written as 𝑄 ሶ = 𝑄 ሶ + 𝑄 ሶ\n𝑟𝑎𝑑 𝑐𝑜𝑛𝑣\nሶ\n- 𝑄 is reradiated away from flame beneath upper layer\n𝑟𝑎𝑑\nሶ ሶ ሶ\n- 𝑄 is convected into the upper layer 𝑄 = 0.7𝑄\n𝑐𝑜𝑛𝑣 𝑐𝑜𝑛𝑣\n- No heat losses to boundaries\n▪ Energy balance for upper layer\n𝑡\nሶ\nρ c (T – T )S(H - z) = ׬ 𝑄 𝑑𝑡\nh p h a i 0 𝑐𝑜𝑛𝑣\n▪ Substituting ρ T = ρ T into above equation\nh h a a\n𝑡\n1 - 𝑇 𝑎 = ׬ 0 𝑄ሶ 𝑐𝑜𝑛𝑣 𝑑𝑡 This equation provides an upper limit T\n𝑇 ρ c T S(H − z) because heat loss is ignored. h\nℎ a p a i\nሶ ሶ ሶ\n{0.7 x 𝑄 𝑡 for a constant 𝑄 𝑡 = 𝑄\n𝑡 ሶ 𝑜 𝑜\n▪ ׬ 𝑄 𝑑𝑡 =\n0 𝑐𝑜𝑛𝑣 0.7 x 1 α𝑡3 for a 𝑡2 g𝑟𝑜𝑤𝑡ℎ 𝑓𝑖𝑟𝑒 𝑄 ሶ 𝑡 = α𝑡2\n3\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 94,
+      "text": "Exercise 5\nEstimate the smoke layer height and upper layer temperature at\n1, 2 and 5 min after fire starts, assuming the following parameters:\n- Room (height = 6m, width = 10m, depth = 10m)\n- c = 1.1 kJ/kg.K\np\nሶ\n- 𝑄 = 100 kW\nZ / H = 1.11 – 0.28 ln[𝑡𝑄\nሶ1/3\n𝐻 −4/3 (𝑆𝐻 −2 ) −1 ]\ni 𝑜\n𝑡\n𝑇 ׬ 𝑄ሶ 𝑑𝑡\n1 - 𝑎 = 0 𝑐𝑜𝑛𝑣\nρ c T S(H − z)\n𝑇\nℎ a p a i\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 95,
+      "text": "Smoke Filling\nDimensionless Method\n▪ For smoke filling of an enclosure with small\nleaks at the floor level, the dimensionless\nsmoke layer height satisfies the following\nequation:\n𝑑𝑦\n+ 𝑄 ሶ∗+ 0.21(𝑄 ሶ ∗ ) 1/3 𝑦 5/3= 0\n𝑑τ\n𝑄ሶ 𝐻2 𝑔\nWhere y = z/H, 𝑄\nሶ∗\n= 𝑎𝑛𝑑 𝜏 = 𝑡\ni ρ c T 𝑔𝐻5/2 𝑆 𝐻\na p a\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 96,
+      "text": "OFFICIAL (OPEN)"
+    },
+    {
+      "page": 97,
+      "text": "Interface Height\n▪ Application 1: Estimate the time for the smoke layer to descend to\ncertain height for a known HRR\n𝑄ሶ\na. Calculate the dimensionless HRR: 𝑄\nሶ∗\n=\nρ c T 𝑔𝐻5/2\na p a\nb. Calculate the dimensionless height y = z/H\ni\nc. Determine (𝑄\nሶ∗)1/3𝜏\nfrom the graph\nd. Calculate 𝜏 from (𝑄\nሶ∗)1/3𝜏\nas 𝑄\nሶ∗\nis known\n𝐻2 𝑔\ne. Calculate 𝑡 from 𝜏 = 𝑡 as 𝜏 is known\n𝑆 𝐻\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 98,
+      "text": "Interface Height\n▪ Application 2: Calculate the smoke layer height at a given time for a\nknown HRR\n𝑄ሶ\na. Calculate the dimensionless HRR: 𝑄\nሶ∗\n=\nρ c T 𝑔𝐻5/2\na p a\n𝐻2 𝑔\nb. Calculate 𝜏 = 𝑡\n𝑆 𝐻\nc. Calculate (𝑄\nሶ∗)1/3𝜏\nd. Determine the dimensionless height y from\nthe graph\na. Calculate z from y = z/H\ni i\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 99,
+      "text": "Upper Layer Temperature\n(Dimensionless Method)\n▪ The density of the hot gas layer can be calculated from\n𝜌\n𝑄 ሶ∗ 𝜏 = (1 – y)(1 - ℎ )\n𝜌\n𝑎\nwhich can be re-arranged as\n𝑄ሶ∗\n𝜏\n𝜌 = 𝜌 (1 - )\nℎ 𝑎\n1 −𝑦\n▪ And the gas temperature can be estimated as\n353\n𝑇 =\nℎ\n𝜌\nℎ\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 100,
+      "text": "Exercise 6\n▪ In a room with a floor area of 5 m by 5 m and a height of 8 m,\nthere is a leak on the floor level. A pool fire at the floor level is\nignited.\n▪ Assume that the fire burns at a constant HRR of 500 kW, calculate\nthe time it takes for the smoke layer to fill half of the room and the\ncorresponding gas temperature.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 101,
+      "text": "Exercise 7\n▪ A large compartment has a floor area of 250 m2 and a height of 8\nm. A steady-state fire starts in the compartment. There is a small\nvent near the ceiling level, which is open during the fire.\nDetermine the maximum HRR that is allowed so the smoke does\nnot descend to below 2.4m at 240s.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 102,
+      "text": "End of Compartment Fires\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 103,
+      "text": "Fire Load Density\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 104,
+      "text": "Introduction\n▪ The fire load or fuel load [MJ] is defined as the quantity of energy\nwhich is released by the complete combustion of all combustible\nmaterial in a fire compartment.\n▪ The fire load is often subdivided into variable (movable or mobile)\nand permanent (fixed or immobile) fire load.\n▪ The fire load has a strong influence on the temperature development\nduring a compartment fire.\n▪ Hence, assessment of the fire load as an input to model the time-\ntemperature relationship is an important task in structural fire design.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 105,
+      "text": "Fuels\n▪ Organic Materials\n✓ Plant-based: Cotton, food, etc\n✓ Wood-based: Solid wood, plywood, paper, etc\n✓ Animal-based: Wool, meat, lard, etc\n✓ Petrochemicals: Fuels, plastics, adhesives, etc\n▪ Calorific Value or Heat of Combustion ∆𝑯 (MJ/kg)\n𝒄\n✓ Heat release rate (HRR) depends on:\n• Nature of the burning material (Fuel)\n• Size of the fire (Heat)\n• Amount of air available (Air)\n✓ Amount of heat released during complete combustion of a unit mass of fuel\n(typically 15-50 MJ/kg for most solid, liquid and gaseous fuels)\n✓ For Wood, ∆𝐻 = 18 – 21 MJ/kg (Table 3.1 in Buchanan, 2002)\n𝑐\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 106,
+      "text": "Fuels\n▪ The maximum possible energy that can be released when fuel burns is\nthe energy contained in the fuel, E (MJ), given by:\nE = m ∆𝐻\n𝑐\nwhere:\nm = the mass of the fuel or combustible material [kg]\n∆𝐻 = heat of combustion or specific energy released from combustion per mass unit\n𝑐\nof material [MJ/kg]\n▪ For any fire, the heat release rate in MW can be calculated if the\namount of heat released as MJ in a certain time (in seconds) is known.\nHence, average heat release rate is:\n𝐸\nQ =\n𝑡\nwhere:\nE = the total energy contained in the fuel (MJ)\n𝑡 = the duration of the burning (s)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 107,
+      "text": "Fire Load\n▪ Fire load in buildings is most often obtained from Fire Load Density (i.e.,\nfire load per square metre of floor area)\n𝐸\n𝑒 =\n𝑓\n𝐴\n𝑓\nwhere\ne = the fire load density for a room based on floor area [MJ/m2]\nf\n𝐴 = the floor area of the room [m2]\n𝑓\n▪ Many European references express the fire load density as energy per\nsquare metre of total bounding surfaces of the room\n𝐸\n𝑒 =\n𝑡\n𝐴\n𝑡\nwhere\ne = the fire load density based on total room surface area [MJ/m2]\nt\n𝐴 = the total area of the bounding surfaces of the room (floor, ceiling and walls,\n𝑡\nincluding window openings) [m2]\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 108,
+      "text": "Fire Load\n▪ Eurocode (BS EN 1991-1-2) uses 𝒆 = 250 to 2000 MJ/m2 depending on\n𝒇\nthe “class” of occupancy\n▪ Typically determined as the fire load which has a less than 10%\nprobability of being exceeded during the 50-year lifespan of the\nbuilding (Buchanan, 2002)\n✓ Eurocode uses the “80% Fractile” fire load density\n▪ Some fire load densities from extensive surveys of Swiss Buildings (CIB,\n1986):\n✓ Book Store = 1000 MJ/m2\n✓ Bakery = 200 MJ/m2\n✓ School = 300 MJ/m2\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 109,
+      "text": "Hazard Classification Table\nFire Load Density (MJ/m2) Hazard Level\n< 200 Low Hazard\n200-400 Moderate Hazard\n> 400 High Hazard\n▪ Fire load directly impacts the intensity and spread of a potential fire. It is important\nfor designing effective fire protection measures like:\n▪ Sprinkler Systems: Intensity of a fire determines the required water flow rates for effective\nsuppression\n▪ Fire Walls: These barriers limit the spread of fire by compartmentalizing spaces based on fire load\n▪ Building Materials: Fire-resistant materials can slow down or prevent fire spread\n▪ Evacuation Planning: Knowing potential fire growth rate helps design safe exit routes\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 110,
+      "text": "Mean and standard deviation of the fire load densities for different occupancy classes according to the EN 1991-1-2\nCharacteristic fire load density [MJ/m2]\nOccupancy Mean Standard Deviation\nDwelling 780 234\nHospital (room) 230 69\nHotel (room) 310 93\nLibrary 1500 450\nOffice 420 126\nClassroom of a school 285 85.5\nShopping Centre 600 180\nTheatre (cinema) 300 90\nTransport (public space) 100 30\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 111,
+      "text": "Exercise 8\nCalculate the fire load density in an office 5 m by 3 m containing\n150 kg of dry wood and paper and 75 kg of plastic materials.\nAssume calorific values of 16 MJ/kg and 30 MJ/kg respectively.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 112,
+      "text": "Human Behaviour in Fires\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 113,
+      "text": "Why Study Human Behaviour in Fires?\n▪ Majority of deaths in fires can be attributed to inappropriate\ndecision making and behaviours:\n➢ Decisions/actions made during the fire\n➢ Decisions/actions made prior to the fire\n▪ Important to maximize life safety potential of occupants by\nunderstanding how people, buildings and the environment\ninteract, to provide:\n✓ Safer building designs\n✓ Improved use or development of calculation tools used to ensure the level of\nsafety afforded by these designs\n✓ More effective fire safety management\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 114,
+      "text": "Summerland Leisure Complex Fire, 1973,\n50 deaths\n▪ Complex consisted a dance hall, 5 floors of\nholiday games, a rollerskating rink, restaurants and\npublic bars\n▪ No attempt to evacuate the 3,000 people present\ntill flames were visible\n▪ Fire alarm not sounded due to wiring destroyed by\nthe fire\n▪ Fire doors were locked, and many people headed\nto the main entrance which caused a crush\n▪ Fire services were called only after over 20 minutes\n▪ 50 deaths, ~80 seriously injured\nWhat were the main things related to\nhuman behaviour that went wrong here?\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 115,
+      "text": "Bradford City Stadium Fire, 1985, 56 deaths\n▪ Fire started in the main stand due to lit cigarette\nbutt dropping through floorboard hole\n▪ Rapid fire growth due to wooden stands and\nroof, build-up of litter below the stand and windy\nconditions\nWhy?\n▪ Delays in commencing evacuation\n▪ Locked turnstiles prevented escape\n▪ 56 spectators killed, at least 265 injured\nWhat were the main things related to\nhuman behaviour that went wrong here?\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 116,
+      "text": "Commitment to Activity (Task Persistence)\nIn each of the scenario\non the left:\n▪ Describe the commitment\nto activity observed\n▪ Suggest the measure to put\nin place to address it as part\nof your emergency\nplanning, i.e., during an\nevacuation.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 117,
+      "text": "Definition of Human Behaviour in Fires\n▪ The study of human response, including people’s awareness,\nbeliefs, attitudes, motivations, decisions, behaviours, and coping\nstrategies in exposure to fire and other similar emergencies in\nbuildings, structures and transportation systems.\n▪ Study of human behaviour in fires is highly multidisciplinary,\ninvolving practitioners from the fields of engineering, architecture,\ncomputer science, mathematics, law, sociology, psychology,\nhuman factors, communications and ergonomics among others.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 118,
+      "text": "Definition of Human Behaviour in Fires\n▪ Human response to fires is often crudely categorised into two main\nperiods: Pre-Evacuation Period and Movement Period.\n▪ Pre-Evacuation Period: Estimates the time when ignition begins\nuntil the point when an individual or group begins purposive\nevacuation movement to a place of safety.\n▪ Movement Period: The time period in which purposive movement\nto safety occurs.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 119,
+      "text": "Definition of Human Behaviour in Fires\nPre-Evacuation Period Movement Period\nIgnition Alarm/Cues Evacuation Movement\nDecision Begins\nSeek Prepare, Protect Protect self and others\nInformation others, Protect self\nTime\nTimeline of a human response to a building fire emergency\n(Source: SFPE 5th Edition, Chapter 58)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 120,
+      "text": "Definition of Human Behaviour in Fires\n▪ Pre-Alarm Phase: The time from the point when fire ignition begins until\nthe point when the building alarm initiates and/or building occupants\nare exposed to cues from the fire event e.g. seeing smoke or told by\nstaff member of a fire event)\n▪ Evacuation Decision-Making Phase: Where building occupants are\nexposed to or seek out cues/information from the fire event and\nothers in the building, and after processing this information, must\ndecide whether or not it is necessary to protect themselves e.g.\nevacuate\n▪ Protective Action Phase: Whereby individuals engage in certain\nactions e.g. gathering personal belongings or assisting others to\nprepare for evacuation that allows them to protect themselves or\nothers before beginning evacuation.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 121,
+      "text": "Definition of Human Behaviour in Fires\n▪ These phases are important to understand because in certain\nbuilding types or emergencies within a building, the pre-\nevacuation period can be significantly longer than the movement\nperiod in a building evacuation.\n▪ In a building, an engineer must understand how the building\noccupants will respond to a fire in order to assess whether the\nbuilding and the fire safety features provide an adequate level of\nsafety during a fire emergency event.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 122,
+      "text": "Discarded Theories in Human Behaviour in Fires\n▪ Equally important to understand what human behaviour in fires is\nnot as it has direct implications on the engineering design process.\n▪ Three disaster myths (Panic Behaviour, Disaster Shock and Group\nMind) have been overgeneralised by society and the media to\naccount for negative situations in some disaster scenarios, but are\nvery rare in reality.\n▪ They are what behaviour in an emergency does NOT look like\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 123,
+      "text": "Panic Behaviour\n▪ Panic = “an acute fear reaction marked by loss of self-control which is\nfollowed by non-social and non-rational flight behaviour” (Quarantelli, 1954:\n272)\n▪ According to Fahy, 2012, people do not usually exhibit non-social or non-\nrational behaviour in emergencies:\n✓ Behaviour is generally cooperative and altruistic (selfless concern for the well-being of\nothers), e.g., World Trade Centre, where studies of both media accounts and survivor\ninterviews revealed overall trends of calm and altruism\n✓ Behaviour, even under stress, is relatively controlled, rational, cooperative and adaptive\n▪ Panic not to be confused with anxiety or fear:\n✓ E.g., “when I heard the explosion I panicked, so I grabbed the baby and ran out of the\nbuilding before it collapsed” → constructive behaviour, not panic\n✓ Observers misinterpreted the state of mind of victims who misjudged resulting in fatal\nconsequences → may be a perfectly rational decision when faced with incomplete\ninformation or limited options, not panic\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 124,
+      "text": "Effects of Stress\n▪ Emergencies are time pressured, goals may shift, and there may\nbe little or ambiguous information\n▪ Physiological (increased heart rate, blood pressure, respiration)\nand emotional (tension, anxiety, fear) responses\n▪ Positive: Stress increases attention, reduces distraction, irrelevant\nstimuli can be a motivator to act (Klein, 1996)\n▪ Negative: Evaluate smaller set of cues, consider fewer\nalternatives, less systematic and can be less flexible (Janis and\nMann, 1977)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 125,
+      "text": "Disaster Shock\n▪ This myth creates an image of large numbers of individuals dazed or\nshocked, i.e., unable to cope with the new disaster-created situation\nat hand.\n▪ Disaster researchers attempt to dispel this myth by explaining that\ndisaster response behaviour is often performed in an active manner:\n✓ Instead of waiting for assistance, in a dazed or disoriented manner, disaster victims\nare more likely to show considerable personal initiative, performing search and\nrescue activities, casualty care, and restoration of essential services before\nemergency responders arrive on scene.\n▪ This kind of response was observed in the 2001 WTC disaster where\nsurvivors were often the first individuals to respond to the needs of their\ncoworkers.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 126,
+      "text": "Group Mind\n▪ Oversimplification that the group is something other than the sum\nof individual responses, i.e., the group has a “mind” of its own\nwhen making decisions in a disaster.\n▪ Assumption that when a disaster occurs, individuals become a\npart of a group and the group acts in response to the disaster, i.e.,\ncharacterised as mob behaviour or herd behaviour.\n▪ Making this assumption can cause the engineers to be blinded by\nany diversity associated with the group, including individual\ncharacteristics, experiences, decision-making or behaviour.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 127,
+      "text": "Factors Influencing Behaviour in Fires\n▪ People in fires very rarely act in a similar manner throughout\nthe fire event.\n✓ Instead, based on various environmental and individual factors, they\ninternalise and process the information, and then act in kind.\n▪ These factors include social influence (or the influence of\nothers in the building), stress, the built environment, leadership,\nand demographics (notably gender).\nImportant to identify these factors so that engineers can\nidentify circumstances within fire scenarios in which certain\ntypes of behaviours (resulting in time delays) are likely to occur.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 128,
+      "text": "Factor 1: The Influence of Other Occupants on\nBehaviour (Social Influence)\n▪ Theory: One’s response behaviour (either action or inaction)\nincluding exit choice during an emergency can be influenced\nby others\n▪ Evidence: “Bystander intervention in emergencies: Diffusion of\nresponsibility” by Darley, J.M. and Latane, B., Journal of\nPersonality and Social Psychology, 8(4), 377-383.\n➢ Conducted several experiments where participants were exposed to a\nsimulated emergency (smoke filling a room) under different groupings:\n❖ Alone: 75% reported the emergency\n❖ In the presence of two planted passive persons: 10% reported the emergency\nDemonstrates the importance of having fire wardens lead evacuations during a fire!\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 129,
+      "text": "Engineering Implications of Social\nInfluence on Behaviour\n▪ Many times, evacuation models simulate each individual as if\nthey are not behaviourally influenced by anyone else around\nthem.\n✓ Not realistic. Engineers should be aware of social influence when running\nsimulation tools.\n▪ Proper understanding of social influence can aid engineers in\ndeveloping new and more effective evacuation procedures\n✓ E.g., Strategically placing fire wardens or “quick responders” throughout the\nbuilding (rather than all in one place) to promote faster response from other\nbuilding occupants\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 130,
+      "text": "Factor 2: The Influence of Stress on Behaviour\n(Perception)\n▪ Stress can be brought on in an emergency via several\ndifferent complex conditions or states. Other than physical\nharm, fires can cause other conditions of states including:\n➢ Uncertainty – occurs due to missing, unreliable, ambiguous, conflicting\nand/or complex information\n➢ Information Overload – occurs when the individual or group perceives\nthat there is too much information to filter through in the time available\n➢ Time Pressure – occupants perceive their situation as urgent and they only\nhave a limited amount of time to perform certain actions.\nIf individuals are more likely, in stressful situations, to pay attention to a\nlower number of cues, engineers should design more noticeable signage or\nwarning cues that easily grab people’s attention (e.g., providing information\nvia luminous materials)\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 131,
+      "text": "Factor 3: The Influence of the Built Environment on\nBehaviour (Movement Towards the Familiar)\n▪ In an emergency, people are more likely to move (evacuate)\nbased on what is familiar to them\n▪ Evidence: “Movement toward the Familiar: Person and Place\nAffiliation in a Fire Entrapment Setting” by Jonathan D. Sime,\nEnvironment and Behavior 1985; 17; 697\n➢ Based on analysis of the Summerland fire (in UK) in 1973 where 50 people\ndied,\n❖ Majority of the staff (93%) evacuated via the exit (beside the bar) that was familiar and\ncommonly used by them\n❖ Majority of the visitors (61%) evacuated via the entrance door which was familiar and used\nby them\nDemonstrates the importance of having regular fire drills!\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 132,
+      "text": "Factor 3: The Influence of the Built Environment on\nBehaviour (Theory of Affordances)\n▪ Theory by James J. Gibson (1978): The following affordances can\nexplain how people perceive the things they see, which affects\nthe actions they take.\n➢ Sensory Affordance – e.g., evacuees must be able to see an exit door/sign\n➢ Cognitive Affordance – e.g., evacuees must understand what the exit sign\nmeans and/or what the exit door is used for\n➢ Physical Affordance – e.g., the exit door must be usable\n➢ Functional Affordance – e.g., the exit door must help the user achieve his/her\ngoals, which can be subjective (e.g., getting to the carpark to retrieve the car,\nreturning to the mall, escaping from the fire, etc.)\nDemonstrates the importance of maintaining fire safety systems, e.g., exit\nsigns remain lit, exit doors are usable, promoting fire safety awareness, etc.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 133,
+      "text": "Factor 4: The Influence of Leadership (or Role) on\nBehaviour\n▪ Theory by Jones and Hewitt (IAFSS): Studied group information\nand leadership during the evacuation of a high-rise office\nbuilding due to a fire.\n▪ Overall, a person’s role in the organised hierarchy (pre-event\nleaders) had an influence on the group actions i.e. the\nleader’s group listened, relinquished decision-making to this\nindividual and followed directions.\n▪ But when leadership failed to retain influence, new leadership\nemerged i.e. even from those who were not previously in\nleadership roles).\nDemonstrates the importance of ensuring managers receive special fire\nsafety training to ensure that they are providing accurate information and\nperforming appropriate actions during building fires.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 134,
+      "text": "Factor 5: The Influence of Demographics\n(Gender) on Behaviour\n▪ Theory by Bryan (1977) and Wood(1972): Studied the influence of gender\non certain residential evacuation behaviours.\n▪ Male participants were predominant in fire-fighting activities (14.9% of the\nmales participated in “searched for fire” as opposed to 6.3% of the\nfemales, and 6.9% of the males were involved in the action of “got\nextinguishers” as opposed to 2.8% of the females).\n▪ Female participants differed significantly from the males in the warning\nand evacuation activities – 11.4% of the females “called fire department”\nas initial behavioural response action as opposed to 6.1% of the males.\n10.4% females “left building” as the first behavioural response action\ncontracted with 4.2% of the males.\nDemonstrates the importance for engineers to inquire how gender and\nother individual-based factors influence perceptions of the threat and risk,\nwhich then directly influence actions performed in response to a fire.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 135,
+      "text": "Mapping of Factors to their Influenced Behaviours\nFactor 1 – Influence of Other Occupants Behavioural Fact 1 – People’s first instinct is to feel safe\nBehavioural Fact 2 – Appropriate response may not happen\nBehavioural Fact 3 – Must perceive a credible threat before acting\nFactor 2 – Influence of Stress\nBehavioural Fact 4 – People will seek more info if required\nBehavioural Fact 5 – Probable preparatory activities before evacuating\nFactor 3 – Influence of Built Environment\nBehavioural Fact 6 – Generally act rationally and altruistically\nBehavioural Fact 7 – Individual’s decisions are affected by others\nBehavioural Fact 8 – Narrowed field of perception from stress\nFactor 4 – Influence of Leadership\nBehavioural Fact 9 – People move to the familiar\nBehavioural Fact 10 – Peacetime roles continue in a fire emergency\nFactor 5 – Influence of Demographics\nBehavioural Fact 11 – Individual differences can influence behaviour\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 136,
+      "text": "11 Behavioural Facts (Kuligowski and Gwynne)\n▪ Behavioural Fact #1: Rather than panic, people’s first instinct is\nto feel (sometimes inappropriately) safe in their environment.\n▪ Behavioural Fact #2: Just because information is provided in a\nfire emergency does not mean that appropriate occupant\nresponse will take place. Perception of, attention to, and\ncomprehension of information (in a fire event) is a critical part\nof occupant response.\n▪ Behavioural Fact #3: Occupants must perceive a credible\nthreat and personalise the risk before protective action is\ntaken.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 137,
+      "text": "11 Behavioural Facts (Kuligowski and Gwynne)\n▪ Behavioural Fact #4: People will engage in information seeking\nactions, especially when cues are ambiguous and/or\ninconsistent.\n▪ Behavioural Fact #5: People are likely to engage in\npreparation activities before beginning evacuation response.\nPreparation activities will likely delay their response.\n▪ Behavioural Fact #6: Generally, people act rationally and\naltruistically during building fires.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 138,
+      "text": "11 Behavioural Facts (Kuligowski and Gwynne)\n▪ Behavioural Fact #7: The surrounding population will influence\nthe individual’s decision-making process.\n▪ Behavioural Fact #8: Stress can narrow a person’s field of\nperception, causing individuals to miss or ignore certain cues\nor information.\n▪ Behavioural Fact #9: People move to the familiar. The\nrelationships with the structure and people that existed prior to\nthe incident influence response during the incident.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 139,
+      "text": "11 Behavioural Facts (Kuligowski and Gwynne)\n▪ Behavioural Fact #10: People do not instantaneously switch to\na different set of roles in a building fire event. The rules and\nroles prior to the event form the basis of those employed\nduring the event.\n▪ Behavioural Fact #11: People are heterogeneous and these\nindividual differences in characteristics (or demographics) can\ninfluence behaviour.\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 140,
+      "text": "Hypothetical Case Study\n▪ Ongoing lecture at SIT\n▪ Suddenly, the fire alarm goes off\n▪ What would affect your decision whether to commence\nevacuation?\n▪ What would affect your choice of evacuation route?\n▪ If you oversee fire safety in SIT, what measures will you\nimplement to ensure occupants commence evacuation and\nuse the most appropriate evacuation route in an\nemergency/when the fire alarm goes off?\nUse some of the theories you have learnt to discuss\nOFFICIAL (OPEN)"
+    },
+    {
+      "page": 141,
+      "text": "Thank You\nOFFICIAL (OPEN)"
+    }
+  ]
+}

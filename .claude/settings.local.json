@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(python \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\extract_pdf.py\" 2>&1)",
+      "PowerShell(python \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\generate_summary.py\" 2>&1)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\Desktop\\\\local docs\\\\personal\\\\SIT\\\\Fire Dynamics Workshop 2 - Summary.docx\")",
+      "Bash(python -c ' *)",
+      "Bash(pip install *)",
+      "Bash(python *)",
+      "Bash(Start-Process *)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\Desktop\\\\local docs\\\\personal\\\\SIT\\\\CourseApplFormV1.JO_filled.pdf\")",
+      "Bash(Remove-Item *)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Pre-hyesys Projects\\\\Datasheet \\(HyESys, HySBatt\\)\\\\HyESy.HySBatt Datasheet.docx\")",
+      "PowerShell(New-Item *)",
+      "PowerShell(python -c \"import streamlit, pandas; print\\('streamlit', streamlit.__version__\\); print\\('pandas', pandas.__version__\\)\" 2>&1)",
+      "PowerShell(cd \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"cd 'C:\\\\Users\\\\JasonOng\\\\AST_Agent'; streamlit run dashboard.py\")"
+    ]
+  }
+}

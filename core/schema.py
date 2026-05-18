@@ -40,11 +40,11 @@ REWARD_NEGATIVE_PF_DELTA  = -0.01   # PF worsened by this → negative outcome
 
 # ── HyESys hardware models ────────────────────────────────────────
 HYESYS_MODELS = {
-    "H30":  {"kVA": 30,  "kWh": 69.3,  "packs": 7,  "price_sgd": 100_000},
-    "H50":  {"kVA": 50,  "kWh": 108.9, "packs": 11, "price_sgd": 120_000},
-    "H60":  {"kVA": 60,  "kWh": 138.6, "packs": 14, "price_sgd": None},
-    "H100": {"kVA": 100, "kWh": 217.8, "packs": 22, "price_sgd": None},
-    "H125": {"kVA": 125, "kWh": 217.8, "packs": 22, "price_sgd": 100_000},
+    "H30":  {"kVA": 30,  "max_current_A": 43.5,  "vdc_range": "210–850 V",  "dc_voltage_min_V": 231.0,  "dc_voltage_max_V": 269.5, "kWh": 69.3,  "packs": 7,  "weight_kg": 1400, "footprint_m2": 2.1, "price_sgd": 100_000},
+    "H50":  {"kVA": 50,  "max_current_A": 72.5,  "vdc_range": "350–850 V",  "dc_voltage_min_V": 363.0,  "dc_voltage_max_V": 423.5, "kWh": 108.9, "packs": 11, "weight_kg": 2200, "footprint_m2": 3.2, "price_sgd": 120_000},
+    "H60":  {"kVA": 60,  "max_current_A": 87.0,  "vdc_range": "420–850 V",  "dc_voltage_min_V": 462.0,  "dc_voltage_max_V": 539.0, "kWh": 138.6, "packs": 14, "weight_kg": 2800, "footprint_m2": 4.2, "price_sgd": None},
+    "H100": {"kVA": 100, "max_current_A": 145.0, "vdc_range": "680–900 V",  "dc_voltage_min_V": 726.0,  "dc_voltage_max_V": 847.0, "kWh": 217.8, "packs": 22, "weight_kg": 4400, "footprint_m2": 6.3, "price_sgd": None},
+    "H125": {"kVA": 125, "max_current_A": 181.0, "vdc_range": "680–900 V",  "dc_voltage_min_V": 726.0,  "dc_voltage_max_V": 847.0, "kWh": 217.8, "packs": 22, "weight_kg": 4400, "footprint_m2": 6.3, "price_sgd": 100_000},
 }
 
 # ── Known deployment sites ────────────────────────────────────────

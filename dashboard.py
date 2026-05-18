@@ -246,18 +246,20 @@ with tab_models:
     st.subheader("HyESys Available Models")
     st.caption("Source: HyESy.HySBatt Datasheet, Section 2 — May 2026, Version 2")
 
-    MAX_CURRENT = {"H30": 43.5, "H50": 72.5, "H60": 87.0, "H100": 145.0, "H125": 181.0}
-
     model_rows = []
     for model, specs in HYESYS_MODELS.items():
         price = specs.get("price_sgd")
         model_rows.append({
-            "Model":           model,
-            "kVA":             specs["kVA"],
-            "Max Current (A)": MAX_CURRENT.get(model, "—"),
-            "Storage (kWh)":   specs["kWh"],
-            "HySBatt Packs":   specs["packs"],
-            "Price (SGD)":     f"${price:,}" if price else "TBD",
+            "Model":              model,
+            "kVA":                specs["kVA"],
+            "Max Current (A)":    specs["max_current_A"],
+            "VDC Range":          specs["vdc_range"],
+            "DC Min / Max (V)":   f"{specs['dc_voltage_min_V']} / {specs['dc_voltage_max_V']}",
+            "Storage (kWh)":      specs["kWh"],
+            "HySBatt Packs":      specs["packs"],
+            "Approx Weight (kg)": specs["weight_kg"],
+            "Footprint (m²)":     specs["footprint_m2"],
+            "Price (SGD)":        f"${price:,}" if price else "TBD",
         })
 
     df_models = pd.DataFrame(model_rows).set_index("Model")
@@ -454,8 +456,7 @@ with tab_report:
         # ── Section 2: Model Specs ─────────────────────────────────
         doc.add_heading("2.  HyESys Model Specifications", level=1)
 
-        MAX_CURR = {"H30": 43.5, "H50": 72.5, "H60": 87.0, "H100": 145.0, "H125": 181.0}
-        headers  = ["Model", "kVA", "Max Current (A)", "Storage (kWh)", "Packs", "Price (SGD)"]
+        headers  = ["Model", "kVA", "Max Current (A)", "VDC Range", "DC Min / Max (V)", "Storage (kWh)", "Packs", "Weight (kg)", "Footprint (m²)", "Price (SGD)"]
         tbl      = doc.add_table(rows=1, cols=len(headers))
         tbl.style = "Table Grid"
         for i, h in enumerate(headers):
@@ -466,9 +467,13 @@ with tab_report:
             vals  = [
                 model,
                 str(specs["kVA"]),
-                str(MAX_CURR.get(model, "—")),
+                str(specs["max_current_A"]),
+                specs["vdc_range"],
+                f"{specs['dc_voltage_min_V']} / {specs['dc_voltage_max_V']}",
                 str(specs["kWh"]),
                 str(specs["packs"]),
+                str(specs["weight_kg"]),
+                str(specs["footprint_m2"]),
                 f"${price:,}" if price else "TBD",
             ]
             for i, v in enumerate(vals):

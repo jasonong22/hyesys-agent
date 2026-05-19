@@ -13,7 +13,29 @@
       "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Pre-hyesys Projects\\\\Datasheet \\(HyESys, HySBatt\\)\\\\HyESy.HySBatt Datasheet.docx\")",
       "PowerShell(New-Item *)",
       "PowerShell(python -c \"import streamlit, pandas; print\\('streamlit', streamlit.__version__\\); print\\('pandas', pandas.__version__\\)\" 2>&1)",
-      "PowerShell(cd \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"cd 'C:\\\\Users\\\\JasonOng\\\\AST_Agent'; streamlit run dashboard.py\")"
+      "PowerShell(cd \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"cd 'C:\\\\Users\\\\JasonOng\\\\AST_Agent'; streamlit run dashboard.py\")",
+      "Bash(streamlit run *)",
+      "PowerShell(streamlit run *)",
+      "PowerShell(python -m streamlit run dashboard.py)",
+      "PowerShell(python -c \"import pypdf; print\\('pypdf ok'\\)\" 2>&1; python -c \"import pdfrw; print\\('pdfrw ok'\\)\" 2>&1)",
+      "PowerShell(python clear_pdf_form.py)",
+      "PowerShell(python -c \"import fitz; print\\('pymupdf ok', fitz.__version__\\)\")",
+      "PowerShell(pip install *)",
+      "PowerShell(python map_pdf_text.py)",
+      "PowerShell(python map_pdf_text.py 2>&1)",
+      "PowerShell(python fill_pdf_angus.py)",
+      "PowerShell(python fill_pdf_wenyang.py)",
+      "PowerShell(Get-ScheduledTask *)",
+      "PowerShell(schtasks *)",
+      "PowerShell(powershell -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\schedule_task.ps1\")",
+      "PowerShell(python C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\stock_alert.py)",
+      "Bash(Out-File -Encoding utf8 doc_content.txt)",
+      "Bash(Get-Content doc_content.txt)",
+      "PowerShell($env:ANTHROPIC_API_KEY)",
+      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"User\"\\); [System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"Machine\"\\))",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Projects\\\\China\\\\葆元 baoyuan\\\\report\\\\葆元_HyESys节能分析报告_2026-05-12_CN.docx\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

@@ -57,7 +57,8 @@
       "PowerShell(C:\\\\Python314\\\\python.exe -c \"import anthropic; print\\(anthropic.__version__\\)\")",
       "PowerShell(C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\sites\\\\baoyuan\\\\site_agent.py\" 2>&1)",
       "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"User\"\\))",
-      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"Machine\"\\); $env:ANTHROPIC_API_KEY)"
+      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"Machine\"\\); $env:ANTHROPIC_API_KEY)",
+      "PowerShell(Get-Command *)"
     ]
   },
   "hooks": {

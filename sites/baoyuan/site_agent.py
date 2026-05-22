@@ -1,25 +1,24 @@
 """
 Baoyuan HyESys Agent — Strategic oversight layer.
 
-Uses Claude API to analyse accumulated site data, reason about what Agent 1 and
-Agent 2 should do differently, and propose specific config changes to improve
-electrical savings. Proposals are sent to Jason via Telegram (@JOstocks_bot).
+Uses the local `claude` CLI (Claude Code) as its reasoning brain to analyse
+site data, develop strategy, and propose config changes to Agent 1 and Agent 2.
+Proposals are sent to Jason via Telegram (@JOstocks_bot).
 Jason approves in Claude Code; this script applies the approved changes.
 
 Run analysis:     python sites/baoyuan/site_agent.py
 Apply a proposal: python sites/baoyuan/site_agent.py --apply <proposal_id>
+Reject a proposal: python sites/baoyuan/site_agent.py --reject <proposal_id>
 """
 
 import argparse
 import json
 import logging
-import os
 import sqlite3
+import subprocess
 import urllib.request
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-
-import anthropic
 
 # ─────────────────────────────────────────────
 # PATHS & CONSTANTS
@@ -33,7 +32,8 @@ TG_CONFIG     = SITE_DIR / "telegram_config.json"
 
 SITE_NAME     = "Baoyuan"
 SITE_FULL     = "Baoyuan Industrial, Zhuji, Zhejiang, China"
-MODEL         = "claude-sonnet-4-6"
+CLAUDE_MODEL  = "claude-sonnet-4-6"
+PROJECT_ROOT  = Path(__file__).parent.parent.parent
 
 SGT = timezone(timedelta(hours=8))
 
@@ -216,30 +216,7 @@ Return ONLY valid JSON — no markdown fences, no explanation outside the JSON:
 # ─────────────────────────────────────────────
 # CALL CLAUDE API
 # ─────────────────────────────────────────────
-def _get_anthropic_client() -> anthropic.Anthropic:
-    # Prefer explicit API key from telegram_config.json
-    api_key = json.loads(TG_CONFIG.read_text()).get("anthropic_api_key", "")
-    if api_key and "FILL_IN" not in api_key:
-        return anthropic.Anthropic(api_key=api_key)
-
-    # Fall back to Claude Code's OAuth token from ~/.claude/.credentials.json
-    creds_path = Path.home() / ".claude" / ".credentials.json"
-    if creds_path.exists():
-        creds = json.loads(creds_path.read_text())
-        token = creds.get("claudeAiOauth", {}).get("accessToken", "")
-        if token:
-            log.info("Using Claude Code OAuth token for API calls.")
-            return anthropic.Anthropic(auth_token=token)
-
-    raise ValueError(
-        "No Anthropic credentials found. Either set anthropic_api_key in "
-        "sites/baoyuan/telegram_config.json, or ensure Claude Code is logged in."
-    )
-
-
 def _call_claude(data: dict, a1_cfg: dict, a2_cfg: dict, history: list[dict]) -> dict:
-    client = _get_anthropic_client()
-
     user_msg = (
         f"Current date/time (SGT): {datetime.now(SGT).strftime('%Y-%m-%d %H:%M')}\n\n"
         f"## Site Data Summary\n{json.dumps(data, indent=2, default=str)}\n\n"
@@ -250,24 +227,23 @@ def _call_claude(data: dict, a1_cfg: dict, a2_cfg: dict, history: list[dict]) ->
         f"Analyse the above and propose the next strategic change to improve electrical savings at Baoyuan."
     )
 
-    log.info("Calling Claude API (%s)...", MODEL)
-    response = client.messages.create(
-        model=MODEL,
-        max_tokens=1024,
-        system=[{"type": "text", "text": _SYSTEM_PROMPT,
-                 "cache_control": {"type": "ephemeral"}}],
-        messages=[{"role": "user", "content": user_msg}],
+    full_prompt = _SYSTEM_PROMPT + "\n\n---\n\n" + user_msg
+
+    log.info("Calling claude CLI (%s)...", CLAUDE_MODEL)
+    result = subprocess.run(
+        ["claude", "-p", full_prompt, "--model", CLAUDE_MODEL],
+        capture_output=True,
+        text=True,
+        timeout=120,
+        cwd=str(PROJECT_ROOT),
     )
 
-    usage = response.usage
-    log.info(
-        "Claude usage — input: %d | output: %d | cache_read: %d | cache_create: %d",
-        usage.input_tokens, usage.output_tokens,
-        getattr(usage, "cache_read_input_tokens", 0),
-        getattr(usage, "cache_creation_input_tokens", 0),
-    )
+    if result.returncode != 0:
+        raise RuntimeError(f"claude CLI failed (exit {result.returncode}): {result.stderr[:500]}")
 
-    raw = response.content[0].text.strip()
+    raw = result.stdout.strip()
+    log.info("Claude responded (%d chars)", len(raw))
+
     try:
         return json.loads(raw)
     except json.JSONDecodeError:

@@ -53,7 +53,11 @@
       "PowerShell(Get-ScheduledTaskInfo *)",
       "PowerShell(C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\stock_alert.py\" 2>&1)",
       "Skill(update-config)",
-      "PowerShell($j = Get-Content 'C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\.claude\\\\settings.local.json' -Raw | ConvertFrom-Json; $j.hooks.Stop[0].hooks[0])"
+      "PowerShell($j = Get-Content 'C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\.claude\\\\settings.local.json' -Raw | ConvertFrom-Json; $j.hooks.Stop[0].hooks[0])",
+      "PowerShell(C:\\\\Python314\\\\python.exe -c \"import anthropic; print\\(anthropic.__version__\\)\")",
+      "PowerShell(C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\sites\\\\baoyuan\\\\site_agent.py\" 2>&1)",
+      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"User\"\\))",
+      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"Machine\"\\); $env:ANTHROPIC_API_KEY)"
     ]
   },
   "hooks": {

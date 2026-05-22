@@ -1,0 +1,4 @@
+{
+  "zero_current_threshold_A": 1.0,
+  "imbalance_threshold_pct": 0.10
+}

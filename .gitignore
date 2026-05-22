@@ -18,6 +18,9 @@ stocks_alert/.last_sent_date
 stocks_alert/
 research_bot/
 
+# Per-site Telegram tokens — keep off GitHub
+sites/**/telegram_config.json
+
 # OS
 .DS_Store
 Thumbs.db

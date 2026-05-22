@@ -20,6 +20,16 @@ import paho.mqtt.client as mqtt
 # ─────────────────────────────────────────────
 # CONFIGURATION
 # ─────────────────────────────────────────────
+_CONFIG_PATH = Path(__file__).parent / "agent1_config.json"
+
+def _load_config() -> dict:
+    if _CONFIG_PATH.exists():
+        import json as _json
+        return _json.loads(_CONFIG_PATH.read_text())
+    return {"zero_current_threshold_A": 1.0, "imbalance_threshold_pct": 0.10}
+
+AGENT1_CFG = _load_config()
+
 BROKER_HOST   = "loragw.advastech.com"
 BROKER_PORT   = 1883
 KEEPALIVE_SEC = 60
@@ -181,18 +191,21 @@ def validate(rec: dict) -> tuple[str, str | None]:
     meaningful fields. Voltage, kW, kVAr, PF will always be 0; this is normal
     and must not trigger SUSPECT or REJECTED.
     """
+    zero_thresh    = AGENT1_CFG.get("zero_current_threshold_A", 1.0)
+    imbal_thresh   = AGENT1_CFG.get("imbalance_threshold_pct", 0.10)
+
     ia, ib, ic = rec["Ia"], rec["Ib"], rec["Ic"]
     currents    = [ia, ib, ic]
-    any_current = any(c > 1.0 for c in currents)
+    any_current = any(c > zero_thresh for c in currents)
 
     # ── SUSPECT: no current at all → meter dropout or cap bank offline ──
     if not any_current:
         return "SUSPECT", "all-zero current — meter dropout or cap bank offline"
 
-    # ── SUSPECT: phase current imbalance > 10 % ──────────────────────────
+    # ── SUSPECT: phase current imbalance above threshold ─────────────────
     i_max = max(currents)
     i_min = min(c for c in currents if c > 0)
-    if i_max > 0 and (i_max - i_min) / i_max > 0.10:
+    if i_max > 0 and (i_max - i_min) / i_max > imbal_thresh:
         return "SUSPECT", (
             f"phase current imbalance >10% "
             f"(Ia={ia:.1f} Ib={ib:.1f} Ic={ic:.1f})"

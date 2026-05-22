@@ -1,0 +1,15 @@
+{
+  "action_mode": "current_imbalance_monitor",
+  "pf_target": 0.98,
+  "pi_control": {
+    "k_p": 1.00,
+    "k_i": 0.50,
+    "i_max": 20.0,
+    "deadband": 0.005,
+    "dt_hours": 0.25
+  },
+  "current_imbalance_monitor": {
+    "imbalance_alert_pct": 0.10,
+    "log_observations": true
+  }
+}

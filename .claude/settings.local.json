@@ -35,7 +35,40 @@
       "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"User\"\\); [System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"Machine\"\\))",
       "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Projects\\\\China\\\\葆元 baoyuan\\\\report\\\\葆元_HyESys节能分析报告_2026-05-12_CN.docx\")",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Pre-hyesys Projects\\\\Datasheet \\(HyESys, HySBatt\\)\\\\HyESys_HySBatt_Datasheet_Summary.docx\")",
+      "PowerShell(python -c \"import matplotlib; import numpy; print\\('matplotlib', matplotlib.__version__\\); print\\('numpy', numpy.__version__\\)\")",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Software\\\\claude code\\\\HyESys_MultiSite_Agent_Architecture.png\")",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Software\\\\claude code\\\\HyESys_Parameter_Equation_Reference.docx\")",
+      "PowerShell($PROFILE)",
+      "PowerShell(Get-Content *)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Software\\\\claude code\\\\HyESys_Agent_Rules_Reference_2026-05-19.docx\")",
+      "PowerShell(C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\stock_alert.py\")",
+      "PowerShell(Start-Process powershell -Verb RunAs -Wait -ArgumentList \"-NoProfile -Command `\"schtasks /delete /tn '\\\\JO_StockAlert_OnLogon' /f; if \\(`$?\\) { schtasks /create /tn '\\\\JO_StockAlert_OnLogon' /xml 'C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\task_fix.xml'; Write-Host 'Task updated successfully.' } else { Write-Host 'Delete failed.' }; pause`\"\")",
+      "Bash(C:/Python314/python.exe *)",
+      "PowerShell(Start-Process powershell -Verb RunAs -Wait -ArgumentList \"-NoProfile -Command `\"schtasks /create /tn '\\\\Baoyuan_Agent1' /xml 'C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\sites\\\\baoyuan\\\\task_agent1.xml'; pause`\"\")",
+      "PowerShell(Start-Process C:\\\\Python314\\\\python.exe -ArgumentList '\"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\sites\\\\baoyuan\\\\agent1.py\"' -WindowStyle Hidden)",
+      "PowerShell(Start-Process powershell -Verb RunAs -Wait -ArgumentList \"-NoProfile -Command `\"schtasks /Change /TN '\\\\Baoyuan_Agent1' /DISABLE; pause`\"\")",
+      "PowerShell(Get-ScheduledTaskInfo *)",
+      "PowerShell(C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\stock_alert.py\" 2>&1)",
+      "Skill(update-config)",
+      "PowerShell($j = Get-Content 'C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\.claude\\\\settings.local.json' -Raw | ConvertFrom-Json; $j.hooks.Stop[0].hooks[0])"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "Set-Location 'C:\\Users\\JasonOng\\AST_Agent'; git add -A; git diff --cached --quiet; if (-not $?) { $ts = Get-Date -Format 'yyyy-MM-dd HH:mm'; git commit -m \"Auto-save: $ts\"; git push }",
+            "shell": "powershell",
+            "timeout": 60,
+            "statusMessage": "Auto-saving to git..."
+          }
+        ]
+      }
     ]
   }
 }

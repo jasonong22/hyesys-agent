@@ -216,11 +216,29 @@ Return ONLY valid JSON — no markdown fences, no explanation outside the JSON:
 # ─────────────────────────────────────────────
 # CALL CLAUDE API
 # ─────────────────────────────────────────────
-def _call_claude(data: dict, a1_cfg: dict, a2_cfg: dict, history: list[dict]) -> dict:
+def _get_anthropic_client() -> anthropic.Anthropic:
+    # Prefer explicit API key from telegram_config.json
     api_key = json.loads(TG_CONFIG.read_text()).get("anthropic_api_key", "")
-    if not api_key or "FILL_IN" in api_key:
-        raise ValueError("Anthropic API key not set. Edit sites/baoyuan/telegram_config.json and fill in anthropic_api_key.")
-    client = anthropic.Anthropic(api_key=api_key)
+    if api_key and "FILL_IN" not in api_key:
+        return anthropic.Anthropic(api_key=api_key)
+
+    # Fall back to Claude Code's OAuth token from ~/.claude/.credentials.json
+    creds_path = Path.home() / ".claude" / ".credentials.json"
+    if creds_path.exists():
+        creds = json.loads(creds_path.read_text())
+        token = creds.get("claudeAiOauth", {}).get("accessToken", "")
+        if token:
+            log.info("Using Claude Code OAuth token for API calls.")
+            return anthropic.Anthropic(auth_token=token)
+
+    raise ValueError(
+        "No Anthropic credentials found. Either set anthropic_api_key in "
+        "sites/baoyuan/telegram_config.json, or ensure Claude Code is logged in."
+    )
+
+
+def _call_claude(data: dict, a1_cfg: dict, a2_cfg: dict, history: list[dict]) -> dict:
+    client = _get_anthropic_client()
 
     user_msg = (
         f"Current date/time (SGT): {datetime.now(SGT).strftime('%Y-%m-%d %H:%M')}\n\n"

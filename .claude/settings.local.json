@@ -59,7 +59,8 @@
       "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"User\"\\))",
       "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"Machine\"\\); $env:ANTHROPIC_API_KEY)",
       "PowerShell(Get-Command *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(schtasks *)"
     ]
   },
   "hooks": {

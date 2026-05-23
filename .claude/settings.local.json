@@ -61,7 +61,8 @@
       "PowerShell(Get-Command *)",
       "Bash(git commit *)",
       "Bash(schtasks *)",
-      "PowerShell(C:\\\\Python314\\\\python.exe -m pip install openpyxl pandas -q)"
+      "PowerShell(C:\\\\Python314\\\\python.exe -m pip install openpyxl pandas -q)",
+      "PowerShell(cd \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\"; $env:PYTHONIOENCODING=\"utf-8\"; python analysis/generate_pe_solutions.py)"
     ]
   },
   "hooks": {

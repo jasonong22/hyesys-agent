@@ -1,8 +1,49 @@
 """
-Baoyuan Site — Agent 2: Analysis & Decision Engine.
-Reads validated CapBank records from baoyuan.db, applies the active action_mode
-from agent2_config.json, and writes STATE → ACTION → REWARD triplets back to
-baoyuan.db.
+╔══════════════════════════════════════════════════════════════════════╗
+║  AGENT 2 — BAOYUAN SITE                                             ║
+║  Analysis & Decision Engine                                          ║
+║  Copied from: templates/agent2_master.py  v1.0  (2026-05-24)        ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+SITE: Baoyuan Industrial (诸暨市葆元实业有限公司)
+      Site IDs: BAOYUAN-CAPBANK1, BAOYUAN-CAPBANK2
+
+── SITE CHANGELOG (changes from master) ─────────────────────────────
+2026-05-24  initial copy from master v1.0
+
+STATE STRUCT EXTENSION (vs master):
+  • State dataclass extended with Ia, Ib, Ic float fields
+  • Added derived properties: I_avg, I_imbalance_pct
+  • (Master State struct only holds kW, kVAr, PF, voltage_V, solar)
+
+ACTION MODE OVERRIDE — switchable via agent2_config.json:
+  • "current_imbalance_monitor" (DEFAULT) — no injection; monitors phase
+    current imbalance only; logs POSITIVE/NEGATIVE outcomes
+  • "pf_pi_control" — activates standard master PI controller logic
+    (D1–D6) for reactive compensation when H125 is actively injecting
+
+NEW DECISION RULE (not in master):
+  • _decide_monitor(): ACTION_MONITOR with imbalance% as action_kVAr
+    POSITIVE if imbalance ≤ alert_pct; NEGATIVE otherwise
+
+PARAMETERS NOT IN MASTER:
+  • action_mode in agent2_config.json (hot-switchable without restart)
+  • BAOYUAN-specific SITE_CONFIG: solar=False, recommended_model=H125
+  • HYESYS_MODELS defined locally (not imported from core.schema)
+  • ACTION_MONITOR action type added (not in master schema)
+
+REWARD OVERRIDE (monitor mode):
+  • reward_pf_delta always 0.0 in monitor mode (no PF correction active)
+  • reward_fraction = 1.0 − I_imbalance_pct (current balance metric)
+
+SAR WRITER:
+  • _write_sar() is inlined (master delegates to core.store.write_sar)
+  • Uses baoyuan.db at sites/baoyuan/data/baoyuan.db
+
+IMPORTS:
+  • Imports compute_reward and tools from agent2/ master module
+  • Does NOT fully re-implement reward logic (reuses master outcome.py)
+──────────────────────────────────────────────────────────────────────
 
 Run: python sites/baoyuan/agent2.py
 """

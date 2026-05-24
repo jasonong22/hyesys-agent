@@ -1,7 +1,44 @@
 """
-Baoyuan Site — Agent 1: Data Quality & Ingestion
-Subscribes to CapBank1 and CapBank2 MQTT meter topics.
-Validates incoming data and writes CLEAN/SUSPECT/REJECTED records to baoyuan.db.
+╔══════════════════════════════════════════════════════════════════════╗
+║  AGENT 1 — BAOYUAN SITE                                             ║
+║  Data Quality & Ingestion — CapBank1 + CapBank2 MQTT meters         ║
+║  Copied from: templates/agent1_master.py  v1.0  (2026-05-24)        ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+SITE: Baoyuan Industrial (诸暨市葆元实业有限公司)
+      Monitors: CapBank1 (device 0086040215999997)
+                CapBank2 (device 0086040215999996)
+      HyESys H125 installed at Cabinet A / Feeder 2
+
+── SITE CHANGELOG (changes from master) ─────────────────────────────
+2026-05-24  initial copy from master v1.0
+
+DATA SOURCE CHANGES (vs master):
+  • Live MQTT ingestion (not batch CSV) — paho-mqtt client added
+  • Subscribes to topics hyesys/data/dev/<device_id>
+  • Custom parse_payload() to unpack nested MQTT JSON structure
+  • Timestamp sourced from raw["sendtime"] (Unix seconds → ISO UTC)
+  • Voltage: phase voltages Ua/Ub/Uc preferred; line Uab/Ubc/Uca fallback
+
+METER TYPE OVERRIDE — CapBank current-only instruments:
+  • Baoyuan CapBank meters measure Ia/Ib/Ic ONLY
+  • kW, kVAr, PF, voltage_V are always 0 — this is normal; not an anomaly
+  • Master R3 (non-numeric), R4 (voltage≤0), R5 (kW range), R8 (all-zero),
+    R9 (PF saturation), R10 (voltage range) would all misfire here
+  • Replaced entire validate() with current-only logic:
+      NEW rule: SUSPECT if all phase currents ≤ zero_current_threshold_A
+      NEW rule: SUSPECT if phase current imbalance > imbalance_threshold_pct
+
+PARAMETERS NOT IN MASTER:
+  • zero_current_threshold_A = 1.0  (in agent1_config.json)
+  • imbalance_threshold_pct  = 0.10 (in agent1_config.json)
+  • MQTT broker: loragw.advastech.com:1883
+  • DEVICE_TO_SITE mapping dict
+
+DB SCHEMA ADDITIONS (vs master):
+  • meter_records table extended with Ia, Ib, Ic, frequency_Hz columns
+  • sar_log table added in agent1.py (master puts this in agent2)
+──────────────────────────────────────────────────────────────────────
 
 Run: python sites/baoyuan/agent1.py
 Stop: Ctrl+C

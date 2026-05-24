@@ -63,7 +63,10 @@
       "Bash(schtasks *)",
       "PowerShell(C:\\\\Python314\\\\python.exe -m pip install openpyxl pandas -q)",
       "PowerShell(cd \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\"; $env:PYTHONIOENCODING=\"utf-8\"; python analysis/generate_pe_solutions.py)",
-      "PowerShell(cd \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\"; $env:PYTHONIOENCODING=\"utf-8\"; python analysis/baoyuan_analysis_v3.py)"
+      "PowerShell(cd \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\"; $env:PYTHONIOENCODING=\"utf-8\"; python analysis/baoyuan_analysis_v3.py)",
+      "Bash(Test-Path C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Software\\\\AI AGENT *)",
+      "Bash(git -C \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\" add -A)",
+      "Bash(git -C 'C:\\\\Users\\\\JasonOng\\\\AST_Agent' commit -m ' *)"
     ]
   },
   "hooks": {

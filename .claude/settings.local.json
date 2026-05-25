@@ -67,7 +67,9 @@
       "Bash(Test-Path C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Software\\\\AI AGENT *)",
       "Bash(git -C \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\" add -A)",
       "Bash(git -C 'C:\\\\Users\\\\JasonOng\\\\AST_Agent' commit -m ' *)",
-      "Bash(C:\\\\Python314\\\\python.exe tools/mqtt_probe.py)"
+      "Bash(C:\\\\Python314\\\\python.exe tools/mqtt_probe.py)",
+      "Bash(more)",
+      "Bash(del \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\_translate_pcs.py\")"
     ]
   },
   "hooks": {

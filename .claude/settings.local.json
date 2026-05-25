@@ -70,7 +70,8 @@
       "Bash(C:\\\\Python314\\\\python.exe tools/mqtt_probe.py)",
       "Bash(more)",
       "Bash(del \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\_translate_pcs.py\")",
-      "PowerShell(Start-Process powershell -Verb RunAs -Wait -ArgumentList \"-ExecutionPolicy Bypass -File `\"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Local\\\\Temp\\\\fix_stockalert_task.ps1`\"\")"
+      "PowerShell(Start-Process powershell -Verb RunAs -Wait -ArgumentList \"-ExecutionPolicy Bypass -File `\"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Local\\\\Temp\\\\fix_stockalert_task.ps1`\"\")",
+      "PowerShell(& \"C:\\\\Python314\\\\python.exe\" \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\stock_alert.py\")"
     ]
   },
   "hooks": {

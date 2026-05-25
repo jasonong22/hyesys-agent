@@ -10,11 +10,14 @@ SITE: Baoyuan Industrial (诸暨市葆元实业有限公司)
 
 ── SITE CHANGELOG (changes from master) ─────────────────────────────
 2026-05-24  initial copy from master v1.0
-2026-05-25  add kvar_sweep_experiment mode — automated kVAr sweep 0→129 kVAr
+2026-05-25  add kvar_sweep_experiment mode — automated kVAr sweep 0→120 kVAr
             add ExperimentController — state machine with BMS safety rules:
               • singleVoltageAvg > 3.45 V → kW forced to 0, kVAr continues
               • singleVoltageAvg < 3.2 V  → pause experiment, charge -10 kW/phase
               • resume when singleVoltageAvg >= 3.45 V
+            add PCS temperature safety cap:
+              • if pcs_v3 temp ≥ 83°C → snapshot (|kW|+|kVAr|) total as hard cap;
+                no step may exceed that total going forward
             add MQTT publisher for command topic:
               stsc/aems/cabinet/26022703840003/multi/operate/tx
             runs as daemon (loop_forever) in experiment mode
@@ -22,6 +25,11 @@ SITE: Baoyuan Industrial (诸暨市葆元实业有限公司)
               set_reactive_power: {"cabinetId":..., "index":1, "key":"set_reactive_power",
                 "params":{"reactivePowerA":X,"reactivePowerB":X,"reactivePowerC":X},"remote":true}
               set_active_power key assumed for charging (unverified — confirm before BMS test)
+            EXPERIMENT STUDY DESIGN:
+              Input  (1): HyESys H125 kVAr injection (Feeder 2)
+              Outputs (3): CapBank1 current response
+                           CapBank2 current response
+                           Main Grid meter (provided by Baoyuan after experiment)
 
 ACTION MODES:
   • "kvar_sweep_experiment" — automated sweep; runs as daemon
@@ -159,17 +167,22 @@ def build_state(record: dict) -> State:
 # ─────────────────────────────────────────════
 class ExperimentController:
     """
-    Runs the kVAr sweep experiment: 0 → 129 kVAr in +0.5 kVAr steps, 1 hour per step.
-
+    Runs the kVAr sweep experiment: 0 → 120 kVAr in +1.0 kVAr steps, 1 hour per step.
     State is persisted in experiment_log (DB) — safe to stop and resume.
+
+    Study design:
+      Input  (1): HyESys H125 kVAr injection at Feeder 2
+      Outputs (3): CapBank1 phase currents, CapBank2 phase currents,
+                   Main Grid meter (imported after experiment via import_maingrid.py)
 
     BMS safety rules:
       singleVoltageAvg > 3.45 V  →  kW must be 0; kVAr continues normally
-      singleVoltageAvg < 3.2  V  →  pause, charge -10 kW/phase until ≥ 3.45 V then resume
-      3.2 ≤ V ≤ 3.45            →  normal operation (kW=0 maintained as default)
+      singleVoltageAvg < 3.20 V  →  pause step, charge −10 kW/phase until ≥ 3.45 V then resume
+      3.20 ≤ V ≤ 3.45            →  normal operation (kW=0 as default)
 
-    ⚠ MQTT command payload format below is assumed (Pa/Pb/Pc/Qa/Qb/Qc).
-    ⚠ Verify against the actual HyESys command interface before first run.
+    PCS temperature cap:
+      If pcs_v3 temperature ≥ 83°C, snapshot |kW_total| + |kVAr_total| as a hard cap.
+      No subsequent step may push (kW + kVAr) total above that cap.
     """
 
     STATUS_RUNNING          = "RUNNING"
@@ -193,19 +206,46 @@ class ExperimentController:
                             "stsc/aems/cabinet/26022703840003/multi/operate/tx")
         self.device_id   = mqtt_cfg.get("device_id",  "26022703840003")
         self.cmd_index   = int(mqtt_cfg.get("index",  1))
+        # PCS temperature cap — set once when temp first crosses 83°C
+        self.temp_cap_threshold:   float       = 83.0
+        self.temp_cap_total_kvar:  float | None = None
 
     # ── tick: called every tick_interval_seconds ──────────────────────
     def tick(self) -> None:
-        bms_voltage = self._latest_bms_voltage()
-        step        = self._active_step()
+        bms_voltage  = self._latest_bms_voltage()
+        hyesys_state = self._latest_hyesys_state()
 
-        # ── All steps complete ────────────────────────────────────────
+        # ── PCS temperature cap: snapshot on first breach of 83°C ────
+        if (hyesys_state is not None and
+                hyesys_state["temp_C"] >= self.temp_cap_threshold and
+                self.temp_cap_total_kvar is None):
+            cap = round(abs(hyesys_state["kW"]) + abs(hyesys_state["kVAr"]), 2)
+            self.temp_cap_total_kvar = cap
+            log.warning(
+                "[EXP] PCS temp %.1f°C ≥ %.0f°C — capping kW+kVAr total at %.2f "
+                "(kW=%.2f  kVAr=%.2f)",
+                hyesys_state["temp_C"], self.temp_cap_threshold, cap,
+                abs(hyesys_state["kW"]), abs(hyesys_state["kVAr"]),
+            )
+
+        step = self._active_step()
+
+        # ── All steps complete (or temp cap reached) ──────────────────
         if step is None:
-            next_num = self._next_step_number()
+            next_num  = self._next_step_number()
             next_kvar = round(next_num * self.increment, 3)
             if next_kvar > self.max_kvar:
-                log.info("[EXP] Experiment %s COMPLETE — all %d steps done.", self.exp_id, next_num - 1)
-                self._issue_command(0.0, 0.0)  # zero out on completion
+                log.info("[EXP] Experiment %s COMPLETE — all %d steps done.",
+                         self.exp_id, next_num - 1)
+                self._issue_command(0.0, 0.0)
+                return
+            if self.temp_cap_total_kvar is not None and next_kvar > self.temp_cap_total_kvar:
+                log.info(
+                    "[EXP] Temp cap active (%.2f kVAr). Next step %.2f kVAr would exceed cap — "
+                    "experiment stopping.",
+                    self.temp_cap_total_kvar, next_kvar,
+                )
+                self._issue_command(0.0, 0.0)
                 return
             step = self._create_step(next_num, next_kvar)
             log.info("[EXP] Starting step %d → %.1f kVAr total (%.2f/phase)",
@@ -232,15 +272,11 @@ class ExperimentController:
                 log.info("[EXP] BMS voltage %.3f V ≥ %.2f V — RESUMING step %d",
                          bms_voltage or 0, self.bms_high, step["step_number"])
             else:
-                # Still charging — keep charging command
                 self._issue_command(self.charge_kw, target_kvar_per_phase)
                 return
 
-        # ── BMS: high voltage → kW must be 0 (kVAr continues) ───────
-        if bms_voltage is not None and bms_voltage > self.bms_high:
-            kw_cmd = 0.0
-        else:
-            kw_cmd = 0.0  # default: kW always 0 during injection experiment
+        # ── kW always 0 during injection (unless charging above) ─────
+        kw_cmd = 0.0
 
         # ── Issue active injection command ────────────────────────────
         self._issue_command(kw_cmd, target_kvar_per_phase)
@@ -300,6 +336,16 @@ class ExperimentController:
             "SELECT single_voltage_avg FROM bms_log ORDER BY timestamp DESC LIMIT 1"
         ).fetchone()
         return float(row[0]) if row and row[0] is not None else None
+
+    def _latest_hyesys_state(self) -> dict | None:
+        row = self.conn.execute(
+            """SELECT kW, kVAr, temp_C FROM meter_records
+               WHERE site_id='BAOYUAN-HYESYS' AND quality_tag IN ('CLEAN','SUSPECT')
+               ORDER BY timestamp DESC LIMIT 1"""
+        ).fetchone()
+        if row and row[2] is not None:
+            return {"kW": float(row[0] or 0), "kVAr": float(row[1] or 0), "temp_C": float(row[2])}
+        return None
 
     def _active_step(self) -> dict | None:
         row = self.conn.execute(

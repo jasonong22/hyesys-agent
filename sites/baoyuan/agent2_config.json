@@ -14,13 +14,13 @@
   },
   "experiment": {
     "id": "sweep_001",
-    "max_kVAr_total": 129.0,
-    "step_increment_kVAr": 0.5,
+    "max_kVAr_total": 120.0,
+    "step_increment_kVAr": 1.0,
     "step_duration_hours": 1.0,
     "bms_high_threshold_V": 3.45,
     "bms_low_threshold_V": 3.2,
     "charge_kW_per_phase": -10.0,
-    "tick_interval_seconds": 60
+    "tick_interval_seconds": 30
   },
   "mqtt_command": {
     "broker_host": "loragw.advastech.com",

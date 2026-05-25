@@ -14,6 +14,7 @@ SITE: Baoyuan Industrial (诸暨市葆元实业有限公司)
 ── SITE CHANGELOG (changes from master) ─────────────────────────────
 2026-05-24  initial copy from master v1.0
 2026-05-25  add HyESys H125 MQTT subscription (stsc/aems/message/26022703840003)
+            remove all-zero CapBank current SUSPECT rule (zero is valid: cap bank offline/load=0)
             add bms_log, experiment_log, maingrid_history DB tables
             add parse_hyesys_message() — dispatches on 'type' field
               pcs_v3: full electrical readings (kW/kVAr/V/A/PF/temp/per-phase)
@@ -366,18 +367,15 @@ def parse_hyesys_message(raw: dict, topic: str) -> list[dict]:
 # AGENT 1 — VALIDATION RULES
 # ─────────────────────────────────────────────
 def validate_capbank(rec: dict) -> tuple[str, str | None]:
-    zero_thresh  = AGENT1_CFG.get("zero_current_threshold_A", 1.0)
     imbal_thresh = AGENT1_CFG.get("imbalance_threshold_pct", 0.10)
 
     ia, ib, ic = rec["Ia"], rec["Ib"], rec["Ic"]
     currents   = [ia, ib, ic]
 
-    if not any(c > zero_thresh for c in currents):
-        return "SUSPECT", "all-zero current — meter dropout or cap bank offline"
-
-    i_max = max(currents)
-    i_min = min(c for c in currents if c > 0)
-    if i_max > 0 and (i_max - i_min) / i_max > imbal_thresh:
+    # All-zero current is valid (cap bank switched off or load is zero)
+    i_max     = max(currents)
+    positives = [c for c in currents if c > 0]
+    if i_max > 0 and positives and (i_max - min(positives)) / i_max > imbal_thresh:
         return "SUSPECT", f"phase imbalance >10% (Ia={ia:.1f} Ib={ib:.1f} Ic={ic:.1f})"
 
     return "CLEAN", None

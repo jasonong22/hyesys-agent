@@ -30,8 +30,8 @@ METER TYPE OVERRIDE — CapBank current-only instruments:
   • Validation uses current-only rules for CapBank site_ids
 
 PAYLOAD FORMAT NOTE (stsc/aems/message/<id>):
-  ⚠ Field names below are assumed from 30apr-6may Excel column mapping.
-  ⚠ Verify against a live MQTT sample and update HYESYS_FIELD_MAP if needed.
+  All data is nested under raw["data"]; timestamp is reportTimeTs in milliseconds.
+  Field names confirmed from live MQTT capture 2026-05-25.
 ──────────────────────────────────────────────────────────────────────
 
 Run: python sites/baoyuan/agent1.py
@@ -80,29 +80,12 @@ DEVICE_TO_SITE: dict[str, str] = {
 
 DB_PATH = Path(__file__).parent / "data" / "baoyuan.db"
 
-# ── pcs_v3 field map: MQTT key → internal name ────────────────────────
-# ⚠ Verify these field names against a real MQTT sample from the broker.
-HYESYS_FIELD_MAP = {
-    "P":         "kW",           # total active power (kW)
-    "Q":         "kVAr",         # total reactive power (kVAr)
-    "S":         "kVA",          # total apparent power (kVA)
-    "PF":        "PF",           # total power factor
-    "Ia":        "Ia",           # phase A current (A)
-    "Ib":        "Ib",           # phase B current (A)
-    "Ic":        "Ic",           # phase C current (A)
-    "Ua":        "Ua",           # phase A voltage (V)
-    "Ub":        "Ub",           # phase B voltage (V)
-    "Uc":        "Uc",           # phase C voltage (V)
-    "Pa":        "kW_A",         # phase A active power (kW)
-    "Pb":        "kW_B",         # phase B active power (kW)
-    "Pc":        "kW_C",         # phase C active power (kW)
-    "Qa":        "kVAr_A",       # phase A reactive power (kVAr)
-    "Qb":        "kVAr_B",       # phase B reactive power (kVAr)
-    "Qc":        "kVAr_C",       # phase C reactive power (kVAr)
-    "3PAmpimb":  "amp_imb_pct",  # 3-phase amp imbalance (%)
-    "Fr":        "frequency_Hz", # grid frequency (Hz)
-    "T":         "temp_C",       # temperature (°C)
-}
+# pcs_v3 confirmed field names (verified from live MQTT capture 2026-05-25)
+# All data is nested under raw["data"]; timestamp is reportTimeTs in milliseconds.
+# pcs_v3: voltageA/B/C, currentA/B/C, hz, activePowerTotal, reactivePowerTotal,
+#         apparentPowerTotal, powerFactorTotal, reactivePowerA/B/C, activePowerA/B/C,
+#         temperature, inputPower, inputVoltage, inputCurrent
+# bms:    singleVoltageAvg, soc, soh, voltage, current, tempMain, singleVoltageMax/Min
 
 logging.basicConfig(
     level=logging.INFO,
@@ -322,49 +305,57 @@ def parse_hyesys_message(raw: dict, topic: str) -> list[dict]:
     Each message has a 'type' field; we handle 'bms' and 'pcs_v3' only.
     Returns a list of parsed records (empty list if type is ignored).
 
-    ⚠ Field names in HYESYS_FIELD_MAP are assumed from the 30apr-6may Excel
-    ⚠ column mapping. Verify against a live broker sample and update the map.
+    All data fields are nested under raw["data"].
+    Timestamp is raw["reportTimeTs"] in milliseconds.
+    Field names confirmed from live MQTT capture 2026-05-25.
     """
-    sendtime = raw.get("sendtime") or raw.get("timestamp", 0)
+    ts_ms = raw.get("reportTimeTs", 0)
     try:
-        ts = datetime.fromtimestamp(int(sendtime), tz=timezone.utc).isoformat()
+        ts = datetime.fromtimestamp(int(ts_ms) / 1000, tz=timezone.utc).isoformat()
     except (OSError, OverflowError, ValueError, TypeError):
         ts = datetime.now(timezone.utc).isoformat()
 
     msg_type = str(raw.get("type", "")).lower()
+    d = raw.get("data", {})
 
     if msg_type == "bms":
         return [{"_record_type": "bms", "timestamp": ts, "raw": raw}]
 
     if msg_type == "pcs_v3":
-        # Map MQTT field names to internal names
-        ua = float(raw.get("Ua", 0) or 0)
-        ub = float(raw.get("Ub", 0) or 0)
-        uc = float(raw.get("Uc", 0) or 0)
-        voltages = [v for v in [ua, ub, uc] if v > 0]
+        va = float(d.get("voltageA", 0) or 0)
+        vb = float(d.get("voltageB", 0) or 0)
+        vc = float(d.get("voltageC", 0) or 0)
+        voltages  = [v for v in [va, vb, vc] if v > 0]
         voltage_V = sum(voltages) / len(voltages) if voltages else 0.0
+
+        ia = float(d.get("currentA", 0) or 0)
+        ib = float(d.get("currentB", 0) or 0)
+        ic = float(d.get("currentC", 0) or 0)
+        i_max = max(ia, ib, ic)
+        i_min = min(c for c in [ia, ib, ic] if c > 0) if any(c > 0 for c in [ia, ib, ic]) else 0.0
+        amp_imbalance = round((i_max - i_min) / i_max, 4) if i_max > 0 else 0.0
 
         rec = {
             "_record_type": "pcs_v3",
             "site_id":           "BAOYUAN-HYESYS",
             "timestamp":         ts,
-            "kW":                float(raw.get("P",        0) or 0),
-            "kVAr":              float(raw.get("Q",        0) or 0),
-            "PF":                float(raw.get("PF",       0) or 0),
+            "kW":                float(d.get("activePowerTotal",   0) or 0),
+            "kVAr":              float(d.get("reactivePowerTotal", 0) or 0),
+            "PF":                float(d.get("powerFactorTotal",   0) or 0),
             "voltage_V":         round(voltage_V, 2),
-            "kVA":               float(raw.get("S",        0) or 0),
-            "Ia":                float(raw.get("Ia",       0) or 0),
-            "Ib":                float(raw.get("Ib",       0) or 0),
-            "Ic":                float(raw.get("Ic",       0) or 0),
-            "frequency_Hz":      float(raw.get("Fr",       0) or 0),
-            "temp_C":            float(raw.get("T",        0) or 0),
-            "kVAr_A":            float(raw.get("Qa",       0) or 0),
-            "kVAr_B":            float(raw.get("Qb",       0) or 0),
-            "kVAr_C":            float(raw.get("Qc",       0) or 0),
-            "kW_A":              float(raw.get("Pa",       0) or 0),
-            "kW_B":              float(raw.get("Pb",       0) or 0),
-            "kW_C":              float(raw.get("Pc",       0) or 0),
-            "amp_imbalance_pct": float(raw.get("3PAmpimb", 0) or 0),
+            "kVA":               float(d.get("apparentPowerTotal", 0) or 0),
+            "Ia":                ia,
+            "Ib":                ib,
+            "Ic":                ic,
+            "frequency_Hz":      float(d.get("hz",          0) or 0),
+            "temp_C":            float(d.get("temperature", 0) or 0),
+            "kVAr_A":            float(d.get("reactivePowerA", 0) or 0),
+            "kVAr_B":            float(d.get("reactivePowerB", 0) or 0),
+            "kVAr_C":            float(d.get("reactivePowerC", 0) or 0),
+            "kW_A":              float(d.get("activePowerA",  0) or 0),
+            "kW_B":              float(d.get("activePowerB",  0) or 0),
+            "kW_C":              float(d.get("activePowerC",  0) or 0),
+            "amp_imbalance_pct": amp_imbalance,
         }
         return [rec]
 
@@ -442,7 +433,8 @@ def write_record(conn: sqlite3.Connection, rec: dict, tag: str, reason: str | No
 
 def write_bms_record(conn: sqlite3.Connection, ts: str, raw: dict) -> None:
     now  = datetime.now(timezone.utc).isoformat()
-    svav = float(raw.get("singleVoltageAvg", 0) or 0)
+    d    = raw.get("data", {})
+    svav = float(d.get("singleVoltageAvg", 0) or 0)
     try:
         conn.execute(
             "INSERT INTO bms_log (timestamp, single_voltage_avg, raw_json, ingested_at) VALUES (?, ?, ?, ?)",
@@ -514,7 +506,7 @@ def on_message(client, userdata, msg):
             rtype = rec.get("_record_type")
 
             if rtype == "bms":
-                svav = rec["raw"].get("singleVoltageAvg", "?")
+                svav = rec["raw"].get("data", {}).get("singleVoltageAvg", "?")
                 log.info(
                     "[BMS] #%d %s | singleVoltageAvg=%s V",
                     msg_count, rec["timestamp"], svav,

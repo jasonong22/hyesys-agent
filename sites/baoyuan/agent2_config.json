@@ -28,9 +28,7 @@
     "username": "TYKJadmin",
     "password": "TYKJ2018.",
     "topic": "stsc/aems/cabinet/26022703840003/multi/operate/tx",
-    "payload_fields": {
-      "Pa": "Pa", "Pb": "Pb", "Pc": "Pc",
-      "Qa": "Qa", "Qb": "Qb", "Qc": "Qc"
-    }
+    "device_id": "26022703840003",
+    "index": 1
   }
 }

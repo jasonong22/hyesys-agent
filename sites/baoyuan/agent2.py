@@ -18,8 +18,10 @@ SITE: Baoyuan Industrial (诸暨市葆元实业有限公司)
             add MQTT publisher for command topic:
               stsc/aems/cabinet/26022703840003/multi/operate/tx
             runs as daemon (loop_forever) in experiment mode
-            ⚠ MQTT command payload format: Pa/Pb/Pc/Qa/Qb/Qc (per-phase kW/kVAr)
-              VERIFY THIS FORMAT against actual HyESys command interface
+            MQTT command payload confirmed 2026-05-25:
+              set_reactive_power: {"cabinetId":..., "index":1, "key":"set_reactive_power",
+                "params":{"reactivePowerA":X,"reactivePowerB":X,"reactivePowerC":X},"remote":true}
+              set_active_power key assumed for charging (unverified — confirm before BMS test)
 
 ACTION MODES:
   • "kvar_sweep_experiment" — automated sweep; runs as daemon
@@ -189,9 +191,8 @@ class ExperimentController:
         mqtt_cfg         = cfg.get("mqtt_command", {})
         self.cmd_topic   = mqtt_cfg.get("topic",
                             "stsc/aems/cabinet/26022703840003/multi/operate/tx")
-        self.payload_fld = mqtt_cfg.get("payload_fields",
-                            {"Pa": "Pa", "Pb": "Pb", "Pc": "Pc",
-                             "Qa": "Qa", "Qb": "Qb", "Qc": "Qc"})
+        self.device_id   = mqtt_cfg.get("device_id",  "26022703840003")
+        self.cmd_index   = int(mqtt_cfg.get("index",  1))
 
     # ── tick: called every tick_interval_seconds ──────────────────────
     def tick(self) -> None:
@@ -254,26 +255,44 @@ class ExperimentController:
     # ── MQTT command ──────────────────────────────────────────────────
     def _issue_command(self, kw_per_phase: float, kvar_per_phase: float) -> None:
         """
-        Publish kW and kVAr setpoints to HyESys via MQTT.
-
-        ⚠ Payload format assumed: {Pa, Pb, Pc, Qa, Qb, Qc} (per-phase kW/kVAr).
-        ⚠ Verify field names against HyESys STSC command documentation
-          and update mqtt_command.payload_fields in agent2_config.json.
+        Publish setpoints to HyESys via MQTT.
+        set_reactive_power format confirmed from live broker capture 2026-05-25.
+        set_active_power key is assumed for charging — verify before BMS test.
         """
-        f  = self.payload_fld
-        payload = {
-            f["Pa"]: round(kw_per_phase,   3),
-            f["Pb"]: round(kw_per_phase,   3),
-            f["Pc"]: round(kw_per_phase,   3),
-            f["Qa"]: round(kvar_per_phase, 3),
-            f["Qb"]: round(kvar_per_phase, 3),
-            f["Qc"]: round(kvar_per_phase, 3),
+        base = {"cabinetId": self.device_id, "index": self.cmd_index, "remote": True}
+
+        kvar_payload = {
+            **base,
+            "key":    "set_reactive_power",
+            "params": {
+                "reactivePowerA": round(kvar_per_phase, 3),
+                "reactivePowerB": round(kvar_per_phase, 3),
+                "reactivePowerC": round(kvar_per_phase, 3),
+            },
         }
         try:
-            self.mqtt.publish(self.cmd_topic, json.dumps(payload), qos=1)
-            log.debug("[CMD] → %s  %s", self.cmd_topic, payload)
+            self.mqtt.publish(self.cmd_topic, json.dumps(kvar_payload), qos=1)
+            log.debug("[CMD] kVAr → %.3f/phase", kvar_per_phase)
         except Exception as e:
-            log.error("[CMD] Publish failed: %s", e)
+            log.error("[CMD] kVAr publish failed: %s", e)
+
+        if kw_per_phase != 0.0:
+            # ⚠ "set_active_power" key assumed — verify against HyESys docs before use
+            kw_payload = {
+                **base,
+                "key":    "set_active_power",
+                "params": {
+                    "activePowerA": round(kw_per_phase, 3),
+                    "activePowerB": round(kw_per_phase, 3),
+                    "activePowerC": round(kw_per_phase, 3),
+                },
+            }
+            try:
+                self.mqtt.publish(self.cmd_topic, json.dumps(kw_payload), qos=1)
+                log.warning("[CMD] kW (CHARGING) %.1f/phase  ⚠ set_active_power key unverified",
+                            kw_per_phase)
+            except Exception as e:
+                log.error("[CMD] kW publish failed: %s", e)
 
     # ── DB helpers ────────────────────────────────────────────────────
     def _latest_bms_voltage(self) -> float | None:

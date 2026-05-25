@@ -1,43 +1,37 @@
 """
 ╔══════════════════════════════════════════════════════════════════════╗
 ║  AGENT 1 — BAOYUAN SITE                                             ║
-║  Data Quality & Ingestion — CapBank1 + CapBank2 MQTT meters         ║
+║  Data Quality & Ingestion — CapBank1, CapBank2, HyESys H125         ║
 ║  Copied from: templates/agent1_master.py  v1.0  (2026-05-24)        ║
 ╚══════════════════════════════════════════════════════════════════════╝
 
 SITE: Baoyuan Industrial (诸暨市葆元实业有限公司)
       Monitors: CapBank1 (device 0086040215999997)
                 CapBank2 (device 0086040215999996)
+                HyESys H125 (device 26022703840003)
       HyESys H125 installed at Cabinet A / Feeder 2
 
 ── SITE CHANGELOG (changes from master) ─────────────────────────────
 2026-05-24  initial copy from master v1.0
+2026-05-25  add HyESys H125 MQTT subscription (stsc/aems/message/26022703840003)
+            add bms_log, experiment_log, maingrid_history DB tables
+            add parse_hyesys_message() — dispatches on 'type' field
+              pcs_v3: full electrical readings (kW/kVAr/V/A/PF/temp/per-phase)
+              bms: battery management (singleVoltageAvg is critical safety field)
+            extend meter_records with temp_C, kVAr_A/B/C, kW_A/B/C, amp_imbalance_pct
 
 DATA SOURCE CHANGES (vs master):
   • Live MQTT ingestion (not batch CSV) — paho-mqtt client added
-  • Subscribes to topics hyesys/data/dev/<device_id>
-  • Custom parse_payload() to unpack nested MQTT JSON structure
-  • Timestamp sourced from raw["sendtime"] (Unix seconds → ISO UTC)
-  • Voltage: phase voltages Ua/Ub/Uc preferred; line Uab/Ubc/Uca fallback
+  • CapBank topics: hyesys/data/dev/<device_id>  (current-only meters)
+  • HyESys topic:  stsc/aems/message/26022703840003  (full electrical + BMS)
 
 METER TYPE OVERRIDE — CapBank current-only instruments:
-  • Baoyuan CapBank meters measure Ia/Ib/Ic ONLY
-  • kW, kVAr, PF, voltage_V are always 0 — this is normal; not an anomaly
-  • Master R3 (non-numeric), R4 (voltage≤0), R5 (kW range), R8 (all-zero),
-    R9 (PF saturation), R10 (voltage range) would all misfire here
-  • Replaced entire validate() with current-only logic:
-      NEW rule: SUSPECT if all phase currents ≤ zero_current_threshold_A
-      NEW rule: SUSPECT if phase current imbalance > imbalance_threshold_pct
+  • kW, kVAr, PF, voltage_V always 0 for CapBanks — normal, not a fault
+  • Validation uses current-only rules for CapBank site_ids
 
-PARAMETERS NOT IN MASTER:
-  • zero_current_threshold_A = 1.0  (in agent1_config.json)
-  • imbalance_threshold_pct  = 0.10 (in agent1_config.json)
-  • MQTT broker: loragw.advastech.com:1883
-  • DEVICE_TO_SITE mapping dict
-
-DB SCHEMA ADDITIONS (vs master):
-  • meter_records table extended with Ia, Ib, Ic, frequency_Hz columns
-  • sar_log table added in agent1.py (master puts this in agent2)
+PAYLOAD FORMAT NOTE (stsc/aems/message/<id>):
+  ⚠ Field names below are assumed from 30apr-6may Excel column mapping.
+  ⚠ Verify against a live MQTT sample and update HYESYS_FIELD_MAP if needed.
 ──────────────────────────────────────────────────────────────────────
 
 Run: python sites/baoyuan/agent1.py
@@ -61,8 +55,7 @@ _CONFIG_PATH = Path(__file__).parent / "agent1_config.json"
 
 def _load_config() -> dict:
     if _CONFIG_PATH.exists():
-        import json as _json
-        return _json.loads(_CONFIG_PATH.read_text())
+        return json.loads(_CONFIG_PATH.read_text())
     return {"zero_current_threshold_A": 1.0, "imbalance_threshold_pct": 0.10}
 
 AGENT1_CFG = _load_config()
@@ -74,27 +67,50 @@ MQTT_USERNAME = "TYKJadmin"
 MQTT_PASSWORD = "TYKJ2018."
 
 TOPICS = [
-    ("hyesys/data/dev/0086040215999997", 0),  # CapBank1
-    ("hyesys/data/dev/0086040215999996", 0),  # CapBank2
+    ("hyesys/data/dev/0086040215999997",       0),  # CapBank1
+    ("hyesys/data/dev/0086040215999996",       0),  # CapBank2
+    ("stsc/aems/message/26022703840003",        0),  # HyESys H125
 ]
 
-# Maps device ID (from MQTT topic suffix and data key) → site_id
 DEVICE_TO_SITE: dict[str, str] = {
     "0086040215999997": "BAOYUAN-CAPBANK1",
     "0086040215999996": "BAOYUAN-CAPBANK2",
+    "26022703840003":   "BAOYUAN-HYESYS",
 }
 
 DB_PATH = Path(__file__).parent / "data" / "baoyuan.db"
 
-# ─────────────────────────────────────────────
-# LOGGING
-# ─────────────────────────────────────────────
+# ── pcs_v3 field map: MQTT key → internal name ────────────────────────
+# ⚠ Verify these field names against a real MQTT sample from the broker.
+HYESYS_FIELD_MAP = {
+    "P":         "kW",           # total active power (kW)
+    "Q":         "kVAr",         # total reactive power (kVAr)
+    "S":         "kVA",          # total apparent power (kVA)
+    "PF":        "PF",           # total power factor
+    "Ia":        "Ia",           # phase A current (A)
+    "Ib":        "Ib",           # phase B current (A)
+    "Ic":        "Ic",           # phase C current (A)
+    "Ua":        "Ua",           # phase A voltage (V)
+    "Ub":        "Ub",           # phase B voltage (V)
+    "Uc":        "Uc",           # phase C voltage (V)
+    "Pa":        "kW_A",         # phase A active power (kW)
+    "Pb":        "kW_B",         # phase B active power (kW)
+    "Pc":        "kW_C",         # phase C active power (kW)
+    "Qa":        "kVAr_A",       # phase A reactive power (kVAr)
+    "Qb":        "kVAr_B",       # phase B reactive power (kVAr)
+    "Qc":        "kVAr_C",       # phase C reactive power (kVAr)
+    "3PAmpimb":  "amp_imb_pct",  # 3-phase amp imbalance (%)
+    "Fr":        "frequency_Hz", # grid frequency (Hz)
+    "T":         "temp_C",       # temperature (°C)
+}
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 log = logging.getLogger("baoyuan.agent1")
+
 
 # ─────────────────────────────────────────────
 # DATABASE
@@ -103,29 +119,57 @@ def init_db(db_path: Path) -> sqlite3.Connection:
     db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(db_path), check_same_thread=False)
     conn.execute("PRAGMA journal_mode=WAL")
+
     conn.execute("""
         CREATE TABLE IF NOT EXISTS meter_records (
-            id            INTEGER PRIMARY KEY AUTOINCREMENT,
-            site_id       TEXT NOT NULL,
-            timestamp     TEXT NOT NULL,
-            kW            REAL NOT NULL,
-            kVAr          REAL NOT NULL,
-            PF            REAL NOT NULL,
-            voltage_V     REAL NOT NULL,
-            kVA           REAL,
-            Ia            REAL,
-            Ib            REAL,
-            Ic            REAL,
-            frequency_Hz  REAL,
-            quality_tag   TEXT NOT NULL,
-            reject_reason TEXT,
-            ingested_at   TEXT NOT NULL
+            id               INTEGER PRIMARY KEY AUTOINCREMENT,
+            site_id          TEXT    NOT NULL,
+            timestamp        TEXT    NOT NULL,
+            kW               REAL    NOT NULL,
+            kVAr             REAL    NOT NULL,
+            PF               REAL    NOT NULL,
+            voltage_V        REAL    NOT NULL,
+            kVA              REAL,
+            Ia               REAL,
+            Ib               REAL,
+            Ic               REAL,
+            frequency_Hz     REAL,
+            temp_C           REAL,
+            kVAr_A           REAL,
+            kVAr_B           REAL,
+            kVAr_C           REAL,
+            kW_A             REAL,
+            kW_B             REAL,
+            kW_C             REAL,
+            amp_imbalance_pct REAL,
+            quality_tag      TEXT    NOT NULL,
+            reject_reason    TEXT,
+            ingested_at      TEXT    NOT NULL
         )
     """)
     conn.execute("""
         CREATE UNIQUE INDEX IF NOT EXISTS idx_site_ts
         ON meter_records (site_id, timestamp)
     """)
+
+    # Migrate existing DB: add new columns if they don't exist
+    existing_cols = {row[1] for row in conn.execute("PRAGMA table_info(meter_records)")}
+    for col, coltype in [
+        ("temp_C",            "REAL"),
+        ("kVAr_A",            "REAL"),
+        ("kVAr_B",            "REAL"),
+        ("kVAr_C",            "REAL"),
+        ("kW_A",              "REAL"),
+        ("kW_B",              "REAL"),
+        ("kW_C",              "REAL"),
+        ("amp_imbalance_pct", "REAL"),
+    ]:
+        if col not in existing_cols:
+            try:
+                conn.execute(f"ALTER TABLE meter_records ADD COLUMN {col} {coltype}")
+            except sqlite3.OperationalError:
+                pass
+
     conn.execute("""
         CREATE TABLE IF NOT EXISTS sar_log (
             id              INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -147,22 +191,80 @@ def init_db(db_path: Path) -> sqlite3.Connection:
         CREATE INDEX IF NOT EXISTS idx_sar_site
         ON sar_log (site_id, timestamp)
     """)
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS bms_log (
+            id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp           TEXT    NOT NULL,
+            single_voltage_avg  REAL,
+            raw_json            TEXT,
+            ingested_at         TEXT    NOT NULL
+        )
+    """)
+    conn.execute("""
+        CREATE INDEX IF NOT EXISTS idx_bms_ts ON bms_log (timestamp)
+    """)
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS experiment_log (
+            id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+            experiment_id         TEXT    NOT NULL,
+            step_number           INTEGER NOT NULL,
+            target_kVAr_total     REAL    NOT NULL,
+            target_kVAr_per_phase REAL    NOT NULL,
+            step_started_at       TEXT    NOT NULL,
+            step_completed_at     TEXT,
+            status                TEXT    NOT NULL,
+            hyesys_kVAr_avg       REAL,
+            hyesys_kW_avg         REAL,
+            hyesys_Ia_avg         REAL,
+            hyesys_Ib_avg         REAL,
+            hyesys_Ic_avg         REAL,
+            hyesys_PF_avg         REAL,
+            hyesys_temp_max       REAL,
+            capbank1_Ia_avg       REAL,
+            capbank1_Ib_avg       REAL,
+            capbank1_Ic_avg       REAL,
+            capbank2_Ia_avg       REAL,
+            capbank2_Ib_avg       REAL,
+            capbank2_Ic_avg       REAL,
+            bms_voltage_avg       REAL,
+            pause_count           INTEGER DEFAULT 0,
+            notes                 TEXT
+        )
+    """)
+    conn.execute("""
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_exp_step
+        ON experiment_log (experiment_id, step_number)
+    """)
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS maingrid_history (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp   TEXT    NOT NULL UNIQUE,
+            kW          REAL,
+            kVAr        REAL,
+            PF          REAL,
+            I_A         REAL,
+            I_C         REAL,
+            V_A         REAL,
+            V_C         REAL,
+            kWh         REAL,
+            kW_A        REAL,
+            kW_C        REAL,
+            imported_at TEXT    NOT NULL
+        )
+    """)
+
     conn.commit()
     log.info("Database ready: %s", db_path)
     return conn
 
 
 # ─────────────────────────────────────────────
-# PAYLOAD PARSER
+# CAPBANK PAYLOAD PARSER
 # ─────────────────────────────────────────────
-def parse_payload(raw: dict, topic: str) -> dict | None:
-    """
-    Parse the nested HyESys meter payload format.
-
-    Structure: raw["reported"]["0_5_<device_id>"] = meter fields dict.
-    Voltage: prefer phase voltages (Ua/Ub/Uc); fall back to line voltages / √3.
-    Timestamp: converted from raw["sendtime"] (Unix seconds) to ISO 8601 UTC.
-    """
+def parse_capbank_payload(raw: dict, topic: str) -> dict | None:
     reported = raw.get("reported", {})
     if not reported:
         log.warning("REJECTED [%s] — missing 'reported' key", topic)
@@ -170,16 +272,12 @@ def parse_payload(raw: dict, topic: str) -> dict | None:
 
     data_key = next(iter(reported), None)
     if not data_key:
-        log.warning("REJECTED [%s] — empty 'reported' object", topic)
         return None
 
-    m = reported[data_key]
-
-    # Device ID: strip the '0_5_' routing prefix
+    m         = reported[data_key]
     device_id = data_key.replace("0_5_", "")
     site_id   = DEVICE_TO_SITE.get(device_id, device_id)
 
-    # Voltage — phase voltages preferred, line voltages as fallback
     ua = float(m.get("Ua", 0) or 0)
     ub = float(m.get("Ub", 0) or 0)
     uc = float(m.get("Uc", 0) or 0)
@@ -194,7 +292,6 @@ def parse_payload(raw: dict, topic: str) -> dict | None:
         line_vs = [v / math.sqrt(3) for v in [uab, ubc, uca] if v > 0]
         voltage_V = sum(line_vs) / len(line_vs) if line_vs else 0.0
 
-    # Timestamp from sendtime (Unix seconds → ISO 8601 UTC)
     sendtime = raw.get("sendtime") or raw.get("timestamp", 0)
     try:
         ts = datetime.fromtimestamp(int(sendtime), tz=timezone.utc).isoformat()
@@ -213,46 +310,107 @@ def parse_payload(raw: dict, topic: str) -> dict | None:
         "Ib":           float(m.get("Ib", 0) or 0),
         "Ic":           float(m.get("Ic", 0) or 0),
         "frequency_Hz": float(m.get("Fr", 0) or 0),
-        "state":        str(m.get("state", "")),
     }
+
+
+# ─────────────────────────────────────────────
+# HYESYS PAYLOAD PARSER (stsc/aems/message/...)
+# ─────────────────────────────────────────────
+def parse_hyesys_message(raw: dict, topic: str) -> list[dict]:
+    """
+    Parse STSC AEMS messages from the HyESys H125 device.
+    Each message has a 'type' field; we handle 'bms' and 'pcs_v3' only.
+    Returns a list of parsed records (empty list if type is ignored).
+
+    ⚠ Field names in HYESYS_FIELD_MAP are assumed from the 30apr-6may Excel
+    ⚠ column mapping. Verify against a live broker sample and update the map.
+    """
+    sendtime = raw.get("sendtime") or raw.get("timestamp", 0)
+    try:
+        ts = datetime.fromtimestamp(int(sendtime), tz=timezone.utc).isoformat()
+    except (OSError, OverflowError, ValueError, TypeError):
+        ts = datetime.now(timezone.utc).isoformat()
+
+    msg_type = str(raw.get("type", "")).lower()
+
+    if msg_type == "bms":
+        return [{"_record_type": "bms", "timestamp": ts, "raw": raw}]
+
+    if msg_type == "pcs_v3":
+        # Map MQTT field names to internal names
+        ua = float(raw.get("Ua", 0) or 0)
+        ub = float(raw.get("Ub", 0) or 0)
+        uc = float(raw.get("Uc", 0) or 0)
+        voltages = [v for v in [ua, ub, uc] if v > 0]
+        voltage_V = sum(voltages) / len(voltages) if voltages else 0.0
+
+        rec = {
+            "_record_type": "pcs_v3",
+            "site_id":           "BAOYUAN-HYESYS",
+            "timestamp":         ts,
+            "kW":                float(raw.get("P",        0) or 0),
+            "kVAr":              float(raw.get("Q",        0) or 0),
+            "PF":                float(raw.get("PF",       0) or 0),
+            "voltage_V":         round(voltage_V, 2),
+            "kVA":               float(raw.get("S",        0) or 0),
+            "Ia":                float(raw.get("Ia",       0) or 0),
+            "Ib":                float(raw.get("Ib",       0) or 0),
+            "Ic":                float(raw.get("Ic",       0) or 0),
+            "frequency_Hz":      float(raw.get("Fr",       0) or 0),
+            "temp_C":            float(raw.get("T",        0) or 0),
+            "kVAr_A":            float(raw.get("Qa",       0) or 0),
+            "kVAr_B":            float(raw.get("Qb",       0) or 0),
+            "kVAr_C":            float(raw.get("Qc",       0) or 0),
+            "kW_A":              float(raw.get("Pa",       0) or 0),
+            "kW_B":              float(raw.get("Pb",       0) or 0),
+            "kW_C":              float(raw.get("Pc",       0) or 0),
+            "amp_imbalance_pct": float(raw.get("3PAmpimb", 0) or 0),
+        }
+        return [rec]
+
+    return []  # ignore all other types
 
 
 # ─────────────────────────────────────────────
 # AGENT 1 — VALIDATION RULES
 # ─────────────────────────────────────────────
-def validate(rec: dict) -> tuple[str, str | None]:
-    """
-    Tag each record CLEAN / SUSPECT / REJECTED.
-
-    Baoyuan CapBank meters are current-only instruments — Ia/Ib/Ic are the only
-    meaningful fields. Voltage, kW, kVAr, PF will always be 0; this is normal
-    and must not trigger SUSPECT or REJECTED.
-    """
-    zero_thresh    = AGENT1_CFG.get("zero_current_threshold_A", 1.0)
-    imbal_thresh   = AGENT1_CFG.get("imbalance_threshold_pct", 0.10)
+def validate_capbank(rec: dict) -> tuple[str, str | None]:
+    zero_thresh  = AGENT1_CFG.get("zero_current_threshold_A", 1.0)
+    imbal_thresh = AGENT1_CFG.get("imbalance_threshold_pct", 0.10)
 
     ia, ib, ic = rec["Ia"], rec["Ib"], rec["Ic"]
-    currents    = [ia, ib, ic]
-    any_current = any(c > zero_thresh for c in currents)
+    currents   = [ia, ib, ic]
 
-    # ── SUSPECT: no current at all → meter dropout or cap bank offline ──
-    if not any_current:
+    if not any(c > zero_thresh for c in currents):
         return "SUSPECT", "all-zero current — meter dropout or cap bank offline"
 
-    # ── SUSPECT: phase current imbalance above threshold ─────────────────
     i_max = max(currents)
     i_min = min(c for c in currents if c > 0)
     if i_max > 0 and (i_max - i_min) / i_max > imbal_thresh:
-        return "SUSPECT", (
-            f"phase current imbalance >10% "
-            f"(Ia={ia:.1f} Ib={ib:.1f} Ic={ic:.1f})"
-        )
+        return "SUSPECT", f"phase imbalance >10% (Ia={ia:.1f} Ib={ib:.1f} Ic={ic:.1f})"
+
+    return "CLEAN", None
+
+
+def validate_hyesys(rec: dict) -> tuple[str, str | None]:
+    kvar = abs(rec.get("kVAr", 0))
+    temp = rec.get("temp_C", 0)
+    ia   = rec.get("Ia", 0)
+    ib   = rec.get("Ib", 0)
+    ic   = rec.get("Ic", 0)
+
+    if kvar > 135:
+        return "SUSPECT", f"kVAr {kvar:.1f} exceeds H125 rated output (125 kVAr)"
+    if temp > 90:
+        return "SUSPECT", f"temperature {temp:.1f}°C above 90°C warning threshold"
+    if max(ia, ib, ic) < 1.0 and kvar < 1.0:
+        return "SUSPECT", "all currents and kVAr near zero — unit may be offline"
 
     return "CLEAN", None
 
 
 # ─────────────────────────────────────────────
-# DB WRITER
+# DB WRITERS
 # ─────────────────────────────────────────────
 def write_record(conn: sqlite3.Connection, rec: dict, tag: str, reason: str | None) -> None:
     now = datetime.now(timezone.utc).isoformat()
@@ -262,14 +420,18 @@ def write_record(conn: sqlite3.Connection, rec: dict, tag: str, reason: str | No
             INSERT OR IGNORE INTO meter_records
               (site_id, timestamp, kW, kVAr, PF, voltage_V,
                kVA, Ia, Ib, Ic, frequency_Hz,
+               temp_C, kVAr_A, kVAr_B, kVAr_C, kW_A, kW_B, kW_C, amp_imbalance_pct,
                quality_tag, reject_reason, ingested_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
-                rec["site_id"], rec["timestamp"],
-                rec["kW"], rec["kVAr"], rec["PF"], rec["voltage_V"],
-                rec.get("kVA"), rec.get("Ia"), rec.get("Ib"), rec.get("Ic"),
+                rec["site_id"],      rec["timestamp"],
+                rec["kW"],           rec["kVAr"],          rec["PF"],   rec["voltage_V"],
+                rec.get("kVA"),      rec.get("Ia"),         rec.get("Ib"), rec.get("Ic"),
                 rec.get("frequency_Hz"),
+                rec.get("temp_C"),   rec.get("kVAr_A"),    rec.get("kVAr_B"), rec.get("kVAr_C"),
+                rec.get("kW_A"),     rec.get("kW_B"),      rec.get("kW_C"),
+                rec.get("amp_imbalance_pct"),
                 tag, reason, now,
             ),
         )
@@ -278,11 +440,30 @@ def write_record(conn: sqlite3.Connection, rec: dict, tag: str, reason: str | No
         log.error("DB write failed: %s", e)
 
 
+def write_bms_record(conn: sqlite3.Connection, ts: str, raw: dict) -> None:
+    now  = datetime.now(timezone.utc).isoformat()
+    svav = float(raw.get("singleVoltageAvg", 0) or 0)
+    try:
+        conn.execute(
+            "INSERT INTO bms_log (timestamp, single_voltage_avg, raw_json, ingested_at) VALUES (?, ?, ?, ?)",
+            (ts, svav, json.dumps(raw), now),
+        )
+        conn.commit()
+    except sqlite3.Error as e:
+        log.error("BMS write failed: %s", e)
+
+
 # ─────────────────────────────────────────────
 # MQTT CALLBACKS
 # ─────────────────────────────────────────────
 _db_conn: sqlite3.Connection | None = None
 msg_count = 0
+
+CAPBANK_TOPICS = {
+    "hyesys/data/dev/0086040215999997",
+    "hyesys/data/dev/0086040215999996",
+}
+HYESYS_TOPIC = "stsc/aems/message/26022703840003"
 
 
 def on_connect(client, userdata, flags, reason_code, properties):
@@ -302,7 +483,7 @@ def on_disconnect(client, userdata, flags, reason_code, properties):
 def on_message(client, userdata, msg):
     global _db_conn, msg_count
     msg_count += 1
-    topic  = msg.topic
+    topic   = msg.topic
     raw_str = msg.payload.decode("utf-8", errors="replace")
 
     try:
@@ -311,23 +492,47 @@ def on_message(client, userdata, msg):
         log.warning("REJECTED [%s] — invalid JSON: %s", topic, e)
         return
 
-    record = parse_payload(raw, topic)
-    if record is None:
-        return
+    # ── CapBank topics ────────────────────────────────────────────────
+    if topic in CAPBANK_TOPICS:
+        record = parse_capbank_payload(raw, topic)
+        if record is None:
+            return
+        tag, reason = validate_capbank(record)
+        log.info(
+            "[%s] #%d %s | site=%-20s Ia=%6.1f Ib=%6.1f Ic=%6.1f%s",
+            tag, msg_count, record["timestamp"], record["site_id"],
+            record["Ia"], record["Ib"], record["Ic"],
+            f" | {reason}" if reason else "",
+        )
+        if tag != "REJECTED":
+            write_record(_db_conn, record, tag, reason)
 
-    tag, reason = validate(record)
-    log.info(
-        "[%s] #%d %s | site=%-20s kW=%7.3f kVAr=%7.3f PF=%.3f V=%5.1f  Ia=%6.1f Ib=%6.1f Ic=%6.1f%s",
-        tag, msg_count, record["timestamp"], record["site_id"],
-        record["kW"], record["kVAr"], record["PF"], record["voltage_V"],
-        record["Ia"], record["Ib"], record["Ic"],
-        f"  | {reason}" if reason else "",
-    )
+    # ── HyESys H125 topic ─────────────────────────────────────────────
+    elif topic == HYESYS_TOPIC:
+        records = parse_hyesys_message(raw, topic)
+        for rec in records:
+            rtype = rec.get("_record_type")
 
-    if tag == "REJECTED":
-        return
+            if rtype == "bms":
+                svav = rec["raw"].get("singleVoltageAvg", "?")
+                log.info(
+                    "[BMS] #%d %s | singleVoltageAvg=%s V",
+                    msg_count, rec["timestamp"], svav,
+                )
+                write_bms_record(_db_conn, rec["timestamp"], rec["raw"])
 
-    write_record(_db_conn, record, tag, reason)
+            elif rtype == "pcs_v3":
+                tag, reason = validate_hyesys(rec)
+                log.info(
+                    "[%s] #%d %s | HYESYS kW=%7.3f kVAr=%7.3f PF=%6.3f "
+                    "Ia=%6.1f Ib=%6.1f Ic=%6.1f T=%.1f°C%s",
+                    tag, msg_count, rec["timestamp"],
+                    rec["kW"], rec["kVAr"], rec["PF"],
+                    rec["Ia"], rec["Ib"], rec["Ic"], rec.get("temp_C", 0),
+                    f" | {reason}" if reason else "",
+                )
+                if tag != "REJECTED":
+                    write_record(_db_conn, rec, tag, reason)
 
 
 # ─────────────────────────────────────────────

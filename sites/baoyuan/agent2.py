@@ -1,51 +1,39 @@
 """
 ╔══════════════════════════════════════════════════════════════════════╗
 ║  AGENT 2 — BAOYUAN SITE                                             ║
-║  Analysis & Decision Engine                                          ║
+║  Analysis, Decision & Experiment Controller                          ║
 ║  Copied from: templates/agent2_master.py  v1.0  (2026-05-24)        ║
 ╚══════════════════════════════════════════════════════════════════════╝
 
 SITE: Baoyuan Industrial (诸暨市葆元实业有限公司)
-      Site IDs: BAOYUAN-CAPBANK1, BAOYUAN-CAPBANK2
+      Site IDs: BAOYUAN-CAPBANK1, BAOYUAN-CAPBANK2, BAOYUAN-HYESYS
 
 ── SITE CHANGELOG (changes from master) ─────────────────────────────
 2026-05-24  initial copy from master v1.0
+2026-05-25  add kvar_sweep_experiment mode — automated kVAr sweep 0→129 kVAr
+            add ExperimentController — state machine with BMS safety rules:
+              • singleVoltageAvg > 3.45 V → kW forced to 0, kVAr continues
+              • singleVoltageAvg < 3.2 V  → pause experiment, charge -10 kW/phase
+              • resume when singleVoltageAvg >= 3.45 V
+            add MQTT publisher for command topic:
+              stsc/aems/cabinet/26022703840003/multi/operate/tx
+            runs as daemon (loop_forever) in experiment mode
+            ⚠ MQTT command payload format: Pa/Pb/Pc/Qa/Qb/Qc (per-phase kW/kVAr)
+              VERIFY THIS FORMAT against actual HyESys command interface
 
-STATE STRUCT EXTENSION (vs master):
-  • State dataclass extended with Ia, Ib, Ic float fields
-  • Added derived properties: I_avg, I_imbalance_pct
-  • (Master State struct only holds kW, kVAr, PF, voltage_V, solar)
+ACTION MODES:
+  • "kvar_sweep_experiment" — automated sweep; runs as daemon
+  • "current_imbalance_monitor" — passive monitoring; runs as batch
+  • "pf_pi_control" — PI controller; runs as batch
 
-ACTION MODE OVERRIDE — switchable via agent2_config.json:
-  • "current_imbalance_monitor" (DEFAULT) — no injection; monitors phase
-    current imbalance only; logs POSITIVE/NEGATIVE outcomes
-  • "pf_pi_control" — activates standard master PI controller logic
-    (D1–D6) for reactive compensation when H125 is actively injecting
-
-NEW DECISION RULE (not in master):
-  • _decide_monitor(): ACTION_MONITOR with imbalance% as action_kVAr
-    POSITIVE if imbalance ≤ alert_pct; NEGATIVE otherwise
-
-PARAMETERS NOT IN MASTER:
-  • action_mode in agent2_config.json (hot-switchable without restart)
-  • BAOYUAN-specific SITE_CONFIG: solar=False, recommended_model=H125
-  • HYESYS_MODELS defined locally (not imported from core.schema)
-  • ACTION_MONITOR action type added (not in master schema)
-
-REWARD OVERRIDE (monitor mode):
-  • reward_pf_delta always 0.0 in monitor mode (no PF correction active)
-  • reward_fraction = 1.0 − I_imbalance_pct (current balance metric)
-
-SAR WRITER:
-  • _write_sar() is inlined (master delegates to core.store.write_sar)
-  • Uses baoyuan.db at sites/baoyuan/data/baoyuan.db
-
-IMPORTS:
-  • Imports compute_reward and tools from agent2/ master module
-  • Does NOT fully re-implement reward logic (reuses master outcome.py)
+EXPERIMENT CONFIG (agent2_config.json → "experiment" block):
+  id, max_kVAr_total, step_increment_kVAr, step_duration_hours,
+  bms_high_threshold_V, bms_low_threshold_V, charge_kW_per_phase,
+  tick_interval_seconds
 ──────────────────────────────────────────────────────────────────────
 
 Run: python sites/baoyuan/agent2.py
+Stop: Ctrl+C  (experiment state is saved in DB — safe to resume)
 """
 
 import json
@@ -53,10 +41,13 @@ import logging
 import math
 import sqlite3
 import sys
+import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
+
+import paho.mqtt.client as mqtt
 
 ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT))
@@ -74,6 +65,9 @@ logging.basicConfig(
 )
 log = logging.getLogger("baoyuan.agent2")
 
+UTC = timezone.utc
+
+
 # ─────────────────────────────────────────────
 # CONFIG
 # ─────────────────────────────────────────────
@@ -87,25 +81,28 @@ def load_config() -> dict:
         "current_imbalance_monitor": {"imbalance_alert_pct": 0.10, "log_observations": True},
     }
 
+
 # ─────────────────────────────────────────────
 # SITE CONFIG
 # ─────────────────────────────────────────────
 SITE_CONFIG = {
     "BAOYUAN-CAPBANK1": {"solar": False, "recommended_model": "H125"},
     "BAOYUAN-CAPBANK2": {"solar": False, "recommended_model": "H125"},
+    "BAOYUAN-HYESYS":   {"solar": False, "recommended_model": "H125"},
 }
 
-HYESYS_MODELS = {"H125": {"kVA": 125}}
-
+HYESYS_MODELS  = {"H125": {"kVA": 125}}
 HISTORY_WINDOW = 16
 
 ACTION_INJECT  = "INJECT"
 ACTION_HOLD    = "HOLD"
 ACTION_REDUCE  = "REDUCE"
 ACTION_MONITOR = "MONITOR"
+ACTION_CHARGE  = "CHARGE"
+
 
 # ─────────────────────────────────────────────
-# STATE — includes current readings for Baoyuan
+# STATE
 # ─────────────────────────────────────────────
 @dataclass
 class State:
@@ -131,8 +128,8 @@ class State:
 
     @property
     def I_imbalance_pct(self) -> float:
-        currents = [self.Ia, self.Ib, self.Ic]
-        i_max = max(currents)
+        currents  = [self.Ia, self.Ib, self.Ic]
+        i_max     = max(currents)
         positives = [c for c in currents if c > 0]
         if not positives or i_max == 0:
             return 0.0
@@ -144,19 +141,279 @@ def build_state(record: dict) -> State:
     return State(
         site_id   = record["site_id"],
         timestamp = record["timestamp"],
-        kW        = float(record.get("kW", 0) or 0),
-        kVAr      = float(record.get("kVAr", 0) or 0),
-        PF        = float(record.get("PF", 0) or 0),
+        kW        = float(record.get("kW",        0) or 0),
+        kVAr      = float(record.get("kVAr",      0) or 0),
+        PF        = float(record.get("PF",        0) or 0),
         voltage_V = float(record.get("voltage_V", 0) or 0),
-        Ia        = float(record.get("Ia", 0) or 0),
-        Ib        = float(record.get("Ib", 0) or 0),
-        Ic        = float(record.get("Ic", 0) or 0),
+        Ia        = float(record.get("Ia",        0) or 0),
+        Ib        = float(record.get("Ib",        0) or 0),
+        Ic        = float(record.get("Ic",        0) or 0),
         solar     = cfg.get("solar", False),
     )
 
 
+# ─────────────────────────────────────────════
+# EXPERIMENT CONTROLLER
+# ─────────────────────────────────────────════
+class ExperimentController:
+    """
+    Runs the kVAr sweep experiment: 0 → 129 kVAr in +0.5 kVAr steps, 1 hour per step.
+
+    State is persisted in experiment_log (DB) — safe to stop and resume.
+
+    BMS safety rules:
+      singleVoltageAvg > 3.45 V  →  kW must be 0; kVAr continues normally
+      singleVoltageAvg < 3.2  V  →  pause, charge -10 kW/phase until ≥ 3.45 V then resume
+      3.2 ≤ V ≤ 3.45            →  normal operation (kW=0 maintained as default)
+
+    ⚠ MQTT command payload format below is assumed (Pa/Pb/Pc/Qa/Qb/Qc).
+    ⚠ Verify against the actual HyESys command interface before first run.
+    """
+
+    STATUS_RUNNING          = "RUNNING"
+    STATUS_COMPLETED        = "COMPLETED"
+    STATUS_PAUSED_CHARGING  = "PAUSED_CHARGING"
+
+    def __init__(self, conn: sqlite3.Connection, mqtt_client: mqtt.Client, cfg: dict):
+        self.conn        = conn
+        self.mqtt        = mqtt_client
+        self.cfg         = cfg
+        exp              = cfg.get("experiment", {})
+        self.exp_id      = exp.get("id", "sweep_001")
+        self.max_kvar    = float(exp.get("max_kVAr_total",      129.0))
+        self.increment   = float(exp.get("step_increment_kVAr",   0.5))
+        self.step_hours  = float(exp.get("step_duration_hours",    1.0))
+        self.bms_high    = float(exp.get("bms_high_threshold_V",  3.45))
+        self.bms_low     = float(exp.get("bms_low_threshold_V",   3.2))
+        self.charge_kw   = float(exp.get("charge_kW_per_phase",  -10.0))
+        mqtt_cfg         = cfg.get("mqtt_command", {})
+        self.cmd_topic   = mqtt_cfg.get("topic",
+                            "stsc/aems/cabinet/26022703840003/multi/operate/tx")
+        self.payload_fld = mqtt_cfg.get("payload_fields",
+                            {"Pa": "Pa", "Pb": "Pb", "Pc": "Pc",
+                             "Qa": "Qa", "Qb": "Qb", "Qc": "Qc"})
+
+    # ── tick: called every tick_interval_seconds ──────────────────────
+    def tick(self) -> None:
+        bms_voltage = self._latest_bms_voltage()
+        step        = self._active_step()
+
+        # ── All steps complete ────────────────────────────────────────
+        if step is None:
+            next_num = self._next_step_number()
+            next_kvar = round(next_num * self.increment, 3)
+            if next_kvar > self.max_kvar:
+                log.info("[EXP] Experiment %s COMPLETE — all %d steps done.", self.exp_id, next_num - 1)
+                self._issue_command(0.0, 0.0)  # zero out on completion
+                return
+            step = self._create_step(next_num, next_kvar)
+            log.info("[EXP] Starting step %d → %.1f kVAr total (%.2f/phase)",
+                     next_num, next_kvar, next_kvar / 3)
+
+        target_kvar_per_phase = step["target_kVAr_per_phase"]
+
+        # ── BMS: low voltage → pause and charge ──────────────────────
+        if bms_voltage is not None and bms_voltage < self.bms_low:
+            if step["status"] != self.STATUS_PAUSED_CHARGING:
+                self._set_step_status(step["id"], self.STATUS_PAUSED_CHARGING)
+                self._increment_pause_count(step["id"])
+                log.warning(
+                    "[EXP] BMS voltage %.3f V < %.2f V — PAUSING step %d, charging at %.0f kW/phase",
+                    bms_voltage, self.bms_low, step["step_number"], self.charge_kw,
+                )
+            self._issue_command(self.charge_kw, target_kvar_per_phase)
+            return
+
+        # ── BMS: was paused, now recovered ───────────────────────────
+        if step["status"] == self.STATUS_PAUSED_CHARGING:
+            if bms_voltage is None or bms_voltage >= self.bms_high:
+                self._set_step_status(step["id"], self.STATUS_RUNNING)
+                log.info("[EXP] BMS voltage %.3f V ≥ %.2f V — RESUMING step %d",
+                         bms_voltage or 0, self.bms_high, step["step_number"])
+            else:
+                # Still charging — keep charging command
+                self._issue_command(self.charge_kw, target_kvar_per_phase)
+                return
+
+        # ── BMS: high voltage → kW must be 0 (kVAr continues) ───────
+        if bms_voltage is not None and bms_voltage > self.bms_high:
+            kw_cmd = 0.0
+        else:
+            kw_cmd = 0.0  # default: kW always 0 during injection experiment
+
+        # ── Issue active injection command ────────────────────────────
+        self._issue_command(kw_cmd, target_kvar_per_phase)
+
+        # ── Check if step duration has elapsed ───────────────────────
+        elapsed_h = self._elapsed_hours(step["step_started_at"])
+        if elapsed_h >= self.step_hours:
+            self._complete_step(step)
+            log.info("[EXP] Step %d COMPLETE (%.2f h elapsed). Advancing.",
+                     step["step_number"], elapsed_h)
+
+    # ── MQTT command ──────────────────────────────────────────────────
+    def _issue_command(self, kw_per_phase: float, kvar_per_phase: float) -> None:
+        """
+        Publish kW and kVAr setpoints to HyESys via MQTT.
+
+        ⚠ Payload format assumed: {Pa, Pb, Pc, Qa, Qb, Qc} (per-phase kW/kVAr).
+        ⚠ Verify field names against HyESys STSC command documentation
+          and update mqtt_command.payload_fields in agent2_config.json.
+        """
+        f  = self.payload_fld
+        payload = {
+            f["Pa"]: round(kw_per_phase,   3),
+            f["Pb"]: round(kw_per_phase,   3),
+            f["Pc"]: round(kw_per_phase,   3),
+            f["Qa"]: round(kvar_per_phase, 3),
+            f["Qb"]: round(kvar_per_phase, 3),
+            f["Qc"]: round(kvar_per_phase, 3),
+        }
+        try:
+            self.mqtt.publish(self.cmd_topic, json.dumps(payload), qos=1)
+            log.debug("[CMD] → %s  %s", self.cmd_topic, payload)
+        except Exception as e:
+            log.error("[CMD] Publish failed: %s", e)
+
+    # ── DB helpers ────────────────────────────────────────────────────
+    def _latest_bms_voltage(self) -> float | None:
+        row = self.conn.execute(
+            "SELECT single_voltage_avg FROM bms_log ORDER BY timestamp DESC LIMIT 1"
+        ).fetchone()
+        return float(row[0]) if row and row[0] is not None else None
+
+    def _active_step(self) -> dict | None:
+        row = self.conn.execute(
+            """SELECT id, step_number, target_kVAr_total, target_kVAr_per_phase,
+                      step_started_at, status
+               FROM experiment_log
+               WHERE experiment_id=? AND status IN (?,?)
+               ORDER BY step_number DESC LIMIT 1""",
+            (self.exp_id, self.STATUS_RUNNING, self.STATUS_PAUSED_CHARGING),
+        ).fetchone()
+        if row:
+            return {
+                "id":                    row[0],
+                "step_number":           row[1],
+                "target_kVAr_total":     row[2],
+                "target_kVAr_per_phase": row[3],
+                "step_started_at":       row[4],
+                "status":                row[5],
+            }
+        return None
+
+    def _next_step_number(self) -> int:
+        row = self.conn.execute(
+            "SELECT MAX(step_number) FROM experiment_log WHERE experiment_id=?",
+            (self.exp_id,),
+        ).fetchone()
+        return (row[0] or 0) + 1
+
+    def _create_step(self, step_number: int, kvar_total: float) -> dict:
+        now = datetime.now(UTC).isoformat()
+        kvar_per_phase = round(kvar_total / 3, 4)
+        self.conn.execute(
+            """INSERT OR IGNORE INTO experiment_log
+               (experiment_id, step_number, target_kVAr_total, target_kVAr_per_phase,
+                step_started_at, status)
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            (self.exp_id, step_number, kvar_total, kvar_per_phase, now, self.STATUS_RUNNING),
+        )
+        self.conn.commit()
+        return {
+            "id":                    self.conn.execute("SELECT last_insert_rowid()").fetchone()[0],
+            "step_number":           step_number,
+            "target_kVAr_total":     kvar_total,
+            "target_kVAr_per_phase": kvar_per_phase,
+            "step_started_at":       now,
+            "status":                self.STATUS_RUNNING,
+        }
+
+    def _complete_step(self, step: dict) -> None:
+        now   = datetime.now(UTC).isoformat()
+        start = step["step_started_at"]
+
+        def avg_col(site, col):
+            row = self.conn.execute(
+                f"SELECT AVG({col}) FROM meter_records "
+                f"WHERE site_id=? AND quality_tag IN ('CLEAN','SUSPECT') "
+                f"AND timestamp BETWEEN ? AND ?",
+                (site, start, now),
+            ).fetchone()
+            return round(row[0], 4) if row and row[0] is not None else None
+
+        def max_col(site, col):
+            row = self.conn.execute(
+                f"SELECT MAX({col}) FROM meter_records "
+                f"WHERE site_id=? AND quality_tag IN ('CLEAN','SUSPECT') "
+                f"AND timestamp BETWEEN ? AND ?",
+                (site, start, now),
+            ).fetchone()
+            return round(row[0], 4) if row and row[0] is not None else None
+
+        self.conn.execute(
+            """UPDATE experiment_log SET
+               status='COMPLETED', step_completed_at=?,
+               hyesys_kVAr_avg=?, hyesys_kW_avg=?,
+               hyesys_Ia_avg=?, hyesys_Ib_avg=?, hyesys_Ic_avg=?, hyesys_PF_avg=?,
+               hyesys_temp_max=?,
+               capbank1_Ia_avg=?, capbank1_Ib_avg=?, capbank1_Ic_avg=?,
+               capbank2_Ia_avg=?, capbank2_Ib_avg=?, capbank2_Ic_avg=?,
+               bms_voltage_avg=?
+               WHERE id=?""",
+            (
+                now,
+                avg_col("BAOYUAN-HYESYS",   "kVAr"),
+                avg_col("BAOYUAN-HYESYS",   "kW"),
+                avg_col("BAOYUAN-HYESYS",   "Ia"),
+                avg_col("BAOYUAN-HYESYS",   "Ib"),
+                avg_col("BAOYUAN-HYESYS",   "Ic"),
+                avg_col("BAOYUAN-HYESYS",   "PF"),
+                max_col("BAOYUAN-HYESYS",   "temp_C"),
+                avg_col("BAOYUAN-CAPBANK1", "Ia"),
+                avg_col("BAOYUAN-CAPBANK1", "Ib"),
+                avg_col("BAOYUAN-CAPBANK1", "Ic"),
+                avg_col("BAOYUAN-CAPBANK2", "Ia"),
+                avg_col("BAOYUAN-CAPBANK2", "Ib"),
+                avg_col("BAOYUAN-CAPBANK2", "Ic"),
+                self._avg_bms_voltage(start, now),
+                step["id"],
+            ),
+        )
+        self.conn.commit()
+
+    def _avg_bms_voltage(self, start: str, end: str) -> float | None:
+        row = self.conn.execute(
+            "SELECT AVG(single_voltage_avg) FROM bms_log WHERE timestamp BETWEEN ? AND ?",
+            (start, end),
+        ).fetchone()
+        return round(row[0], 4) if row and row[0] is not None else None
+
+    def _set_step_status(self, row_id: int, status: str) -> None:
+        self.conn.execute(
+            "UPDATE experiment_log SET status=? WHERE id=?", (status, row_id)
+        )
+        self.conn.commit()
+
+    def _increment_pause_count(self, row_id: int) -> None:
+        self.conn.execute(
+            "UPDATE experiment_log SET pause_count = pause_count + 1 WHERE id=?", (row_id,)
+        )
+        self.conn.commit()
+
+    @staticmethod
+    def _elapsed_hours(started_at: str) -> float:
+        try:
+            start = datetime.fromisoformat(started_at)
+            if start.tzinfo is None:
+                start = start.replace(tzinfo=UTC)
+            return (datetime.now(UTC) - start).total_seconds() / 3600
+        except Exception:
+            return 0.0
+
+
 # ─────────────────────────────────────────────
-# BAOYUAN AGENT 2
+# BAOYUAN AGENT 2 (batch modes)
 # ─────────────────────────────────────────────
 class BaoyuanAgent2:
 
@@ -204,7 +461,6 @@ class BaoyuanAgent2:
     def process_batch(self, states: list[State]) -> list[dict]:
         return [self.process(s) for s in states]
 
-    # ── current_imbalance_monitor mode ────────────────────────────────────
     def _decide_monitor(self, state: State) -> tuple[str, float | None, str]:
         alert_pct = self.cfg.get("current_imbalance_monitor", {}).get("imbalance_alert_pct", 0.10)
         imbal     = state.I_imbalance_pct
@@ -215,17 +471,15 @@ class BaoyuanAgent2:
         outcome = "POSITIVE" if imbal <= alert_pct else "NEGATIVE"
         return ACTION_MONITOR, round(imbal * 100, 2), outcome
 
-    # ── pf_pi_control mode ────────────────────────────────────────────────
     def _decide_pi(self, state: State, site_cfg: dict,
                    site_id: str) -> tuple[str, float | None, str]:
-        pi   = self.cfg.get("pi_control", {})
-        k_p  = pi.get("k_p", 1.0)
-        k_i  = pi.get("k_i", 0.5)
-        i_max_v = pi.get("i_max", 20.0)
-        db   = pi.get("deadband", 0.005)
-        dt   = pi.get("dt_hours", 0.25)
-        pf_t = self.cfg.get("pf_target", 0.98)
-
+        pi        = self.cfg.get("pi_control", {})
+        k_p       = pi.get("k_p",       1.0)
+        k_i       = pi.get("k_i",       0.5)
+        i_max_v   = pi.get("i_max",    20.0)
+        db        = pi.get("deadband", 0.005)
+        dt        = pi.get("dt_hours", 0.25)
+        pf_t      = self.cfg.get("pf_target", 0.98)
         model_key = site_cfg.get("recommended_model", "H125")
         model_kva = HYESYS_MODELS.get(model_key, {}).get("kVA", 125)
 
@@ -253,13 +507,11 @@ class BaoyuanAgent2:
         if abs(cmd) < 0.5:
             return ACTION_HOLD, None, "NEUTRAL"
 
-        state_after = self._simulate_after(state, ACTION_INJECT if cmd > 0 else ACTION_REDUCE,
-                                           abs(cmd))
-        reward = compute_reward(state, state_after)
-        action = ACTION_INJECT if cmd > 0 else ACTION_REDUCE
+        state_after = self._simulate_after(state, ACTION_INJECT if cmd > 0 else ACTION_REDUCE, abs(cmd))
+        reward      = compute_reward(state, state_after)
+        action      = ACTION_INJECT if cmd > 0 else ACTION_REDUCE
         return action, round(abs(cmd), 2), reward.outcome
 
-    # ── State Simulator (PI mode only) ────────────────────────────────────
     def _simulate_after(self, state: State, action: str,
                         action_kvar: float | None) -> State:
         if action in (ACTION_INJECT, ACTION_REDUCE) and action_kvar is not None:
@@ -277,9 +529,8 @@ class BaoyuanAgent2:
             voltage_V=state.voltage_V, solar=state.solar,
         )
 
-    # ── SAR Writer ────────────────────────────────────────────────────────
     def _write_sar(self, sar: dict) -> None:
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(UTC).isoformat()
         try:
             self.conn.execute(
                 """
@@ -302,6 +553,33 @@ class BaoyuanAgent2:
 
 
 # ─────────────────────────────────────────────
+# MQTT PUBLISHER (experiment mode only)
+# ─────────────────────────────────────────────
+def _build_mqtt_publisher(cfg: dict) -> mqtt.Client:
+    mc  = cfg.get("mqtt_command", {})
+    pub = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+    pub.username_pw_set(
+        mc.get("username", "TYKJadmin"),
+        mc.get("password", "TYKJ2018."),
+    )
+
+    def on_connect(client, userdata, flags, rc, properties):
+        if rc == 0:
+            log.info("[MQTT-PUB] Connected to broker for command publishing.")
+        else:
+            log.error("[MQTT-PUB] Connection failed: %s", rc)
+
+    pub.on_connect = on_connect
+    pub.connect(
+        mc.get("broker_host", "loragw.advastech.com"),
+        mc.get("broker_port", 1883),
+        60,
+    )
+    pub.loop_start()
+    return pub
+
+
+# ─────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────
 def main():
@@ -309,15 +587,43 @@ def main():
         log.error("baoyuan.db not found — run agent1.py first.")
         return
 
+    cfg  = load_config()
+    mode = cfg.get("action_mode", "current_imbalance_monitor")
     conn = sqlite3.connect(str(DB_PATH), check_same_thread=False)
     conn.row_factory = sqlite3.Row
-    agent = BaoyuanAgent2(conn)
-    cfg   = load_config()
+    log.info("Agent 2 running in mode: %s", mode)
 
-    log.info("Agent 2 running in mode: %s", cfg.get("action_mode"))
+    # ── Experiment daemon mode ────────────────────────────────────────
+    if mode == "kvar_sweep_experiment":
+        exp      = cfg.get("experiment", {})
+        tick_sec = int(exp.get("tick_interval_seconds", 60))
+        pub      = _build_mqtt_publisher(cfg)
+        ctrl     = ExperimentController(conn, pub, cfg)
 
+        log.info("[EXP] Experiment controller starting — ID=%s  max=%.0f kVAr  step=%.1f kVAr  hold=%sh",
+                 ctrl.exp_id, ctrl.max_kvar, ctrl.increment, ctrl.step_hours)
+        log.info("[EXP] Total steps: %d  Estimated duration: %.1f hours",
+                 int(ctrl.max_kvar / ctrl.increment),
+                 int(ctrl.max_kvar / ctrl.increment) * ctrl.step_hours)
+
+        try:
+            while True:
+                ctrl.tick()
+                time.sleep(tick_sec)
+        except KeyboardInterrupt:
+            log.info("[EXP] Stopped. Experiment state saved in DB — safe to resume.")
+        finally:
+            ctrl._issue_command(0.0, 0.0)  # zero out on exit
+            pub.loop_stop()
+            pub.disconnect()
+            conn.close()
+        return
+
+    # ── Batch modes (current_imbalance_monitor / pf_pi_control) ──────
+    agent     = BaoyuanAgent2(conn)
     total_sar = 0
-    for site_id in SITE_CONFIG:
+
+    for site_id in ["BAOYUAN-CAPBANK1", "BAOYUAN-CAPBANK2"]:
         records = conn.execute(
             "SELECT * FROM meter_records WHERE site_id=? AND quality_tag IN ('CLEAN','SUSPECT') ORDER BY timestamp",
             (site_id,),
@@ -333,13 +639,11 @@ def main():
 
         counts = {"POSITIVE": 0, "NEUTRAL": 0, "NEGATIVE": 0}
         for r in results:
-            counts[r.get("outcome", "NEUTRAL")] = counts.get(r.get("outcome", "NEUTRAL"), 0) + 1
+            o = r.get("outcome", "NEUTRAL")
+            counts[o] = counts.get(o, 0) + 1
 
-        log.info(
-            "[%s] %d records → POSITIVE=%d NEUTRAL=%d NEGATIVE=%d",
-            site_id, len(results),
-            counts["POSITIVE"], counts["NEUTRAL"], counts["NEGATIVE"],
-        )
+        log.info("[%s] %d records → POSITIVE=%d NEUTRAL=%d NEGATIVE=%d",
+                 site_id, len(results), counts["POSITIVE"], counts["NEUTRAL"], counts["NEGATIVE"])
 
     log.info("Agent 2 complete. SAR records written: %d", total_sar)
     conn.close()

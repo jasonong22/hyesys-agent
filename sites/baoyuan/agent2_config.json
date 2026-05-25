@@ -1,5 +1,5 @@
 {
-  "action_mode": "current_imbalance_monitor",
+  "action_mode": "kvar_sweep_experiment",
   "pf_target": 0.98,
   "pi_control": {
     "k_p": 1.00,
@@ -11,5 +11,26 @@
   "current_imbalance_monitor": {
     "imbalance_alert_pct": 0.10,
     "log_observations": true
+  },
+  "experiment": {
+    "id": "sweep_001",
+    "max_kVAr_total": 129.0,
+    "step_increment_kVAr": 0.5,
+    "step_duration_hours": 1.0,
+    "bms_high_threshold_V": 3.45,
+    "bms_low_threshold_V": 3.2,
+    "charge_kW_per_phase": -10.0,
+    "tick_interval_seconds": 60
+  },
+  "mqtt_command": {
+    "broker_host": "loragw.advastech.com",
+    "broker_port": 1883,
+    "username": "TYKJadmin",
+    "password": "TYKJ2018.",
+    "topic": "stsc/aems/cabinet/26022703840003/multi/operate/tx",
+    "payload_fields": {
+      "Pa": "Pa", "Pb": "Pb", "Pc": "Pc",
+      "Qa": "Qa", "Qb": "Qb", "Qc": "Qc"
+    }
   }
 }

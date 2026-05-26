@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baoyuan — HyESys Experiment Plan</title>
+  <style>
+    :root {
+      --blue:    #1a6fc4;
+      --blue-lt: #e8f1fb;
+      --green:   #1a8c4e;
+      --green-lt:#e6f5ec;
+      --amber:   #b45a00;
+      --amber-lt:#fff3e0;
+      --red:     #c0392b;
+      --red-lt:  #fdecea;
+      --grey:    #4a5568;
+      --grey-lt: #f7f8fa;
+      --border:  #dce3ee;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 14px;
+      color: #1a202c;
+      background: #f0f4f8;
+      padding: 32px 16px 60px;
+    }
+    .page { max-width: 960px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .header {
+      background: linear-gradient(135deg, #0d3b6e 0%, #1a6fc4 100%);
+      color: #fff;
+      border-radius: 10px;
+      padding: 32px 36px 28px;
+      margin-bottom: 28px;
+    }
+    .header .site-tag {
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      opacity: 0.75; margin-bottom: 6px;
+    }
+    .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .header .subtitle { font-size: 14px; opacity: 0.85; line-height: 1.6; }
+    .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+    .badge {
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 22px;
+      overflow: hidden;
+    }
+    .card-header {
+      background: var(--blue-lt);
+      border-bottom: 1px solid var(--border);
+      padding: 13px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-header .icon {
+      width: 26px; height: 26px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .card-header h2 { font-size: 15px; font-weight: 700; color: var(--blue); }
+    .card-body { padding: 20px 22px; }
+
+    /* ── Section numbers ── */
+    .section-num {
+      display: inline-block;
+      background: var(--blue);
+      color: #fff;
+      font-size: 11px; font-weight: 700;
+      border-radius: 4px;
+      padding: 1px 7px;
+      margin-right: 6px;
+    }
+
+    /* ── Tables ── */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      background: var(--grey-lt);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--grey);
+      white-space: nowrap;
+    }
+    td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    tr:nth-child(even) td { background: var(--grey-lt); }
+
+    /* ── Parameter grid ── */
+    .param-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .param-box {
+      background: var(--grey-lt);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+    .param-box .label { font-size: 11px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+    .param-box .value { font-size: 20px; font-weight: 700; color: var(--blue); }
+    .param-box .unit  { font-size: 12px; color: var(--grey); margin-top: 2px; }
+
+    /* ── Safety boxes ── */
+    .safety-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 600px) { .safety-grid { grid-template-columns: 1fr; } }
+
+    .safety-box {
+      border-radius: 7px;
+      padding: 16px 18px;
+      border-left: 4px solid;
+    }
+    .safety-box.bms  { background: var(--amber-lt); border-color: var(--amber); }
+    .safety-box.temp { background: var(--red-lt);   border-color: var(--red); }
+    .safety-box.phase{ background: var(--blue-lt);  border-color: var(--blue); }
+
+    .safety-box h3 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+    .safety-box.bms  h3 { color: var(--amber); }
+    .safety-box.temp h3 { color: var(--red); }
+    .safety-box.phase h3 { color: var(--blue); }
+    .safety-box ul { padding-left: 16px; }
+    .safety-box li { margin-bottom: 5px; line-height: 1.5; }
+    .safety-box code {
+      background: rgba(0,0,0,0.07);
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-family: 'Consolas', monospace;
+      font-size: 12px;
+    }
+
+    /* ── Timeline / Steps ── */
+    .steps { list-style: none; }
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .step:last-child { margin-bottom: 0; }
+    .step-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px;
+    }
+    .step-content h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .step-content p  { font-size: 13px; color: #4a5568; line-height: 1.6; }
+    .step-content ul { padding-left: 16px; margin-top: 4px; }
+    .step-content li { font-size: 13px; color: #4a5568; margin-bottom: 3px; line-height: 1.5; }
+
+    .connector {
+      width: 2px; background: var(--border);
+      margin: -8px 0 -8px 15px; height: 20px;
+    }
+
+    /* ── MQTT snippet ── */
+    .mqtt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 620px) { .mqtt-grid { grid-template-columns: 1fr; } }
+    pre {
+      background: #1e2533;
+      color: #e2e8f0;
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+    pre .key   { color: #63b3ed; }
+    pre .str   { color: #68d391; }
+    pre .num   { color: #fbb040; }
+    pre .bool  { color: #fc8181; }
+
+    /* ── Architecture diagram ── */
+    .arch {
+      background: var(--grey-lt);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      font-family: 'Consolas', monospace;
+      font-size: 12.5px;
+      line-height: 1.9;
+      color: #2d3748;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* ── Study design I/O ── */
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 600px) { .io-grid { grid-template-columns: 1fr; } }
+    .io-box {
+      border-radius: 7px;
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+    }
+    .io-box.input  { background: #e8f4fd; border-color: #7ec8e3; }
+    .io-box.output { background: var(--green-lt); border-color: #6fcf97; }
+    .io-box h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 10px; }
+    .io-box.input  h3 { color: #2c7bbf; }
+    .io-box.output h3 { color: var(--green); }
+    .io-box ul { padding-left: 16px; }
+    .io-box li { font-size: 13px; margin-bottom: 6px; line-height: 1.5; }
+
+    /* ── Phase limit box ── */
+    .limit-box {
+      background: var(--blue-lt);
+      border: 1.5px solid var(--blue);
+      border-radius: 7px;
+      padding: 14px 18px;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+    .limit-box strong { color: var(--blue); }
+
+    /* ── Chip / tag ── */
+    .chip {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .chip.active  { background: #d1fae5; color: #065f46; }
+    .chip.pending { background: #fef3c7; color: #92400e; }
+    .chip.critical{ background: #fee2e2; color: #991b1b; }
+    .chip.info    { background: var(--blue-lt); color: var(--blue); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #9aa5b4;
+      margin-top: 36px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══ HEADER ══ -->
+  <div class="header">
+    <div class="site-tag">Advancer Smart Technology · HyESys Agent</div>
+    <h1>Baoyuan — HyESys Experiment Plan</h1>
+    <div class="subtitle">
+      Baoyuan Industrial (诸暨市葆元实业有限公司) · Zhuji, Zhejiang, China<br>
+      Iterative blind-testing methodology for sites without a live Main Grid meter
+    </div>
+    <div class="badges">
+      <span class="badge">HyESys H125 (125 kVA)</span>
+      <span class="badge">No Solar</span>
+      <span class="badge">kvar_sweep_experiment</span>
+      <span class="badge">Experiment ID: sweep_001</span>
+      <span class="badge">Status: <span class="chip active">Active</span></span>
+    </div>
+  </div>
+
+  <!-- ══ 1. SITE OVERVIEW ══ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon">1</div>
+      <h2>Site Overview</h2>
+    </div>
+    <div class="card-body">
+      <div class="arch">Main Grid (10 kV)
+│
+└── MSB1  ── BAOYUAN-CAPBANK1  (MQTT current-only meter)
+    │     └── BAOYUAN-CAPBANK2  (MQTT current-only meter)
+    │
+    └── Cabinet A → Feeder 2
+              └── HyESys H125  ← controlled by Agent 2 via MQTT</div>
+
+      <table style="margin-top:18px;">
+        <tr><th>Parameter</th><th>Value</th></tr>
+        <tr><td>Baseline active power</td><td>~300 kW (MSB1 production load)</td></tr>
+        <tr><td>Baseline I_rms</td><td>~3,450 A (3-phase, before HyESys)</td></tr>
+        <tr><td>Displacement PF</td><td>0.807–0.867 (phases A–C)</td></tr>
+        <tr><td>True apparent PF</td><td>0.508–0.739 — heavy harmonic content from VFDs</td></tr>
+        <tr><td>THD (A / B / C)</td><td>~126% / 44% / 142%</td></tr>
+        <tr><td>Observed I²R loss reduction (per event)</td><td>5.2–7.5%, mean 6.7%</td></tr>
+        <tr><td>Annual savings estimate</td><td>CNY 257,000 (conservative) – CNY 390,000 (upper bound)</td></tr>
+        <tr><td>Key constraint</td><td>MSB1 &amp; MSB2 have no real-time grid meter — HyESys effect is diluted at Main Grid measurement point</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ 2. WHY BLIND TESTING ══ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon">2</div>
+      <h2>Why Iterative Blind Testing?</h2>
+    </div>
+    <div class="card-body">
+      <p style="line-height:1.7; color:#4a5568;">
+        Baoyuan has <strong>no live Main Grid meter</strong> — closed-loop optimisation is not possible in real time.
+        Instead, Agent 2 operates in open-loop experiment mode: it sweeps a controlled input variable over a fixed period,
+        records all observable outputs, then waits for Baoyuan to provide the Main Grid CSV after the period ends.
+        The CSV is imported and correlated with experiment data to determine the optimal HyESys setpoint.
+        Each period refines the model for the next period.
+      </p>
+      <table style="margin-top:16px;">
+        <tr><th>Step</th><th>Action</th><th>Who</th></tr>
+        <tr><td>1</td><td>Set HyESys to experiment mode, run for ~2 weeks</td><td>Agent 2 (automated)</td></tr>
+        <tr><td>2</td><td>Collect CapBank Ia/Ib/Ic live (only real-time observable)</td><td>Agent 1 (continuous)</td></tr>
+        <tr><td>3</td><td>Receive Main Grid history CSV from Baoyuan after period ends</td><td>Jason / Baoyuan contact</td></tr>
+        <tr><td>4</td><td>Import CSV → correlate HyESys mode × CapBank response × grid consumption</td><td><code>import_maingrid.py</code></td></tr>
+        <tr><td>5</td><td>Retrain model → define next period setpoint</td><td>site_agent.py analysis</td></tr>
+        <tr><td>6</td><td>Repeat with refined settings</td><td>Next experiment period</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ 3. CURRENT EXPERIMENT: sweep_001 ══ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon">3</div>
+      <h2>Current Experiment — <code>sweep_001</code> &nbsp;<span class="chip active">Active</span></h2>
+    </div>
+    <div class="card-body">
+      <p style="margin-bottom:18px; color:#4a5568; line-height:1.6;">
+        A monotonically increasing kVAr sweep from zero to rated capacity.
+        Each step holds for exactly one hour so the CapBank current meters have time to stabilise.
+        The result is a 120-point input–output curve that maps injection level to observed current response.
+      </p>
+
+      <div class="param-grid">
+        <div class="param-box">
+          <div class="label">Start setpoint</div>
+          <div class="value">0</div>
+          <div class="unit">kVAr total</div>
+        </div>
+        <div class="param-box">
+          <div class="label">End setpoint</div>
+          <div class="value">120</div>
+          <div class="unit">kVAr total</div>
+        </div>
+        <div class="param-box">
+          <div class="label">Step size</div>
+          <div class="value">+1.0</div>
+          <div class="unit">kVAr per step</div>
+        </div>
+        <div class="param-box">
+          <div class="label">Step duration</div>
+          <div class="value">1</div>
+          <div class="unit">hour per step</div>
+        </div>
+        <div class="param-box">
+          <div class="label">Total steps</div>
+          <div class="value">120</div>
+          <div class="unit">steps</div>
+        </div>
+        <div class="param-box">
+          <div class="label">Total duration</div>
+          <div class="value">~5</div>
+          <div class="unit">days</div>
+        </div>
+      </div>
+
+      <h3 style="margin:22px 0 10px; font-size:13px; color:var(--grey);">Per-Phase Distribution</h3>
+      <table>
+        <tr><th>Parameter</th><th>Formula</th><th>Example (step 40: 40 kVAr total)</th></tr>
+        <tr><td>kVAr per phase</td><td>total / 3</td><td>40 / 3 = 13.33 kVAr/phase</td></tr>
+        <tr><td>kW per phase</td><td>0 (no active power during sweep)</td><td>0 kW/phase</td></tr>
+        <tr><td>Phase limit check</td><td>|kW| + |kVAr| ≤ 40</td><td>0 + 13.33 = 13.33 ✓</td></tr>
+        <tr><td>Hard limit step (kVAr only)</td><td>40 × 3 = 120 kVAr max</td><td>At step 120: 40 + 40 + 40 = 120 ✓</td></tr>
+      </table>
+
+      <div class="limit-box">
+        <strong>Per-phase hard limit:</strong> |kW_per_phase| + |kVAr_per_phase| ≤ 40 kVA per phase.
+        Agent 2 enforces this in <code>_issue_command()</code> — kVAr is clamped if kW headroom is consumed.
+        Both kW and kVAr commands are always sent separately (even when kW = 0) to prevent stale setpoints.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 4. SAFETY RULES ══ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon">4</div>
+      <h2>Safety Rules</h2>
+    </div>
+    <div class="card-body">
+      <div class="safety-grid">
+
+        <div class="safety-box bms">
+          <h3>BMS Voltage Protection</h3>
+          <ul>
+            <li><strong>Trigger:</strong> <code>singleVoltageAvg &lt; 3.20 V</code></li>
+            <li><strong>Action:</strong> Pause experiment, send charge command <code>−10 kW/phase</code></li>
+            <li><strong>Hold:</strong> BMS charging continues, kVAr sweep paused</li>
+            <li><strong>Resume:</strong> <code>singleVoltageAvg ≥ 3.45 V</code> → restore last kVAr step, send <code>0 kW/phase</code></li>
+            <li><strong>Hysteresis:</strong> 3.20 V pause ↔ 3.45 V resume (0.25 V band prevents cycling)</li>
+          </ul>
+        </div>
+
+        <div class="safety-box temp">
+          <h3>PCS Temperature Cap</h3>
+          <ul>
+            <li><strong>Trigger:</strong> <code>temperature ≥ 83°C</code></li>
+            <li><strong>Action:</strong> Snapshot current |kW| + |kVAr| → set as hard output cap</li>
+            <li><strong>Effect:</strong> No command issued above this cap until temperature clears</li>
+            <li><strong>Note:</strong> Cotton contamination from production environment blocks fans — clean with compressed air periodically</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="safety-box phase" style="margin-top:14px;">
+        <h3>Phase-Level Hard Limit</h3>
+        <ul>
+          <li>Enforced in <code>_issue_command()</code> before every MQTT publish</li>
+          <li>Formula: <code>headroom = max(0, 40.0 − |kW_per_phase|)</code></li>
+          <li>If <code>|kVAr_per_phase| &gt; headroom</code> → clamp kVAr to headroom, log warning</li>
+          <li>At rated capacity (120 kVAr, 0 kW): each phase = 40 kVAr + 0 kW = 40 ✓ exactly at limit</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 5. STUDY DESIGN ══ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon">5</div>
+      <h2>Study Design — Variables</h2>
+    </div>
+    <div class="card-body">
+      <div class="io-grid">
+        <div class="io-box input">
+          <h3>Input (Controlled)</h3>
+          <ul>
+            <li><strong>HyESys kVAr setpoint</strong><br>0 → 120 kVAr, 1 kVAr steps, 1 hr each</li>
+          </ul>
+        </div>
+        <div class="io-box output">
+          <h3>Outputs (Observed)</h3>
+          <ul>
+            <li><strong>CapBank 1 current</strong> (Ia, Ib, Ic) — live MQTT</li>
+            <li><strong>CapBank 2 current</strong> (Ia, Ib, Ic) — live MQTT</li>
+            <li><strong>Main Grid consumption</strong> (kW, kWh, PF) — periodic CSV from Baoyuan</li>
+          </ul>
+        </div>
+      </div>
+
+      <table style="margin-top:18px;">
+        <tr><th>What is recorded per step</th><th>Source</th><th>Frequency</th></tr>
+        <tr><td>HyESys kVAr, kW, PF, voltage, current (per phase)</td><td>MQTT <code>pcs_v3</code></td><td>~1 min</td></tr>
+        <tr><td>BMS soc, soh, voltage, temp</td><td>MQTT <code>bms</code></td><td>~1 min</td></tr>
+        <tr><td>CapBank 1 Ia, Ib, Ic</td><td>MQTT CapBank1 meter</td><td>~1 min</td></tr>
+        <tr><td>CapBank 2 Ia, Ib, Ic</td><td>MQTT CapBank2 meter</td><td>~1 min</td></tr>
+        <tr><td>Experiment step number, kVAr setpoint, timestamps</td><td><code>experiment_log</code> table</td><td>Per step</td></tr>
+        <tr><td>Main Grid kW, kWh, PF</td><td>Baoyuan CSV (post-period)</td><td>15-min intervals</td></tr>
+      </table>
+
+      <p style="margin-top:14px; color:#4a5568; font-size:13px; line-height:1.6;">
+        <strong>Why CapBank currents?</strong> They are the only <em>real-time observable</em> electrical measurement at MSB1.
+        Voltage, kW, kVAr, and PF on the CapBank meters always read zero — the hardware only measures current.
+        CapBank current reduction is therefore the primary live proxy for HyESys effectiveness until the Main Grid CSV arrives.
+      </p>
+    </div>
+  </div>
+
+  <!-- ══ 6. MQTT COMMAND FORMAT ══ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon">6</div>
+      <h2>MQTT Command Format</h2>
+    </div>
+    <div class="card-body">
+      <p style="margin-bottom:14px; color:#4a5568; font-size:13px;">
+        Command topic: <code>stsc/aems/cabinet/26022703840003/multi/operate/tx</code><br>
+        Both messages are sent on every decision cycle — kVAr first, then kW.
+      </p>
+      <div class="mqtt-grid">
+        <div>
+          <p style="font-size:12px; font-weight:700; color:var(--grey); margin-bottom:6px;">kVAr Setpoint</p>
+          <pre>{
+  <span class="key">"cabinetId"</span>: <span class="str">"26022703840003"</span>,
+  <span class="key">"index"</span>: <span class="num">1</span>,
+  <span class="key">"key"</span>: <span class="str">"set_reactive_power"</span>,
+  <span class="key">"remote"</span>: <span class="bool">true</span>,
+  <span class="key">"params"</span>: {
+    <span class="key">"reactivePowerA"</span>: <span class="num">13.333</span>,
+    <span class="key">"reactivePowerB"</span>: <span class="num">13.333</span>,
+    <span class="key">"reactivePowerC"</span>: <span class="num">13.333</span>
+  }
+}</pre>
+        </div>
+        <div>
+          <p style="font-size:12px; font-weight:700; color:var(--grey); margin-bottom:6px;">kW Setpoint (always sent)</p>
+          <pre>{
+  <span class="key">"cabinetId"</span>: <span class="str">"26022703840003"</span>,
+  <span class="key">"index"</span>: <span class="num">1</span>,
+  <span class="key">"key"</span>: <span class="str">"set_active_power"</span>,
+  <span class="key">"remote"</span>: <span class="bool">true</span>,
+  <span class="key">"params"</span>: {
+    <span class="key">"activePowerA"</span>: <span class="num">0</span>,
+    <span class="key">"activePowerB"</span>: <span class="num">0</span>,
+    <span class="key">"activePowerC"</span>: <span class="num">0</span>
+  }
+}</pre>
+        </div>
+      </div>
+      <p style="margin-top:12px; font-size:12px; color:#718096;">
+        kW is always sent even when zero — prevents stale setpoints if a previous BMS charge command (−10 kW/phase) was not explicitly cleared.
+      </p>
+    </div>
+  </div>
+
+  <!-- ══ 7. POST-EXPERIMENT FOLLOW-UP ══ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon">7</div>
+      <h2>Post-Experiment Follow-Up Steps</h2>
+    </div>
+    <div class="card-body">
+      <ol class="steps">
+
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h3>Auto-Zero on Experiment Completion</h3>
+            <p>When Agent 2 detects that all 120 steps have been completed, it automatically issues a final command of 0 kVAr / 0 kW to all three phases, returning HyESys to a neutral state.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h3>Request Main Grid History CSV from Baoyuan</h3>
+            <p>Jason contacts the Baoyuan site contact and requests the Main Grid electricity consumption data for the experiment period — typically a 15-minute interval kW/kWh/PF CSV export from their energy meter or utility portal.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h3>Import Main Grid CSV</h3>
+            <p>Run <code>sites/baoyuan/import_maingrid.py</code> to ingest the CSV into the <code>maingrid_history</code> table in <code>baoyuan.db</code>. The script aligns timestamps to the experiment period and normalises units.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h3>Correlation Analysis via site_agent.py</h3>
+            <p>Run <code>site_agent.py</code> in analysis mode. It cross-references three data sources:</p>
+            <ul>
+              <li>HyESys kVAr setpoint per step (<code>experiment_log</code>)</li>
+              <li>CapBank current response per step (<code>meter_records</code>)</li>
+              <li>Main Grid kW / PF per interval (<code>maingrid_history</code>)</li>
+            </ul>
+            <p style="margin-top:6px;">Output: optimal kVAr setpoint → minimum Main Grid kW curve, and the knee-point beyond which further injection yields diminishing returns.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h3>Propose Next Period Configuration</h3>
+            <p>site_agent.py compiles a Telegram message to Jason summarising findings and proposing the operating setpoint for the next test period. Proposal includes:</p>
+            <ul>
+              <li>Recommended kVAr setpoint (identified knee-point)</li>
+              <li>Expected current reduction and savings estimate</li>
+              <li>Experiment mode for next period (fixed setpoint validation or refined sweep)</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <h3>Jason Approves → Next Period Begins</h3>
+            <p>Jason reviews the proposal and approves via Telegram reply. Agent 2 loads the new configuration and begins the next experiment period. After 2–3 such cycles, the system transitions from sweep mode to a validated fixed-setpoint operating configuration.</p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </div>
+
+  <!-- ══ 8. DATABASE TABLES ══ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon">8</div>
+      <h2>Database — <code>baoyuan.db</code></h2>
+    </div>
+    <div class="card-body">
+      <table>
+        <tr><th>Table</th><th>Written by</th><th>Contents</th></tr>
+        <tr><td><code>meter_records</code></td><td>Agent 1</td><td>All validated CLEAN/SUSPECT electrical readings from HyESys and CapBank meters</td></tr>
+        <tr><td><code>sar_log</code></td><td>Agent 2</td><td>State → Action → Reward triplets for every decision cycle</td></tr>
+        <tr><td><code>bms_log</code></td><td>Agent 1</td><td>BMS snapshots: soc, soh, voltage, temp</td></tr>
+        <tr><td><code>experiment_log</code></td><td>Agent 2</td><td>Step number, kVAr setpoint, timestamps, BMS pause events for sweep_001</td></tr>
+        <tr><td><code>maingrid_history</code></td><td><code>import_maingrid.py</code></td><td>Periodic Main Grid kW, kWh, PF from Baoyuan CSV — imported post-period</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ 9. KEY FILES ══ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon">9</div>
+      <h2>Key Files</h2>
+    </div>
+    <div class="card-body">
+      <table>
+        <tr><th>File</th><th>Role</th></tr>
+        <tr><td><code>sites/baoyuan/site_agent.py</code></td><td>Orchestrator — launches Agent 1 and Agent 2, handles Telegram I/O</td></tr>
+        <tr><td><code>sites/baoyuan/agent1.py</code></td><td>Data ingestion + quality validation — writes to <code>baoyuan.db</code></td></tr>
+        <tr><td><code>sites/baoyuan/agent2.py</code></td><td>Decision engine — kvar_sweep_experiment mode, MQTT command dispatch, SAR logging</td></tr>
+        <tr><td><code>sites/baoyuan/import_maingrid.py</code></td><td>Imports Main Grid CSV into <code>maingrid_history</code> table</td></tr>
+        <tr><td><code>sites/baoyuan/baoyuan.db</code></td><td>SQLite database — all experiment data</td></tr>
+        <tr><td><code>sites/baoyuan/baoyuan.md</code></td><td>Site reference document</td></tr>
+        <tr><td><code>templates/MASTER_RULES.md</code></td><td>Master rules reference for Agent 1 and Agent 2</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="footer">
+    Generated by HyESys Agent · Advancer Smart Technology Pte Ltd · 2026-05-26<br>
+    Baoyuan Industrial · HyESys H125 · Zhuji, Zhejiang, China
+  </div>
+
+</div>
+</body>
+</html>

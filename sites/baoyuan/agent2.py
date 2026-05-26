@@ -20,11 +20,15 @@ SITE: Baoyuan Industrial (诸暨市葆元实业有限公司)
                 no step may exceed that total going forward
             add MQTT publisher for command topic:
               stsc/aems/cabinet/26022703840003/multi/operate/tx
-            runs as daemon (loop_forever) in experiment mode
-            MQTT command payload confirmed 2026-05-25:
+2026-05-26  confirm both MQTT command formats (Jason 2026-05-26):
+              set_active_power: {"cabinetId":..., "index":1, "key":"set_active_power",
+                "params":{"activePowerA":X,"activePowerB":X,"activePowerC":X},"remote":true}
               set_reactive_power: {"cabinetId":..., "index":1, "key":"set_reactive_power",
                 "params":{"reactivePowerA":X,"reactivePowerB":X,"reactivePowerC":X},"remote":true}
-              set_active_power key assumed for charging (unverified — confirm before BMS test)
+            enforce per-phase hard limit: |kW_per_phase| + |kVAr_per_phase| <= 40
+              kVAr is clamped to headroom = 40 - |kW| if limit would be exceeded
+            always send kW command (even when 0) — explicitly clears stale charging
+              state on resume; prevents device holding previous kW setpoint
             EXPERIMENT STUDY DESIGN:
               Input  (1): HyESys H125 kVAr injection (Feeder 2)
               Outputs (3): CapBank1 current response
@@ -109,6 +113,8 @@ ACTION_HOLD    = "HOLD"
 ACTION_REDUCE  = "REDUCE"
 ACTION_MONITOR = "MONITOR"
 ACTION_CHARGE  = "CHARGE"
+
+PER_PHASE_LIMIT = 40.0  # confirmed: |kW_per_phase| + |kVAr_per_phase| <= 40 per phase
 
 
 # ─────────────────────────────────────────────
@@ -291,15 +297,30 @@ class ExperimentController:
     # ── MQTT command ──────────────────────────────────────────────────
     def _issue_command(self, kw_per_phase: float, kvar_per_phase: float) -> None:
         """
-        Publish setpoints to HyESys via MQTT.
-        set_reactive_power format confirmed from live broker capture 2026-05-25.
-        set_active_power key is assumed for charging — verify before BMS test.
+        Publish kW and kVAr setpoints to HyESys as two separate MQTT messages.
+        Command formats confirmed by Jason 2026-05-26.
+
+        Per-phase hard limit: |kW_per_phase| + |kVAr_per_phase| <= 40.
+        kVAr is clamped to the remaining headroom if the limit would be breached.
+        kW is always sent (even when 0) to explicitly clear any stale charging setpoint.
         """
+        # ── Per-phase limit enforcement ───────────────────────────────
+        headroom = max(0.0, PER_PHASE_LIMIT - abs(kw_per_phase))
+        if abs(kvar_per_phase) > headroom:
+            clamped = math.copysign(headroom, kvar_per_phase)
+            log.warning(
+                "[CMD] kVAr clamped %.3f → %.3f/phase  "
+                "(|%.1f kW| + |kVAr| would exceed %.0f per-phase limit)",
+                kvar_per_phase, clamped, kw_per_phase, PER_PHASE_LIMIT,
+            )
+            kvar_per_phase = clamped
+
         base = {"cabinetId": self.device_id, "index": self.cmd_index, "remote": True}
 
+        # ── kVAr command ──────────────────────────────────────────────
         kvar_payload = {
             **base,
-            "key":    "set_reactive_power",
+            "key": "set_reactive_power",
             "params": {
                 "reactivePowerA": round(kvar_per_phase, 3),
                 "reactivePowerB": round(kvar_per_phase, 3),
@@ -312,23 +333,21 @@ class ExperimentController:
         except Exception as e:
             log.error("[CMD] kVAr publish failed: %s", e)
 
-        if kw_per_phase != 0.0:
-            # ⚠ "set_active_power" key assumed — verify against HyESys docs before use
-            kw_payload = {
-                **base,
-                "key":    "set_active_power",
-                "params": {
-                    "activePowerA": round(kw_per_phase, 3),
-                    "activePowerB": round(kw_per_phase, 3),
-                    "activePowerC": round(kw_per_phase, 3),
-                },
-            }
-            try:
-                self.mqtt.publish(self.cmd_topic, json.dumps(kw_payload), qos=1)
-                log.warning("[CMD] kW (CHARGING) %.1f/phase  ⚠ set_active_power key unverified",
-                            kw_per_phase)
-            except Exception as e:
-                log.error("[CMD] kW publish failed: %s", e)
+        # ── kW command (always sent to keep device state explicit) ────
+        kw_payload = {
+            **base,
+            "key": "set_active_power",
+            "params": {
+                "activePowerA": round(kw_per_phase, 3),
+                "activePowerB": round(kw_per_phase, 3),
+                "activePowerC": round(kw_per_phase, 3),
+            },
+        }
+        try:
+            self.mqtt.publish(self.cmd_topic, json.dumps(kw_payload), qos=1)
+            log.debug("[CMD] kW  → %.3f/phase", kw_per_phase)
+        except Exception as e:
+            log.error("[CMD] kW publish failed: %s", e)
 
     # ── DB helpers ────────────────────────────────────────────────────
     def _latest_bms_voltage(self) -> float | None:

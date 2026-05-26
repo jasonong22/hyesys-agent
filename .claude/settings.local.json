@@ -73,7 +73,10 @@
       "PowerShell(Start-Process powershell -Verb RunAs -Wait -ArgumentList \"-ExecutionPolicy Bypass -File `\"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Local\\\\Temp\\\\fix_stockalert_task.ps1`\"\")",
       "PowerShell(& \"C:\\\\Python314\\\\python.exe\" \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\stock_alert.py\")",
       "PowerShell(python -c \"import docx; print\\('python-docx available'\\)\")",
-      "PowerShell(python \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Local\\\\Temp\\\\gen_modbus_doc.py\" 2>&1)"
+      "PowerShell(python \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Local\\\\Temp\\\\gen_modbus_doc.py\" 2>&1)",
+      "Bash(pip list *)",
+      "Bash(findstr -i \"paho mqtt requests anthropic fitz docx\")",
+      "Bash(findstr -iv \"pip setuptools wheel\")"
     ]
   },
   "hooks": {

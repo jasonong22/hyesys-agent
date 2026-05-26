@@ -254,7 +254,7 @@ Each site file starts with a **CHANGELOG** block at the top recording every chan
 
 | Site ID | Solar | HyESys model | Agent 1 notes | Agent 2 notes |
 |---------|-------|-------------|--------------|--------------|
-| baoyuan | Yes | H125 | LV 229 V, 1-min intervals, no MF needed for HyESys file | K_P may need tuning; Chinese tariff |
+| baoyuan | No | H125 | LV 229 V, 1-min intervals, no MF needed for HyESys file; CapBank current-only meters | kvar_sweep_experiment mode; per-phase limit 40 kVA; Chinese tariff |
 | INLET-METER-MAR26 | Yes | H125 | — | avg reactive 55 kVAr |
 | MSB-SPPG2-MAR26 | Yes | H50 | solar export (negative kW valid) | — |
 | FederalOatMills-MSB1 | No | H50 | — | — |

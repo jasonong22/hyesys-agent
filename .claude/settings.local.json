@@ -76,7 +76,8 @@
       "PowerShell(python \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Local\\\\Temp\\\\gen_modbus_doc.py\" 2>&1)",
       "Bash(pip list *)",
       "Bash(findstr -i \"paho mqtt requests anthropic fitz docx\")",
-      "Bash(findstr -iv \"pip setuptools wheel\")"
+      "Bash(findstr -iv \"pip setuptools wheel\")",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\sites\\\\baoyuan\\\\baoyuan_experiment_plan.html\")"
     ]
   },
   "hooks": {

@@ -77,7 +77,8 @@
       "Bash(pip list *)",
       "Bash(findstr -i \"paho mqtt requests anthropic fitz docx\")",
       "Bash(findstr -iv \"pip setuptools wheel\")",
-      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\sites\\\\baoyuan\\\\baoyuan_experiment_plan.html\")"
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\sites\\\\baoyuan\\\\baoyuan_experiment_plan.html\")",
+      "Bash(dir *)"
     ]
   },
   "hooks": {

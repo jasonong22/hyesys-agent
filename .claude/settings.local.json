@@ -78,7 +78,10 @@
       "Bash(findstr -i \"paho mqtt requests anthropic fitz docx\")",
       "Bash(findstr -iv \"pip setuptools wheel\")",
       "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\sites\\\\baoyuan\\\\baoyuan_experiment_plan.html\")",
-      "Bash(dir *)"
+      "Bash(dir *)",
+      "PowerShell(C:\\\\Python314\\\\python.exe -c \"import yfinance; print\\('yfinance OK:', yfinance.__version__\\)\" 2>&1)",
+      "PowerShell(git *)",
+      "PowerShell(C:\\\\Python314\\\\python.exe --version 2>&1)"
     ]
   },
   "hooks": {

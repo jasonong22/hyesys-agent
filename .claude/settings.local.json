@@ -85,7 +85,9 @@
       "Bash(Get-ChildItem \"C:\\\\Users\\\\JasonOng\\\\Desktop\\\\Data analytics\\\\Baoyuan China\\\\LV room\\\\1-6may\" -Recurse)",
       "Bash(Select-Object FullName, LastWriteTime)",
       "Bash(Format-Table -AutoSize)",
-      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\Desktop\\\\Baoyuan_HyESys_Analysis.html\")"
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\Desktop\\\\Baoyuan_HyESys_Analysis.html\")",
+      "PowerShell($env:PYTHONIOENCODING = \"utf-8\"; C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\.claude\\\\projects\\\\c--Users-JasonOng-AST-Agent\\\\translate_files.py\")",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Operations\\\\shipment\\\\20260508.shipment_EN.docx\"; Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Operations\\\\shipment\\\\BOM_List_2025.6.30.xlsx\")"
     ]
   },
   "hooks": {

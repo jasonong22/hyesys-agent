@@ -84,7 +84,8 @@
       "PowerShell(C:\\\\Python314\\\\python.exe --version 2>&1)",
       "Bash(Get-ChildItem \"C:\\\\Users\\\\JasonOng\\\\Desktop\\\\Data analytics\\\\Baoyuan China\\\\LV room\\\\1-6may\" -Recurse)",
       "Bash(Select-Object FullName, LastWriteTime)",
-      "Bash(Format-Table -AutoSize)"
+      "Bash(Format-Table -AutoSize)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\Desktop\\\\Baoyuan_HyESys_Analysis.html\")"
     ]
   },
   "hooks": {

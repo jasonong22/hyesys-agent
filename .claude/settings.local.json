@@ -108,7 +108,8 @@
       "PowerShell(Get-ChildItem *)",
       "PowerShell(npm install *)",
       "PowerShell(npm root *)",
-      "PowerShell(& \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Roaming\\\\npm\\\\gmail-mcp.cmd\" --version 2>&1; echo \"exit: $LASTEXITCODE\")"
+      "PowerShell(& \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Roaming\\\\npm\\\\gmail-mcp.cmd\" --version 2>&1; echo \"exit: $LASTEXITCODE\")",
+      "mcp__gmail__search_emails"
     ]
   },
   "hooks": {

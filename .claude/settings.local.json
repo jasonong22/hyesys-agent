@@ -89,7 +89,8 @@
       "PowerShell($env:PYTHONIOENCODING = \"utf-8\"; C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\.claude\\\\projects\\\\c--Users-JasonOng-AST-Agent\\\\translate_files.py\")",
       "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Operations\\\\shipment\\\\20260508.shipment_EN.docx\"; Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Operations\\\\shipment\\\\BOM_List_2025.6.30.xlsx\")",
       "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Operations\\\\BOM\\\\20260508.shipment_EN.docx\")",
-      "WebFetch(domain:stms.polite.edu.sg)"
+      "WebFetch(domain:stms.polite.edu.sg)",
+      "Bash(start *)"
     ]
   },
   "hooks": {

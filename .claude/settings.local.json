@@ -100,7 +100,14 @@
       "Bash(claude mcp *)",
       "PowerShell(npm list *)",
       "WebFetch(domain:github.com)",
-      "PowerShell(claude mcp *)"
+      "PowerShell(claude mcp *)",
+      "PowerShell(echo '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\",\"params\":{}}' | npx -y @gongrzhe/server-gmail-autoauth-mcp 2>$null | Select-Object -First 5)",
+      "PowerShell($process = Start-Process -FilePath \"npx\" -ArgumentList \"-y\", \"@gongrzhe/server-gmail-autoauth-mcp\" -RedirectStandardError \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Local\\\\Temp\\\\gmail_mcp_err.txt\" -PassThru -WindowStyle Hidden; Start-Sleep -Seconds 5; $process.Kill\\(\\); Get-Content \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Local\\\\Temp\\\\gmail_mcp_err.txt\" -ErrorAction SilentlyContinue)",
+      "Bash(timeout 5 npx -y @gongrzhe/server-gmail-autoauth-mcp)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Local\\\\npm-cache\" -Recurse -Filter \"index.js\" | Where-Object { $_.FullName -match \"gmail\" } | Select-Object -First 5 FullName)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(npm install *)",
+      "PowerShell(npm root *)"
     ]
   },
   "hooks": {

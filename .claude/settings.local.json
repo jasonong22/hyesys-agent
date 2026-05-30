@@ -99,7 +99,8 @@
       "PowerShell(Set-ExecutionPolicy *)",
       "Bash(claude mcp *)",
       "PowerShell(npm list *)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "PowerShell(claude mcp *)"
     ]
   },
   "hooks": {

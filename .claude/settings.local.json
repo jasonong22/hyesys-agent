@@ -98,7 +98,8 @@
       "PowerShell(npx @gongrzhe/server-gmail-autoauth-mcp auth)",
       "PowerShell(Set-ExecutionPolicy *)",
       "Bash(claude mcp *)",
-      "PowerShell(npm list *)"
+      "PowerShell(npm list *)",
+      "WebFetch(domain:github.com)"
     ]
   },
   "hooks": {

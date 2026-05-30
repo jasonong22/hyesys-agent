@@ -92,7 +92,11 @@
       "WebFetch(domain:stms.polite.edu.sg)",
       "Bash(start *)",
       "WebSearch",
-      "Bash(npx --version)"
+      "Bash(npx --version)",
+      "Bash(New-Item *)",
+      "PowerShell(Copy-Item *)",
+      "PowerShell(npx @gongrzhe/server-gmail-autoauth-mcp auth)",
+      "PowerShell(Set-ExecutionPolicy *)"
     ]
   },
   "hooks": {

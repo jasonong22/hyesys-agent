@@ -91,7 +91,8 @@
       "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Operations\\\\BOM\\\\20260508.shipment_EN.docx\")",
       "WebFetch(domain:stms.polite.edu.sg)",
       "Bash(start *)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npx --version)"
     ]
   },
   "hooks": {

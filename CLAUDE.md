@@ -10,7 +10,7 @@ This is the **HyESys Agent** — the dedicated domain expert for all HyESys-rela
 
 **Also available:** Gmail access via MCP — Jason may ask to read emails from this agent. Handle Gmail requests directly using the gmail MCP tools.
 
-**Not in scope:** Personal scheduling, claims, and general assistant tasks unrelated to work — those belong to the **Nexus** personal agent (launched from `/Users/conqueror/nexus-agent/`). Keep work between the two agents distinctive and separate.
+**Not in scope:** Personal scheduling, claims, and general assistant tasks unrelated to work.
 
 ---
 

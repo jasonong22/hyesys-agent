@@ -96,7 +96,8 @@
       "Bash(New-Item *)",
       "PowerShell(Copy-Item *)",
       "PowerShell(npx @gongrzhe/server-gmail-autoauth-mcp auth)",
-      "PowerShell(Set-ExecutionPolicy *)"
+      "PowerShell(Set-ExecutionPolicy *)",
+      "Bash(claude mcp *)"
     ]
   },
   "hooks": {

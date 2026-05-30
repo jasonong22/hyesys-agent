@@ -107,7 +107,8 @@
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Local\\\\npm-cache\" -Recurse -Filter \"index.js\" | Where-Object { $_.FullName -match \"gmail\" } | Select-Object -First 5 FullName)",
       "PowerShell(Get-ChildItem *)",
       "PowerShell(npm install *)",
-      "PowerShell(npm root *)"
+      "PowerShell(npm root *)",
+      "PowerShell(& \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Roaming\\\\npm\\\\gmail-mcp.cmd\" --version 2>&1; echo \"exit: $LASTEXITCODE\")"
     ]
   },
   "hooks": {

@@ -111,7 +111,9 @@
       "PowerShell(& \"C:\\\\Users\\\\JasonOng\\\\AppData\\\\Roaming\\\\npm\\\\gmail-mcp.cmd\" --version 2>&1; echo \"exit: $LASTEXITCODE\")",
       "mcp__gmail__search_emails",
       "mcp__gmail__read_email",
-      "mcp__gmail__create_filter"
+      "mcp__gmail__create_filter",
+      "PowerShell(C:\\\\Python314\\\\python.exe -c \"import yfinance as yf; print\\('yfinance OK:', yf.__version__\\)\" 2>&1)",
+      "PowerShell(C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\stock_alert.py\" 2>&1; Write-Output \"Exit code: $LASTEXITCODE\")"
     ]
   },
   "hooks": {

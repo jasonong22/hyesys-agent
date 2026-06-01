@@ -9,6 +9,7 @@ import html
 import json
 import logging
 import os
+import time
 import urllib.request
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -359,12 +360,36 @@ def send_telegram(message: str):
     return True
 
 # ─────────────────────────────────────────────
+# INTERNET CONNECTIVITY WAIT
+# ─────────────────────────────────────────────
+def wait_for_internet(max_wait_secs=300, interval=10) -> bool:
+    """Blocks until a live internet connection is confirmed or timeout expires."""
+    deadline = time.monotonic() + max_wait_secs
+    attempt = 0
+    while time.monotonic() < deadline:
+        try:
+            urllib.request.urlopen("https://www.google.com", timeout=5)
+            if attempt > 0:
+                log.info("Internet available after %d attempts.", attempt + 1)
+            return True
+        except Exception:
+            attempt += 1
+            remaining = int(deadline - time.monotonic())
+            log.info("No internet yet (attempt %d) — retrying in %ds … (%ds left)", attempt, interval, remaining)
+            time.sleep(interval)
+    log.warning("Internet not available after %ds — aborting.", max_wait_secs)
+    return False
+
+
+# ─────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────
 def main():
     if already_sent_today():
         log.info("Alert already sent today — skipping.")
         return
+    if not wait_for_internet():
+        os._exit(1)
     log.info("Building stock alert …")
     message = build_message()
     if send_telegram(message):

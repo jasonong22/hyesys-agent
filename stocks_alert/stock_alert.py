@@ -316,6 +316,41 @@ ETF_PICKS = {
 
 ETF_TICKERS = list(ETF_PICKS.keys())  # ["QQQ", "VGT", "SCHG"]
 
+def fetch_etf_price_block(symbol: str) -> str:
+    """Returns a compact live price snapshot for one ETF (price, change, MA, RSI, 52W)."""
+    try:
+        tkr  = yf.Ticker(symbol)
+        info = tkr.info
+        hist = tkr.history(period="1y")
+
+        if hist.empty:
+            return f"  ⚠️ Price data unavailable\n"
+
+        closes     = list(hist["Close"])
+        price      = round(closes[-1], 2)
+        prev_close = round(closes[-2], 2) if len(closes) > 1 else price
+        day_chg    = round(price - prev_close, 2)
+        day_pct    = round((day_chg / prev_close) * 100, 2) if prev_close else 0
+        arrow      = "▲" if day_chg >= 0 else "▼"
+        sign       = "+" if day_chg >= 0 else ""
+
+        rsi_val   = compute_rsi(closes)
+        ma50_val  = ma(closes, 50)
+        ma200_val = ma(closes, 200)
+        wk52_hi   = info.get("fiftyTwoWeekHigh")
+        wk52_lo   = info.get("fiftyTwoWeekLow")
+
+        return (
+            f"  Price: ${price:,.2f}  {arrow} {sign}{day_chg} ({sign}{day_pct}%)\n"
+            f"  MA50: ${ma50_val:,.2f} | MA200: ${ma200_val:,.2f}\n"
+            f"  RSI(14): {rsi_label(rsi_val)}\n"
+            f"  52W: ${wk52_lo:,.2f} – ${wk52_hi:,.2f}\n"
+        )
+    except Exception as e:
+        log.error("ETF fetch error %s: %s", symbol, e)
+        return f"  ⚠️ Error fetching price: {html.escape(str(e))}\n"
+
+
 def build_etf_section() -> str:
     """Fetches live data for the 3 curated ETFs and appends static research context."""
     lines = [
@@ -325,23 +360,17 @@ def build_etf_section() -> str:
         f"{'─' * 32}\n"
     ]
 
-    for symbol in ETF_TICKERS:
+    for i, symbol in enumerate(ETF_TICKERS):
         meta = ETF_PICKS[symbol]
-        # Fetch live price block (reuse existing logic)
-        live_block, rec = analyse_ticker(symbol)
+        price_block = fetch_etf_price_block(symbol)
 
         lines.append(
-            f"\n<b>#{ETF_TICKERS.index(symbol) + 1} — {meta['name']} ({symbol})</b>\n"
+            f"\n<b>#{i + 1} — {meta['name']} ({symbol})</b>\n"
             f"  Tracks: {html.escape(meta['tracks'])}\n"
             f"  Fee (Expense Ratio): {meta['expense_ratio']}\n"
             f"  UCITS alt for SG: <i>{html.escape(meta['ucits_alt'])}</i>\n"
         )
-
-        # Inline the live price block (strip the leading emoji+ticker header to avoid duplication)
-        live_lines = live_block.strip().splitlines()
-        # Skip first line (already shown above) — keep price/MA/RSI/52W/Risks/Outlook lines
-        for ln in live_lines[1:]:
-            lines.append(f"  {ln.strip()}\n")
+        lines.append(price_block)
 
         lines.append(
             f"\n  <b>Why hold it:</b> {html.escape(meta['why'])}\n"

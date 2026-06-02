@@ -115,7 +115,9 @@
       "PowerShell(C:\\\\Python314\\\\python.exe -c \"import yfinance as yf; print\\('yfinance OK:', yf.__version__\\)\" 2>&1)",
       "PowerShell(C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\stock_alert.py\" 2>&1; Write-Output \"Exit code: $LASTEXITCODE\")",
       "PowerShell(Start-Process \"schtasks.exe\" -ArgumentList '/Create /TN \"JO_StockAlert_Daily\" /XML \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\task_updated.xml\" /F' -Verb RunAs -Wait -PassThru | Select-Object ExitCode)",
-      "PowerShell(python -c \"import pptx; print\\('python-pptx available'\\)\")"
+      "PowerShell(python -c \"import pptx; print\\('python-pptx available'\\)\")",
+      "PowerShell(Out-File *)",
+      "PowerShell($env:PYTHONIOENCODING = \"utf-8\"; python \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\fix_layout.py\")"
     ]
   },
   "hooks": {

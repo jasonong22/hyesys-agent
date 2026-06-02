@@ -1,0 +1,20 @@
+﻿Shape: TextBox 32
+  Para repr: '（开机能时）看屏幕，确认有显示'
+  Run repr: '（开机能时）看屏幕，确认有显示'
+  Para repr: '“SD卡初始化成功”'
+  Run repr: '“'
+  Run repr: 'SD'
+  Run repr: '卡初始化成功”'
+  Para repr: '“PCS1开机成功”'
+  Run repr: '“'
+  Run repr: 'PCS1'
+  Run repr: '开机成功”'
+Shape: TextBox 25
+  Para repr: '确认在“本地”模式'
+  Run repr: '确认在“本地”模式'
+Shape: TextBox 44
+  Para repr: '5) 线接后，点连接，然后点’program verify’'
+  Run repr: '5) '
+  Run repr: '线接后，点连接，然后点'
+  Run repr: '’'
+  Run repr: 'program verify’'

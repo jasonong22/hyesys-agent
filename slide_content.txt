@@ -1,0 +1,121 @@
+﻿=== SLIDE 2 ===
+  Shape name: TextBox 29
+    PARA: '负载电表607'
+  Shape name: Rectangle 8
+    PARA: '市电箱'
+    PARA: '（电网）'
+  Shape name: TextBox 23
+    PARA: '8A Backup'
+  Shape name: TextBox 481
+    PARA: '是'
+  Shape name: TextBox 96
+    PARA: '离网'
+  Shape name: Rectangle 465
+    PARA: '电表箱'
+  Shape name: Rectangle 30
+    PARA: 'PCS'
+  Shape name: Rectangle 31
+    PARA: '高压箱'
+  Shape name: Rectangle 33
+    PARA: '电芯 PACK'
+  Shape name: Rectangle 37
+    PARA: '负载'
+  Shape name: Rectangle 454
+  Shape name: TextBox 458
+    PARA: '方智储能'
+  Shape name: TextBox 490
+    PARA: '离网电路方向'
+  Shape name: TextBox 524
+    PARA: '并网'
+    PARA: '电路方向'
+  Shape name: TextBox 5
+    PARA: '市电电表233'
+
+=== SLIDE 3 ===
+  Shape name: TextBox 19
+    PARA: '储能开：转者ON等3s'
+    PARA: '储能关：转OFF'
+  Shape name: TextBox 22
+    PARA: '负载'
+  Shape name: Rectangle 23
+  Shape name: Rectangle 24
+  Shape name: TextBox 25
+    PARA: '运行步骤：'
+    PARA: '1）设每相的KW, KVAR'
+    PARA: '（别不用设）'
+    PARA: '2）开电源'
+    PARA: '3）开负载'
+    PARA: '4）运行'
+  Shape name: Rectangle 26
+  Shape name: TextBox 27
+    PARA: '停机步骤：'
+    PARA: '1）按停止'
+    PARA: '2）关电源'
+  Shape name: TextBox 28
+    PARA: '开机步骤：'
+    PARA: '1）转钮 – 本地'
+    PARA: '开机步骤：'
+    PARA: '1）转钮 – 停止'
+  Shape name: TextBox 29
+    PARA: '（先开储能）'
+    PARA: '液冷开步骤：2 >1'
+    PARA: '液冷关步骤：1>2'
+  Shape name: TextBox 32
+    PARA: '（开机能时）看屏幕，确认有显示'
+    PARA: '“SD卡初始化成功”'
+    PARA: '“PCS1开机成功”'
+  Shape name: Rectangle 47
+  Shape name: Rectangle 48
+
+=== SLIDE 4 ===
+  Shape name: TextBox 16
+    PARA: '并网模式'
+  Shape name: TextBox 17
+    PARA: '步骤2：市电开关调上位置'
+  Shape name: TextBox 11
+    PARA: '步骤1：底线开关调OFF位置'
+  Shape name: TextBox 19
+    PARA: '离网模式'
+  Shape name: TextBox 20
+    PARA: '步骤1：市电开调关下位置'
+  Shape name: TextBox 22
+    PARA: '步骤2：底线开调关ON位置'
+  Shape name: TextBox 2
+    PARA: '确认显示两灯（代表正常）'
+    PARA: '如3灯都亮，代表底线开关方向错 或 总开关跳了'
+
+=== SLIDE 5 ===
+  Shape name: TextBox 1
+    PARA: '查模式'
+  Shape name: Rectangle 4
+  Shape name: Rectangle 9
+  Shape name: Rectangle 10
+  Shape name: TextBox 11
+    PARA: '密码：88888888'
+  Shape name: Rectangle 19
+  Shape name: TextBox 25
+    PARA: '确认在“本地”模式'
+  Shape name: Rectangle 6
+  Shape name: TextBox 7
+    PARA: '查设备有收到命令'
+  Shape name: TextBox 8
+    PARA: '查设备有触发命令'
+  Shape name: Rectangle 15
+
+=== SLIDE 6 ===
+  Shape name: TextBox 1
+    PARA: '更新固件'
+  Shape name: Rectangle 4
+  Shape name: TextBox 25
+    PARA: '1) 打开STM32软件'
+  Shape name: TextBox 23
+    PARA: '2) 啦.hex文件进STM32'
+  Shape name: TextBox 35
+    PARA: '4) 在高压箱后面，找LEMS黑色网口，接上网测'
+  Shape name: TextBox 40
+    PARA: '3)把线USB测，连电脑'
+  Shape name: TextBox 44
+    PARA: '5) 线接后，点连接，然后点’program verify’'
+  Shape name: Rectangle 47
+  Shape name: Rectangle 48
+

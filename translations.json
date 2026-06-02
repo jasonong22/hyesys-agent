@@ -1,0 +1,67 @@
+{
+  "2": [
+    ["负载电表607", "Load Meter 607"],
+    ["市电箱", "Grid Supply Box"],
+    ["（电网）", "(Power Grid)"],
+    ["是", "Yes"],
+    ["离网", "Off-Grid"],
+    ["电表箱", "Meter Box"],
+    ["高压箱", "High-Voltage Box"],
+    ["电芯 PACK", "Battery Cell Pack"],
+    ["负载", "Load"],
+    ["方智储能", "Fangzhi Energy Storage"],
+    ["离网电路方向", "Off-Grid Circuit Direction"],
+    ["并网", "Grid-Connected"],
+    ["电路方向", "Circuit Direction"],
+    ["市电电表233", "Grid Meter 233"]
+  ],
+  "3": [
+    ["储能开：转者ON等3s", "Energy Storage ON: Turn to ON, wait 3s"],
+    ["储能关：转OFF", "Energy Storage OFF: Turn to OFF"],
+    ["负载", "Load"],
+    ["运行步骤：", "Operating Steps:"],
+    ["1）设每相的KW, KVAR", "1) Set KW, KVAR for each phase"],
+    ["（别不用设）", "(Others not required)"],
+    ["2）开电源", "2) Turn on power supply"],
+    ["3）开负载", "3) Turn on load"],
+    ["4）运行", "4) Run"],
+    ["停机步骤：", "Shutdown Steps:"],
+    ["1）按停止", "1) Press Stop"],
+    ["2）关电源", "2) Turn off power supply"],
+    ["开机步骤：", "Startup Steps:"],
+    ["1）转钮 – 本地", "1) Turn knob – Local"],
+    ["开机步骤：", "Startup Steps:"],
+    ["1）转钮 – 停止", "1) Turn knob – Stop"],
+    ["（先开储能）", "(Turn on energy storage first)"],
+    ["液冷开步骤：2 >1", "Liquid Cooling ON Sequence: 2 > 1"],
+    ["液冷关步骤：1>2", "Liquid Cooling OFF Sequence: 1 > 2"],
+    ["（开机能时）看屏幕，确认有显示", "(During startup) Check screen, confirm display shows:"],
+    ["“SD卡初始化成功”", "\"SD Card Initialized Successfully\""],
+    ["“PCS1开机成功”", "\"PCS1 Startup Successful\""]
+  ],
+  "4": [
+    ["并网模式", "Grid-Connected Mode"],
+    ["步骤2：市电开关调上位置", "Step 2: Set grid switch to upper (ON) position"],
+    ["步骤1：底线开关调OFF位置", "Step 1: Set bottom switch to OFF position"],
+    ["离网模式", "Off-Grid Mode"],
+    ["步骤1：市电开调关下位置", "Step 1: Set grid switch to lower (OFF) position"],
+    ["步骤2：底线开调关ON位置", "Step 2: Set bottom switch to ON position"],
+    ["确认显示两灯（代表正常）", "Confirm 2 indicator lights ON (normal)"],
+    ["如3灯都亮，代表底线开关方向错 或 总开关跳了", "If all 3 lights ON: bottom switch direction is wrong, or main breaker has tripped"]
+  ],
+  "5": [
+    ["查模式", "Check Mode"],
+    ["密码：88888888", "Password: 88888888"],
+    ["确认在“本地”模式", "Confirm device is in \"Local\" mode"],
+    ["查设备有收到命令", "Verify device has received command"],
+    ["查设备有触发命令", "Verify device has triggered command"]
+  ],
+  "6": [
+    ["更新固件", "Update Firmware"],
+    ["1) 打开STM32软件", "1) Open STM32 software"],
+    ["2) 啦.hex文件进STM32", "2) Load .hex file into STM32"],
+    ["4) 在高压箱后面，找LEMS黑色网口，接上网测", "4) At back of high-voltage box, find LEMS black network port and connect network cable"],
+    ["3)把线USB测，连电脑", "3) Connect USB cable end to computer"],
+    ["5) 线接后，点连接，然后点’program verify’", "5) After connecting, click Connect, then click 'program verify'"]
+  ]
+}

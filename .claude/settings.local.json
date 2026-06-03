@@ -119,7 +119,8 @@
       "PowerShell(Out-File *)",
       "PowerShell($env:PYTHONIOENCODING = \"utf-8\"; python \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\fix_layout.py\")",
       "WebFetch(domain:www.alldatasheet.com)",
-      "WebFetch(domain:rack.com.sg)"
+      "WebFetch(domain:rack.com.sg)",
+      "WebFetch(domain:www.opencompute.org)"
     ]
   },
   "hooks": {

@@ -161,7 +161,12 @@
       "PowerShell(python --version; python -c \"import pptx; print\\('pptx OK:', pptx.__version__\\)\" 2>&1)",
       "Bash(Get-ChildItem *)",
       "PowerShell(python C:\\\\temp\\\\create_dc_ppt.py 2>&1)",
-      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Machine Docs \\(v1 v2\\)\\\\v2.2 - data center\\\\DC Infrastructure Research - Racks & Battery Cells.pptx\")"
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Machine Docs \\(v1 v2\\)\\\\v2.2 - data center\\\\DC Infrastructure Research - Racks & Battery Cells.pptx\")",
+      "Bash(mkdir -p /mnt/c/temp/ppt_images)",
+      "Bash(cp /tmp/rack_images/apc.jpg /mnt/c/temp/ppt_images/rack_apc.jpg)",
+      "Bash(cp /tmp/rack_images/ah.png  /mnt/c/temp/ppt_images/rack_ah.png)",
+      "Bash(cp /tmp/rack_images/eaton.jpg /mnt/c/temp/ppt_images/rack_eaton.jpg)",
+      "Bash(cp /tmp/rack_images/legrand.png /mnt/c/temp/ppt_images/rack_legrand.png)"
     ]
   },
   "hooks": {

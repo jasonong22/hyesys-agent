@@ -143,7 +143,8 @@
       "WebFetch(domain:networkdevicesinc.com)",
       "WebFetch(domain:www.walmart.com)",
       "WebFetch(domain:www.provantage.com)",
-      "WebFetch(domain:www.minkels.com)"
+      "WebFetch(domain:www.minkels.com)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Machine Docs \\(v1 v2\\)\\\\v2.2 - data center\\\\rack\\\\Singapore DC Rack Comparison.xlsx\")"
     ]
   },
   "hooks": {

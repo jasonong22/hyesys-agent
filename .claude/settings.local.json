@@ -155,7 +155,8 @@
       "WebFetch(domain:www.ancoo-battery.com)",
       "WebFetch(domain:www.xihobattery.com)",
       "WebFetch(domain:www.lifepo4batteryshop.com)",
-      "WebFetch(domain:www.murata.com)"
+      "WebFetch(domain:www.murata.com)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Machine Docs \\(v1 v2\\)\\\\v2.2 - data center\\\\cell\\\\Singapore DC Battery Cell Comparison.xlsx\")"
     ]
   },
   "hooks": {

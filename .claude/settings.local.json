@@ -144,7 +144,18 @@
       "WebFetch(domain:www.walmart.com)",
       "WebFetch(domain:www.provantage.com)",
       "WebFetch(domain:www.minkels.com)",
-      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Machine Docs \\(v1 v2\\)\\\\v2.2 - data center\\\\rack\\\\Singapore DC Rack Comparison.xlsx\")"
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Machine Docs \\(v1 v2\\)\\\\v2.2 - data center\\\\rack\\\\Singapore DC Rack Comparison.xlsx\")",
+      "WebFetch(domain:www.18650batterystore.com)",
+      "WebFetch(domain:imrbatteries.com)",
+      "WebFetch(domain:rpe-na.com)",
+      "WebFetch(domain:litechpower.com)",
+      "WebFetch(domain:batteryjunction.com)",
+      "WebFetch(domain:www.eybms.com)",
+      "WebFetch(domain:queenbattery.com.cn)",
+      "WebFetch(domain:www.ancoo-battery.com)",
+      "WebFetch(domain:www.xihobattery.com)",
+      "WebFetch(domain:www.lifepo4batteryshop.com)",
+      "WebFetch(domain:www.murata.com)"
     ]
   },
   "hooks": {

@@ -134,7 +134,16 @@
       "Bash(Get-ChildItem -Recurse \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Machine Docs \\(v1 v2\\)\\\\v2.2 - data center\\\\rack\")",
       "Bash(Select-Object FullName, Length)",
       "PowerShell(Get-ChildItem -Recurse \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Machine Docs \\(v1 v2\\)\\\\v2.2 - data center\\\\rack\" | Select-Object FullName, @{N='Size_KB';E={[math]::Round\\($_.Length/1KB,1\\)}} | Format-Table -AutoSize)",
-      "PowerShell(Get-ChildItem -Recurse \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Machine Docs \\(v1 v2\\)\\\\v2.2 - data center\\\\rack\" -File | ForEach-Object { [PSCustomObject]@{ Folder=$_.Directory.Name; File=$_.Name; KB=[math]::Round\\($_.Length/1KB,0\\) } } | Format-Table -AutoSize)"
+      "PowerShell(Get-ChildItem -Recurse \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Machine Docs \\(v1 v2\\)\\\\v2.2 - data center\\\\rack\" -File | ForEach-Object { [PSCustomObject]@{ Folder=$_.Directory.Name; File=$_.Name; KB=[math]::Round\\($_.Length/1KB,0\\) } } | Format-Table -AutoSize)",
+      "WebFetch(domain:www.austin-hughes.com)",
+      "WebFetch(domain:www.se.com)",
+      "WebFetch(domain:www.cdw.com)",
+      "WebFetch(domain:store.hinkwong.com)",
+      "WebFetch(domain:www.bhphotovideo.com)",
+      "WebFetch(domain:networkdevicesinc.com)",
+      "WebFetch(domain:www.walmart.com)",
+      "WebFetch(domain:www.provantage.com)",
+      "WebFetch(domain:www.minkels.com)"
     ]
   },
   "hooks": {

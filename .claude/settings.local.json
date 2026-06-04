@@ -166,7 +166,10 @@
       "Bash(cp /tmp/rack_images/apc.jpg /mnt/c/temp/ppt_images/rack_apc.jpg)",
       "Bash(cp /tmp/rack_images/ah.png  /mnt/c/temp/ppt_images/rack_ah.png)",
       "Bash(cp /tmp/rack_images/eaton.jpg /mnt/c/temp/ppt_images/rack_eaton.jpg)",
-      "Bash(cp /tmp/rack_images/legrand.png /mnt/c/temp/ppt_images/rack_legrand.png)"
+      "Bash(cp /tmp/rack_images/legrand.png /mnt/c/temp/ppt_images/rack_legrand.png)",
+      "PowerShell(python -c \"import pdfplumber; print\\('pdfplumber ok'\\)\" 2>&1)",
+      "PowerShell(python -c \"import fitz; print\\('fitz ok'\\)\" 2>&1)",
+      "PowerShell(python -c \"import PyPDF2; print\\('PyPDF2 ok'\\)\" 2>&1)"
     ]
   },
   "hooks": {

@@ -21,7 +21,7 @@ import yfinance as yf
 # ─────────────────────────────────────────────
 # CONFIGURATION
 # ─────────────────────────────────────────────
-TELEGRAM_TOKEN   = "8912852669:AAEpqdY1492JaZniwuWq5iERbeseDXO1bFc"
+TELEGRAM_TOKEN   = "8912852669:AAEuo7Y0l4WzEjSRc0iyimL7CAiSL-KktVM"
 TELEGRAM_CHAT_ID = "42746142"                       # @Jasonozy
 
 TICKERS = [

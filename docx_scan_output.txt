@@ -1,0 +1,50 @@
+[48] STYLE='Normal' | •  Linear strain distribution (Euler-Bernoulli):
+[49] STYLE='Normal' | ε(y) = A + B·y  (y measured from top)
+[50] STYLE='Normal' | •  Neutral axis location (ε = 0):
+[52] STYLE='Normal' | •  Axial strain — at centroid (y_c = h/2):
+[53] STYLE='Normal' | ε_axial = ε(y_c) = A + B·(h/2)
+[54] STYLE='Normal' | •  Axial stress:
+[56] STYLE='Normal' | •  Max bending stress (at extreme fibre from centroid):
+[60] STYLE='Normal' | A solid rectangular beam of 250 mm depth is loaded by combined loading of bending moment and axial tensile force such that strain measurements showed that the top surface contracted by 200 microstrain
+[72] STYLE='Normal' | │  y=71.43mm ─ ─ ─ ─ NA ─ ─ ─ ─  ε = 0  (neutral axis)       │
+[74] STYLE='Normal' | │  y=125mm  ─ ─ ─ ─ CG ─ ─ ─ ─   ε = +150 μɛ  (centroid)     │
+[81] STYLE='Normal' | ε_axial = ε at centroid (y=125): = −200 + 2.8×125 = +150 μɛ → σ_axial = 30 MPa
+[82] STYLE='Normal' | σ_bend_max = E × |ε_bot − ε_axial| = 200,000 × |500−150| × 10⁻⁶ = 70 MPa
+[85] STYLE='Normal' | Step 1 — Linear strain fit:  ε(y) = A + B·y  (y from top)
+[88] STYLE='Normal' | Step 2 — Neutral axis (ε = 0):
+[89] STYLE='Normal' | 0 = −200×10⁻⁶ + 2.8×10⁻⁶ × y_NA  →  y_NA = 200/2.8 = 71.43 mm from top surface
+[90] STYLE='Normal' | Step 3 — Axial strain at centroid (y_c = 125 mm):
+[93] STYLE='Normal' | Step 4 — Bending strain at extreme fibre (bottom, 125 mm from centroid):
+[95] STYLE='Normal' | σ_bend = E × ε_bend_bot = 200,000 × 350×10⁻⁶ = 70 MPa
+[96] STYLE='Normal' | Note: The answer choices state 200 MPa for bending stress; the rigorous calculation yields 70 MPa. The NA position of 71.43 mm (option a) and σ_axial = 30 MPa are correct. The bending stress value in 
+[97] STYLE='Normal' | ▶  ANSWER:  (a) 71.43 mm, 30 MPa — NA and axial stress confirmed; σ_bend computed = 70 MPa
+[132] STYLE='Normal' | Step 1 — Polar second moment of area (thick-wall formula):
+[136] STYLE='Normal' | Step 2 — Angle of twist:
+[210] STYLE='Normal' | Step 1 — Post-impact velocity (Work-Energy on sliding phase):
+[213] STYLE='Normal' | Step 2 — Pre-impact bullet speed (Conservation of Momentum):
+[250] STYLE='Normal' | Step 1 — Acceleration phase:  (from rest to v_top)
+[253] STYLE='Normal' | Step 2 — Deceleration phase:  (symmetric by symmetry of a = dec)
+[255] STYLE='Normal' | Step 3 — Cruise phase:
+[258] STYLE='Normal' | Step 4 — Total time:
+[346] STYLE='Normal' | │    \\ ← ADIABATIC: PV^γ = const (steeper slope)
+[370] STYLE='Normal' | log V + n·log T = log C  (slope = −n)
+[379] STYLE='Normal' | │    \  slope = −n
+[542] STYLE='Normal' | •  Weight component along incline (down-slope):
+[559] STYLE='Normal' | ↓ m_A g sin30°  (down slope)     ↓ (m_A+m_B)g sin30°  (down slope)
+[566] STYLE='Normal' | ├─────┤──────────────────────────── (down slope direction)
+[575] STYLE='Normal' | Step 1 — Assume A and B move together as one unit:
+[582] STYLE='Normal' | Step 2 — Verify A does not slip on B (check friction required at A-B interface):
+[670] STYLE='Normal' | ↙ mg sin20° = 3,355 N (gravity component down-slope)
+[683] STYLE='Normal' | Step 1 — Plant model (Newton 2nd Law along incline):
+[689] STYLE='Normal' | Step 2 — Steady-state force requirement:
+[693] STYLE='Normal' | Step 3 — PI controller design:
+[700] STYLE='Normal' | Step 4 — Choose performance: ζ = 1 (critically damped), ω_n = 2 rad/s:
+[739] STYLE='Normal' | Step 1 — Carnot efficiency:
+[741] STYLE='Normal' | Step 2 — Heat input rate Q_H:
+[743] STYLE='Normal' | Step 3 — Mass flow rate of fuel:
+[745] STYLE='Normal' | Step 4 — Daily fuel consumption:
+[785] STYLE='Normal' | Step 1 — Volume of material removed:
+[790] STYLE='Normal' | Step 2 — Available machine power for cutting:
+[793] STYLE='Normal' | Step 3 — MRR available from machine power:
+[796] STYLE='Normal' | Step 4 — MRR required to meet 13-minute cutting time:
+[837] STYLE='Normal' | Q2 (Beam strains):   (a) NA=71.43mm, σ_axial=30MPa  [σ_bend=70MPa by calculation]

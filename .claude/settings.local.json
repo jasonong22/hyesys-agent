@@ -171,7 +171,11 @@
       "PowerShell(python -c \"import fitz; print\\('fitz ok'\\)\" 2>&1)",
       "PowerShell(python -c \"import PyPDF2; print\\('PyPDF2 ok'\\)\" 2>&1)",
       "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.2 - data center\\\\cell\\\\Singapore DC Battery Cell Comparison.xlsx\")",
-      "PowerShell(Register-ScheduledTask *)"
+      "PowerShell(Register-ScheduledTask *)",
+      "PowerShell(C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\ai_news_alert.py\")",
+      "PowerShell(tail *)",
+      "PowerShell(C:\\\\Python314\\\\python.exe -m pip install ddgs 2>&1 | Select-Object -Last 5)",
+      "PowerShell(Remove-Item *)"
     ]
   },
   "hooks": {

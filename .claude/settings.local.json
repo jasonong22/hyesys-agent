@@ -170,7 +170,8 @@
       "PowerShell(python -c \"import pdfplumber; print\\('pdfplumber ok'\\)\" 2>&1)",
       "PowerShell(python -c \"import fitz; print\\('fitz ok'\\)\" 2>&1)",
       "PowerShell(python -c \"import PyPDF2; print\\('PyPDF2 ok'\\)\" 2>&1)",
-      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.2 - data center\\\\cell\\\\Singapore DC Battery Cell Comparison.xlsx\")"
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.2 - data center\\\\cell\\\\Singapore DC Battery Cell Comparison.xlsx\")",
+      "PowerShell(Register-ScheduledTask *)"
     ]
   },
   "hooks": {

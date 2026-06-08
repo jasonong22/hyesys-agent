@@ -175,7 +175,9 @@
       "PowerShell(C:\\\\Python314\\\\python.exe \"C:\\\\Users\\\\JasonOng\\\\AST_Agent\\\\stocks_alert\\\\ai_news_alert.py\")",
       "PowerShell(tail *)",
       "PowerShell(C:\\\\Python314\\\\python.exe -m pip install ddgs 2>&1 | Select-Object -Last 5)",
-      "PowerShell(Remove-Item *)"
+      "PowerShell(Remove-Item *)",
+      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"ANTHROPIC_API_KEY\", \"Process\"\\))",
+      "PowerShell(C:\\\\Python314\\\\python.exe -c \"import anthropic, inspect; sig = inspect.signature\\(anthropic.Anthropic.__init__\\); print\\(list\\(sig.parameters.keys\\(\\)\\)\\)\")"
     ]
   },
   "hooks": {

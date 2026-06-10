@@ -191,7 +191,11 @@
       "WebFetch(domain:pmc.ncbi.nlm.nih.gov)",
       "WebFetch(domain:www2.nrel.gov)",
       "WebFetch(domain:en.wikipedia.org)",
-      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.2 - data center\\\\Gas filter\\\\H2\\\\H2_Purification_Technologies.html\")"
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.2 - data center\\\\Gas filter\\\\H2\\\\H2_Purification_Technologies.html\")",
+      "PowerShell(python --version 2>&1)",
+      "PowerShell($pdfPath = \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.0 H30\\\\H30 - ??  cell supplier\\\\280Ah_UL9540A Report.pdf\")",
+      "PowerShell(python -c \"import pdfplumber; pdf = pdfplumber.open\\(r'C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.0 H30\\\\H30 - 兰均  cell supplier\\\\280Ah_UL9540A Report.pdf'\\); page = pdf.pages[1]; print\\(page.extract_text\\(\\)\\)\")",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.2 - data center\\\\Gas filter\\\\BatteryVentGas_FilteringAnalysis.html\")"
     ]
   },
   "hooks": {

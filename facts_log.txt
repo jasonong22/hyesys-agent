@@ -1,0 +1,26 @@
+﻿Cell Type                 Model                              kWh/m3    Wh/kg
+---------------------------------------------------------------------------
+Cylindrical 21700         INR21700-50E                        700.8      255
+Cylindrical 21700         INR21700-M50LT                        742      268
+Cylindrical 21700         NCR21700A                           690.6      251
+Cylindrical 21700         US21700VTC6A                        587.5      240
+Prismatic                 NMC 50Ah Prismatic                  440.4      223
+Cylindrical 21700         INR21700-50E                        712.9      261
+Cylindrical 18650         INR18650-2500A                      553.9      185
+Cylindrical 32140         Power Cell 32140-9500mAh            227.3      110
+Prismatic                 72174L4-280Ah                       345.6      163
+Prismatic                 72174L4-314Ah                       385.6      181
+Prismatic                 LF168                               392.2      174
+
+Cylindrical kWh/m3 range: 227.3 – 742.0
+Prismatic   kWh/m3 range: 345.6 – 440.4
+
+Cylindrical packing efficiency (hex): 90.7%  -> 9.3% waste
+Cylindrical packing efficiency (sq):  78.5%  -> 21.5% waste
+Practical module-level (with cooling): ~65-80%  -> 20-35% waste
+
+Pack-level kWh/m3 estimates:
+  cyl 70%: cell range × 0.7 = 159 – 519 kWh/m3 pack-level
+  cyl 75%: cell range × 0.75 = 170 – 556 kWh/m3 pack-level
+  pri 85%: cell range × 0.85 = 294 – 374 kWh/m3 pack-level
+  pri 92%: cell range × 0.92 = 318 – 405 kWh/m3 pack-level

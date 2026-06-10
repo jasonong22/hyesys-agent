@@ -1,0 +1,48 @@
+﻿Model: INR21700-50E
+  Energy=17.6 Wh  |  Weight=69 g  ->  Wh/kg stored=255  calc=255  OK
+  Dims=Ø21.35 x H70.15  |  Vol=25.11 cm3  ->  Wh/m3 stored=700808  calc=700808  OK
+
+Model: INR21700-M50LT
+  Energy=18.2 Wh  |  Weight=68 g  ->  Wh/kg stored=268  calc=268  OK
+  Dims=Ø21.1 x H70.15  |  Vol=24.53 cm3  ->  Wh/m3 stored=741974  calc=741974  OK
+
+Model: NCR21700A
+  Energy=17.3 Wh  |  Weight=69 g  ->  Wh/kg stored=251  calc=251  OK
+  Dims=Ø21.3 x H70.3  |  Vol=25.05 cm3  ->  Wh/m3 stored=690624  calc=690624  OK
+
+Model: US21700VTC6A
+  Energy=14.4 Wh  |  Weight=60 g  ->  Wh/kg stored=240  calc=240  OK
+  Dims=Ø21.1 x H70.1  |  Vol=24.51 cm3  ->  Wh/m3 stored=587475  calc=587475  OK
+
+Model: NMC 50Ah Prismatic
+  Energy=182.5 Wh  |  Weight=820 g  ->  Wh/kg stored=223  calc=223  OK
+  Dims=28x100x148 T×W×H  |  Vol=414.4 cm3  ->  Wh/m3 stored=440396  calc=440396  OK
+
+Model: INR21700-50E
+  Energy=17.5 Wh  |  Weight=67 g  ->  Wh/kg stored=261  calc=261  OK
+  Dims=Ø21.1 x H70.2  |  Vol=24.55 cm3  ->  Wh/m3 stored=712929  calc=712929  OK
+
+Model: INR18650-2500A
+  Energy=9.25 Wh  |  Weight=50 g  ->  Wh/kg stored=185  calc=185  OK
+  Dims=Ø18.10 x H64.90  |  Vol=16.7 cm3  ->  Wh/m3 stored=553924  calc=553924  OK
+
+Model: Power Cell 32140-9500mAh
+  Energy=27.55 Wh  |  Weight=250 g  ->  Wh/kg stored=110  calc=110  OK
+  Dims=Ø33.2 x H140.0  |  Vol=121.2 cm3  ->  Wh/m3 stored=227315  calc=227315  OK
+
+Model: 72174L4-280Ah
+  Energy=896.0 Wh  |  Weight=5500 g  ->  Wh/kg stored=170  calc=163  MISMATCH
+  Dims=72x174.26x206.61 T×W×H  |  Vol=2592.28 cm3  ->  Wh/m3 stored=345642  calc=345642  OK
+
+Model: 72174L4-314Ah
+  Energy=1005.0 Wh  |  Weight=5550 g  ->  Wh/kg stored=190  calc=181  MISMATCH
+  Dims=72x174.26x207.71 T×W×H  |  Vol=2606.08 cm3  ->  Wh/m3 stored=385637  calc=385637  OK
+
+Model: LF168
+  Energy=540.96 Wh  |  Weight=3110  ->  Wh/kg stored=179  calc=174  MISMATCH
+  Dims=33.2x 200.7x 207 T X W X H  |  Vol=1379.29 cm3  ->  Wh/m3 stored=392202  calc=392202  OK
+
+ISSUES FOUND:
+  Wh/kg MISMATCH: 72174L4-280Ah stored=170 calc=163
+  Wh/kg MISMATCH: 72174L4-314Ah stored=190 calc=181
+  Wh/kg MISMATCH: LF168 stored=179 calc=174

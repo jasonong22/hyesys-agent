@@ -1,0 +1,13 @@
+﻿Dimensions col: 12, Energy col: 9, Wh/m2 col: 15
+Row 2: Ø21.35 x H70.15 -> Cylindrical d=21.35mm h=70.15mm -> V=25.11 cm3 -> 700808 Wh/m3
+Row 3: Ø21.1 x H70.15 -> Cylindrical d=21.1mm h=70.15mm -> V=24.53 cm3 -> 741974 Wh/m3
+Row 4: Ø21.3 x H70.3 -> Cylindrical d=21.3mm h=70.3mm -> V=25.05 cm3 -> 690624 Wh/m3
+Row 5: Ø21.1 x H70.1 -> Cylindrical d=21.1mm h=70.1mm -> V=24.51 cm3 -> 587475 Wh/m3
+Row 6: 28x100x148 T×W×H -> Prismatic 28.0x100.0x148.0mm -> V=414.40 cm3 -> 440396 Wh/m3
+Row 7: Ø21.1 x H70.2 -> Cylindrical d=21.1mm h=70.2mm -> V=24.55 cm3 -> 712929 Wh/m3
+Row 8: Ø18.10 x H64.90 -> Cylindrical d=18.1mm h=64.9mm -> V=16.70 cm3 -> 553924 Wh/m3
+Row 9: Ø33.2 x H140.0 -> Cylindrical d=33.2mm h=140.0mm -> V=121.20 cm3 -> 227315 Wh/m3
+Row 10: 72x174.26x206.61 T×W×H -> Prismatic 72.0x174.26x206.61mm -> V=2592.28 cm3 -> 345642 Wh/m3
+Row 11: 72x174.26x207.71 T×W×H -> Prismatic 72.0x174.26x207.71mm -> V=2606.08 cm3 -> 385637 Wh/m3
+Row 12: 33.2x 200.7x 207 T X W X H -> Prismatic 33.2x200.7x207.0mm -> V=1379.29 cm3 -> 392202 Wh/m3
+Saved.

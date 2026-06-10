@@ -228,7 +228,8 @@
       "WebFetch(domain:www.mdpi.com)",
       "WebFetch(domain:www.yamabala.com)",
       "WebFetch(domain:miller-stephenson.com)",
-      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.2 - data center\\\\cell\\\\Phase Change Coolant Comparison.xlsx\")"
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.2 - data center\\\\cell\\\\Phase Change Coolant Comparison.xlsx\")",
+      "WebFetch(domain:www.chemours.com)"
     ]
   },
   "hooks": {

@@ -1,0 +1,45 @@
+﻿  Updated: Novec 7000
+  Updated: Novec 7100
+  Updated: Novec 7200
+  Updated: Novec 7300
+  Updated: Novec 649
+  Updated: Fluorinert FC-72
+  Updated: Fluorinert FC-3283
+  Updated: Galden EV55
+  Updated: Galden EV110
+  Updated: Galden HT135
+  Updated: Opteon SF33
+  Updated: Opteon 2P50
+  Updated: ElectroCool EC-100
+  Updated: ElectroCool EC-110
+  Updated: AmpCool AC-110
+  Updated: RT28HC
+  Updated: RT35HC
+  Updated: RT44HC
+  Updated: RT55
+  Updated: RT60
+  Updated: RT64HC
+  Updated: CrodaTherm 37
+  Updated: CrodaTherm 47
+  Updated: CrodaTherm 53
+  Updated: CrodaTherm 60
+  Updated: MPCM37-D
+Tab 1: 26 working principles updated.
+
+Downloading images...
+  OK  novec_7100: 56 kB
+  OK  galden_ht55: 14 kB
+  OK  opteon_sf33: 172 kB
+  OK  opteon_2p50: 24 kB
+  OK  ampcool: 63 kB
+  OK  electrocool: 64 kB
+  OK  rubitherm_rt: 23 kB
+  OK  croda: 547 kB
+  OK  microtek_micro: 192 kB
+  OK  app_immersion: 106 kB
+  OK  app_pcm_cells: 58 kB
+  OK  app_pcm_module: 146 kB
+  OK  app_henkel: 19 kB
+  OK  app_pcm_test: 29 kB
+
+Done. Tab 1: 26 principles updated. Tab 2: 14 images inserted.

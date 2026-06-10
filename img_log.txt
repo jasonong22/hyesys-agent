@@ -1,0 +1,15 @@
+﻿Downloading images...
+  OK  novec_7100: 56 kB
+  OK  galden_ht55: 14 kB
+  OK  opteon_sf33: 172 kB
+  OK  ampcool: 63 kB
+  OK  electrocool: 64 kB
+  OK  rubitherm_rt: 23 kB
+  OK  croda_brochure: 547 kB
+  OK  microtek_micro: 192 kB
+  OK  app_immersion: 106 kB
+  OK  app_pcm_cells: 58 kB
+  OK  app_pcm_module: 146 kB
+
+Saved. Downloaded 11/11 images.
+Images in: C:\Users\JasonOng\AppData\Local\Temp\coolant_imgs_8puzbtiz

@@ -1,0 +1,30 @@
+﻿Header row: 4
+Columns — Vendor:2 Product:3 Mechanism:5 Principle:6
+Updated: 26 principles, 26 mechanisms, 26 data rows
+  Merged vendor "3M / Solventum" rows 6–12
+  Merged vendor "Syensqo" rows 13–15
+  Merged vendor "Chemours" rows 16–17
+  Merged vendor "Engineered Fluids" rows 18–20
+  Merged vendor "Rubitherm
+(Germany)" rows 23–28
+  Merged vendor "Croda
+(UK)" rows 29–32
+Vendor merge: 6 groups merged
+
+Downloading images...
+  OK  novec_7100: 56 kB
+  OK  galden_ht55: 14 kB
+  OK  opteon_sf33: 172 kB
+  OK  opteon_2p50: 172 kB
+  OK  ampcool: 63 kB
+  OK  electrocool: 64 kB
+  OK  rubitherm_rt: 23 kB
+  OK  croda: 547 kB
+  OK  microtek_micro: 192 kB
+  OK  app_immersion: 106 kB
+  OK  app_pcm_cells: 58 kB
+  OK  app_pcm_module: 146 kB
+  OK  app_henkel: 19 kB
+  OK  app_pcm_test: 29 kB
+
+Done. Tab 1: 26 principles, 26 mechanisms updated, 6 vendor groups merged. Tab 2: 14 images downloaded and inserted.

@@ -1,0 +1,30 @@
+﻿python : Traceback (most recent call last):
+At line:1 char:1
++ python -c "
++ ~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call l 
+   ast)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 5, in <module>
+    wb = openpyxl.load_workbook(r'C:\Users\JasonOng\OneDrive - Advancer 
+Global Ltd\AST BD\2024 HyESys\Hardware (PCS.BATT)\v2.2 - data 
+center\cell\Phase Change Coolant Comparison.xlsx')
+  File "C:\Users\JasonOng\AppData\Roaming\Python\Python314\site-packages\op
+enpyxl\reader\excel.py", line 346, in load_workbook
+    reader = ExcelReader(filename, read_only, keep_vba,
+                         data_only, keep_links, rich_text)
+  File "C:\Users\JasonOng\AppData\Roaming\Python\Python314\site-packages\op
+enpyxl\reader\excel.py", line 123, in __init__
+    self.archive = _validate_archive(fn)
+                   ~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\JasonOng\AppData\Roaming\Python\Python314\site-packages\op
+enpyxl\reader\excel.py", line 95, in _validate_archive
+    archive = ZipFile(filename, 'r')
+  File "C:\Python314\Lib\zipfile\__init__.py", line 1454, in __init__
+    self.fp = io.open(file, filemode)
+              ~~~~~~~^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 
+'C:\\Users\\JasonOng\\OneDrive - Advancer Global Ltd\\AST BD\\2024 
+HyESys\\Hardware (PCS.BATT)\\v2.2 - data center\\cell\\Phase Change 
+Coolant Comparison.xlsx'

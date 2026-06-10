@@ -187,7 +187,11 @@
       "WebFetch(domain:hydrogengentech.com)",
       "WebFetch(domain:www.osti.gov)",
       "WebFetch(domain:www.frontiersin.org)",
-      "WebFetch(domain:www.peakscientific.com)"
+      "WebFetch(domain:www.peakscientific.com)",
+      "WebFetch(domain:pmc.ncbi.nlm.nih.gov)",
+      "WebFetch(domain:www2.nrel.gov)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\JasonOng\\\\OneDrive - Advancer Global Ltd\\\\AST BD\\\\2024 HyESys\\\\Hardware \\(PCS.BATT\\)\\\\v2.2 - data center\\\\Gas filter\\\\H2\\\\H2_Purification_Technologies.html\")"
     ]
   },
   "hooks": {

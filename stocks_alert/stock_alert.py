@@ -35,6 +35,62 @@ DISPLAY_NAME = {
     "CSPX.L": "CSPX",
 }
 
+# Per-ticker catalyst and moat — update periodically as thesis evolves
+CATALYST_MOAT = {
+    "NVDA": {
+        "catalyst": "Blackwell GPU ramp; sovereign AI buildout; inference demand expansion",
+        "moat":     "CUDA ecosystem lock-in; GPU data centre dominance; NVLink architecture",
+    },
+    "NFLX": {
+        "catalyst": "Ad-supported tier scaling; live sports rights; global price hikes",
+        "moat":     "Content library depth; recommendation engine; 270M+ subscriber base",
+    },
+    "GOOG": {
+        "catalyst": "AI Overviews monetisation; Gemini model family; Waymo commercialisation",
+        "moat":     "Search monopoly; Android/Chrome ecosystem; YouTube scale; GCP",
+    },
+    "MSFT": {
+        "catalyst": "Copilot AI across Office 365 and Azure; OpenAI partnership leverage",
+        "moat":     "Enterprise software lock-in (Teams, Office, Azure); Windows; LinkedIn data",
+    },
+    "SPOT": {
+        "catalyst": "Podcast/audiobook margin expansion; subscription price increases",
+        "moat":     "Music licensing scale; Discover Weekly personalisation; creator tools",
+    },
+    "CSPX.L": {
+        "catalyst": "US large-cap earnings growth; Fed rate normalisation",
+        "moat":     "Broad S&P 500 diversification; iShares brand; low expense ratio",
+    },
+    "AAPL": {
+        "catalyst": "Apple Intelligence AI rollout; India manufacturing scale-up; Services ARR",
+        "moat":     "iPhone ecosystem stickiness; App Store margins; brand premium",
+    },
+    "AMZN": {
+        "catalyst": "AWS AI infrastructure; advertising growth; healthcare/pharmacy expansion",
+        "moat":     "AWS cloud leadership; Prime flywheel; last-mile logistics network",
+    },
+    "META": {
+        "catalyst": "AI-driven ad targeting; Llama open-source ecosystem; Ray-Ban AI glasses",
+        "moat":     "3B+ user network effects (FB/IG/WhatsApp); ad data moat; Reels",
+    },
+    "TSM": {
+        "catalyst": "N2 node ramp; CoWoS advanced packaging demand; AI chip order surge",
+        "moat":     "Irreplaceable advanced node manufacturing; global customer dependency",
+    },
+    "PLTR": {
+        "catalyst": "US government AI contracts (AIP); commercial enterprise AIP adoption",
+        "moat":     "Gotham/Foundry/AIP platform stickiness; government clearances; ontology IP",
+    },
+    "VOO": {
+        "catalyst": "US economic resilience; S&P 500 earnings growth; dividend reinvestment",
+        "moat":     "Vanguard not-for-profit structure; near-zero expense ratio; index breadth",
+    },
+    "SPCX": {
+        "catalyst": "SPAC market revival; IPO pipeline recovery; M&A cycle upturn",
+        "moat":     "None — rules-based passive strategy",
+    },
+}
+
 SGT = timezone(timedelta(hours=8))
 
 # Tracks whether an alert has already been sent today
@@ -121,6 +177,10 @@ def derive_recommendation(price, ma50, ma200, rsi, analyst_rec, analyst_counts=N
             sell_pct = sell_count / total
             if buy_pct >= 0.60:
                 signals.append("BUY")
+                # Overwhelming consensus (≥80% buy, ≥20 analysts) earns a second vote
+                # so it cannot be cancelled by a single bearish technical signal
+                if buy_pct >= 0.80 and total >= 20:
+                    signals.append("BUY")
             elif sell_pct >= 0.40:
                 signals.append("SELL")
             else:
@@ -266,7 +326,7 @@ def analyse_ticker(symbol) -> tuple[str, str]:
         if hist.empty:
             return f"⚠️ <b>{display}</b> — No data available.\n", "UNKNOWN"
 
-        closes      = list(hist["Close"])
+        closes      = list(hist["Close"].dropna())
         price       = round(closes[-1], 2)
         prev_close  = round(closes[-2], 2) if len(closes) > 1 else price
         day_chg     = round(price - prev_close, 2)
@@ -299,6 +359,10 @@ def analyse_ticker(symbol) -> tuple[str, str]:
         analyst_line  = f"  Analyst Check: {html.escape(analyst_summary)}\n" if analyst_summary else ""
         ratings_line  = f"  Recent Ratings: {html.escape(recent_ratings)}\n" if recent_ratings else ""
 
+        cm             = CATALYST_MOAT.get(symbol, {})
+        catalyst_line  = f"  Catalyst: {html.escape(cm['catalyst'])}\n" if cm.get("catalyst") else ""
+        moat_line      = f"  Moat: {html.escape(cm['moat'])}\n"         if cm.get("moat")     else ""
+
         block = (
             f"{rec_emoji(rec)} <b>{display}</b> — {rec}\n"
             f"  Price: {fmt(price)}  {chg_arrow} {chg_sign}{day_chg} ({chg_sign}{day_pct}%)\n"
@@ -307,6 +371,8 @@ def analyse_ticker(symbol) -> tuple[str, str]:
             f"  52W: {fmt(week52_low)} – {fmt(week52_high)}\n"
             f"{analyst_line}"
             f"{ratings_line}"
+            f"{catalyst_line}"
+            f"{moat_line}"
             f"  Risks:\n    • {risk_text}\n"
             f"  6M Outlook: {html.escape(outlook)}\n"
         )

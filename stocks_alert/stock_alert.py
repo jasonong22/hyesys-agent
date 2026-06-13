@@ -27,7 +27,7 @@ TELEGRAM_CHAT_ID = "42746142"                       # @Jasonozy
 TICKERS = [
     "NVDA", "NFLX", "GOOG", "MSFT", "SPOT",
     "CSPX.L",                                       # LSE listing — analysed at US close time
-    "AAPL", "AMZN", "META", "TSM", "PLTR", "VOO",
+    "AAPL", "AMZN", "META", "TSM", "PLTR", "VOO", "SPCX",
 ]
 
 # Display name overrides
@@ -90,9 +90,11 @@ def ma(closes, period):
 # ─────────────────────────────────────────────
 # RECOMMENDATION ENGINE
 # ─────────────────────────────────────────────
-def derive_recommendation(price, ma50, ma200, rsi, analyst_rec):
+def derive_recommendation(price, ma50, ma200, rsi, analyst_rec, analyst_counts=None):
     """
     Combines technical signals + analyst consensus into BUY / HOLD / SELL.
+    analyst_counts = (total, buy_count, sell_count) from recommendations_summary.
+    When available, count-based consensus overrides the string key for accuracy.
     """
     signals = []
 
@@ -112,8 +114,18 @@ def derive_recommendation(price, ma50, ma200, rsi, analyst_rec):
         else:
             signals.append("HOLD")
 
-    # Analyst consensus from yfinance (strongBuy/buy/hold/sell/strongSell)
-    if analyst_rec:
+    if analyst_counts:
+        total, buy_count, sell_count = analyst_counts
+        if total > 0:
+            buy_pct  = buy_count / total
+            sell_pct = sell_count / total
+            if buy_pct >= 0.60:
+                signals.append("BUY")
+            elif sell_pct >= 0.40:
+                signals.append("SELL")
+            else:
+                signals.append("HOLD")
+    elif analyst_rec:
         rec_lower = analyst_rec.lower()
         if "buy" in rec_lower:
             signals.append("BUY")
@@ -193,6 +205,54 @@ def assess_risks(ticker, rsi, ma50, ma200, price, week52_high, week52_low):
     return risks
 
 # ─────────────────────────────────────────────
+# SECONDARY ANALYST VALIDATION
+# ─────────────────────────────────────────────
+def fetch_analyst_detail(tkr):
+    """
+    Secondary validation layer: pulls analyst count breakdown and recent
+    named-firm rating changes from yfinance (sourced from real sell-side research).
+    Returns (analyst_summary_str, recent_ratings_str, analyst_counts_tuple).
+    analyst_counts = (total, buy_count, sell_count) for derive_recommendation.
+    """
+    analyst_summary = ""
+    recent_ratings  = ""
+    analyst_counts  = None
+
+    try:
+        rec_summary = tkr.recommendations_summary
+        if rec_summary is not None and not rec_summary.empty:
+            latest      = rec_summary.iloc[0]
+            strong_buy  = int(latest.get("strongBuy",  0))
+            buy         = int(latest.get("buy",        0))
+            hold        = int(latest.get("hold",       0))
+            sell        = int(latest.get("sell",       0))
+            strong_sell = int(latest.get("strongSell", 0))
+            total       = strong_buy + buy + hold + sell + strong_sell
+            buy_count   = strong_buy + buy
+            sell_count  = sell + strong_sell
+            if total > 0:
+                analyst_summary = f"{total} analysts — {buy_count} Buy, {hold} Hold, {sell_count} Sell"
+                analyst_counts  = (total, buy_count, sell_count)
+    except Exception:
+        pass
+
+    try:
+        upgrades = tkr.upgrades_downgrades
+        if upgrades is not None and not upgrades.empty:
+            parts = []
+            for _, row in upgrades.head(3).iterrows():
+                firm  = str(row.get("Firm",    "")).strip()
+                grade = str(row.get("ToGrade", "")).strip()
+                if firm and grade:
+                    parts.append(f"{firm} → {grade}")
+            if parts:
+                recent_ratings = "; ".join(parts)
+    except Exception:
+        pass
+
+    return analyst_summary, recent_ratings, analyst_counts
+
+# ─────────────────────────────────────────────
 # FETCH & ANALYSE ONE TICKER
 # ─────────────────────────────────────────────
 def analyse_ticker(symbol) -> tuple[str, str]:
@@ -224,12 +284,17 @@ def analyse_ticker(symbol) -> tuple[str, str]:
         target_price = info.get("targetMeanPrice")
         currency     = info.get("currency", "USD")
 
-        rec     = derive_recommendation(price, ma50_val, ma200_val, rsi_val, analyst_rec)
+        analyst_summary, recent_ratings, analyst_counts = fetch_analyst_detail(tkr)
+
+        rec     = derive_recommendation(price, ma50_val, ma200_val, rsi_val, analyst_rec, analyst_counts)
         risks   = assess_risks(display, rsi_val, ma50_val, ma200_val, price, week52_high, week52_low)
         outlook = six_month_outlook(price, target_price, rec, rsi_val, ma50_val, ma200_val)
 
         risk_text    = "\n    • ".join(html.escape(r) for r in risks)
         currency_sym = "£" if currency in ("GBp", "GBP") else "$"
+
+        analyst_line  = f"  Analyst Check: {html.escape(analyst_summary)}\n" if analyst_summary else ""
+        ratings_line  = f"  Recent Ratings: {html.escape(recent_ratings)}\n" if recent_ratings else ""
 
         block = (
             f"{rec_emoji(rec)} <b>{display}</b> — {rec}\n"
@@ -237,6 +302,8 @@ def analyse_ticker(symbol) -> tuple[str, str]:
             f"  MA50: {currency_sym}{ma50_val:,.2f} | MA200: {currency_sym}{ma200_val:,.2f}\n"
             f"  RSI(14): {rsi_label(rsi_val)}\n"
             f"  52W: {currency_sym}{week52_low:,.2f} – {currency_sym}{week52_high:,.2f}\n"
+            f"{analyst_line}"
+            f"{ratings_line}"
             f"  Risks:\n    • {risk_text}\n"
             f"  6M Outlook: {html.escape(outlook)}\n"
         )
@@ -302,7 +369,7 @@ def build_message():
 
     footer = (
         f"\n{'─' * 32}\n"
-        f"⚡ <i>Analysis based on Yahoo Finance data + technical indicators.</i>\n"
+        f"⚡ <i>Analysis: Yahoo Finance data + technical indicators + sell-side analyst consensus (recommendations_summary, upgrades/downgrades).</i>\n"
         f"<i>Not financial advice. Always do your own research.</i>"
     )
 

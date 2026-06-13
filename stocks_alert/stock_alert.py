@@ -293,15 +293,18 @@ def analyse_ticker(symbol) -> tuple[str, str]:
         risk_text    = "\n    • ".join(html.escape(r) for r in risks)
         currency_sym = "£" if currency in ("GBp", "GBP") else "$"
 
+        def fmt(val):
+            return f"{currency_sym}{val:,.2f}" if val is not None else "N/A"
+
         analyst_line  = f"  Analyst Check: {html.escape(analyst_summary)}\n" if analyst_summary else ""
         ratings_line  = f"  Recent Ratings: {html.escape(recent_ratings)}\n" if recent_ratings else ""
 
         block = (
             f"{rec_emoji(rec)} <b>{display}</b> — {rec}\n"
-            f"  Price: {currency_sym}{price:,.2f}  {chg_arrow} {chg_sign}{day_chg} ({chg_sign}{day_pct}%)\n"
-            f"  MA50: {currency_sym}{ma50_val:,.2f} | MA200: {currency_sym}{ma200_val:,.2f}\n"
+            f"  Price: {fmt(price)}  {chg_arrow} {chg_sign}{day_chg} ({chg_sign}{day_pct}%)\n"
+            f"  MA50: {fmt(ma50_val)} | MA200: {fmt(ma200_val)}\n"
             f"  RSI(14): {rsi_label(rsi_val)}\n"
-            f"  52W: {currency_sym}{week52_low:,.2f} – {currency_sym}{week52_high:,.2f}\n"
+            f"  52W: {fmt(week52_low)} – {fmt(week52_high)}\n"
             f"{analyst_line}"
             f"{ratings_line}"
             f"  Risks:\n    • {risk_text}\n"

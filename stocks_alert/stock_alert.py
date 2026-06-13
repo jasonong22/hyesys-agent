@@ -357,7 +357,6 @@ def analyse_ticker(symbol) -> tuple[str, str]:
             return f"{currency_sym}{val:,.2f}" if val is not None else "N/A"
 
         analyst_line  = f"  Analyst Check: {html.escape(analyst_summary)}\n" if analyst_summary else ""
-        ratings_line  = f"  Recent Ratings: {html.escape(recent_ratings)}\n" if recent_ratings else ""
 
         cm             = CATALYST_MOAT.get(symbol, {})
         catalyst_line  = f"  Catalyst: {html.escape(cm['catalyst'])}\n" if cm.get("catalyst") else ""
@@ -367,10 +366,7 @@ def analyse_ticker(symbol) -> tuple[str, str]:
             f"{rec_emoji(rec)} <b>{display}</b> — {rec}\n"
             f"  Price: {fmt(price)}  {chg_arrow} {chg_sign}{day_chg} ({chg_sign}{day_pct}%)\n"
             f"  MA50: {fmt(ma50_val)} | MA200: {fmt(ma200_val)}\n"
-            f"  RSI(14): {rsi_label(rsi_val)}\n"
-            f"  52W: {fmt(week52_low)} – {fmt(week52_high)}\n"
             f"{analyst_line}"
-            f"{ratings_line}"
             f"{catalyst_line}"
             f"{moat_line}"
             f"  Risks:\n    • {risk_text}\n"
@@ -436,11 +432,7 @@ def build_message():
             current_group = group
         blocks.append(block)
 
-    footer = (
-        f"\n{'─' * 32}\n"
-        f"⚡ <i>Analysis: Yahoo Finance data + technical indicators + sell-side analyst consensus (recommendations_summary, upgrades/downgrades).</i>\n"
-        f"<i>Not financial advice. Always do your own research.</i>"
-    )
+    footer = f"\n{'─' * 32}"
 
     return header + "\n".join(blocks) + footer
 

@@ -35,59 +35,59 @@ DISPLAY_NAME = {
     "CSPX.L": "CSPX",
 }
 
-# Per-ticker catalyst and moat — update periodically as thesis evolves
+# Per-ticker catalyst and moat — last updated June 2026
 CATALYST_MOAT = {
     "NVDA": {
-        "catalyst": "Blackwell GPU ramp; sovereign AI buildout; inference demand expansion",
-        "moat":     "CUDA ecosystem lock-in; GPU data centre dominance; NVLink architecture",
+        "catalyst": "Blackwell GPU ramp; Rubin architecture (2026 roadmap); sovereign AI data centre buildout; inference demand surge from LLM deployment",
+        "moat":     "CUDA ecosystem lock-in (10+ yr head start); NVLink/NVSwitch interconnect; GPU data centre dominance; >80% AI accelerator market share",
     },
     "NFLX": {
-        "catalyst": "Ad-supported tier scaling; live sports rights; global price hikes",
-        "moat":     "Content library depth; recommendation engine; 270M+ subscriber base",
+        "catalyst": "Ad-supported tier now 40M+ MAU; live sports expansion (NFL, WWE); global price hikes executed; password-sharing crackdown fully rolled out",
+        "moat":     "280M+ paid subscriber base; content library depth; proprietary recommendation engine; live events now adding must-watch stickiness",
     },
     "GOOG": {
-        "catalyst": "AI Overviews monetisation; Gemini model family; Waymo commercialisation",
-        "moat":     "Search monopoly; Android/Chrome ecosystem; YouTube scale; GCP",
+        "catalyst": "AI Overviews now in 100+ countries driving search monetisation; Gemini 2.5 leads benchmarks; Waymo commercial robotaxi scaling in US cities; Piper Sandler raised target to $445 (Jun 2026)",
+        "moat":     "90%+ global search share; Android/Chrome ecosystem; YouTube #1 streaming platform; GCP growing 28%+ YoY; DeepMind research advantage",
     },
     "MSFT": {
-        "catalyst": "Copilot AI across Office 365 and Azure; OpenAI partnership leverage",
-        "moat":     "Enterprise software lock-in (Teams, Office, Azure); Windows; LinkedIn data",
+        "catalyst": "Azure AI revenue growing 50%+ YoY; Copilot monetisation across Office 365 (400M seats); OpenAI partnership; TD Cowen buy rating with $540 target (Jun 2026)",
+        "moat":     "Enterprise software lock-in (Teams, Office, Azure); Windows installed base; LinkedIn data network; GitHub Copilot developer ecosystem",
     },
     "SPOT": {
-        "catalyst": "Podcast/audiobook margin expansion; subscription price increases",
-        "moat":     "Music licensing scale; Discover Weekly personalisation; creator tools",
+        "catalyst": "Live music streaming initiative (Bloomberg Jun 2026); 200M+ paid subscribers; AI-driven discovery features; heavy 2026 investment cycle expected to drive 2027 upgrade cycle",
+        "moat":     "Music licensing scale advantage; Discover Weekly personalisation flywheel; podcast/audiobook vertical integration; creator tools ecosystem",
     },
     "CSPX.L": {
-        "catalyst": "US large-cap earnings growth; Fed rate normalisation",
-        "moat":     "Broad S&P 500 diversification; iShares brand; low expense ratio",
+        "catalyst": "US large-cap earnings resilience; Fed rate normalisation tailwind; disinflation data supportive; US-Iran peace deal reduced geopolitical risk premium",
+        "moat":     "Broad S&P 500 diversification (500 stocks); iShares/BlackRock brand; 0.07% expense ratio; high AUM liquidity",
     },
     "AAPL": {
-        "catalyst": "Apple Intelligence AI rollout; India manufacturing scale-up; Services ARR",
-        "moat":     "iPhone ecosystem stickiness; App Store margins; brand premium",
+        "catalyst": "WWDC 2026 as key AI catalyst (Morgan Stanley Jun 2026); Apple Intelligence on-device AI expanding to more features; India manufacturing scale-up; Services ARR ~$100B+ run rate; Morgan Stanley target $360",
+        "moat":     "iPhone ecosystem stickiness (90%+ retention); App Store 30% margin; $3T+ brand; 2B+ active devices; health/wearables expanding TAM",
     },
     "AMZN": {
-        "catalyst": "AWS AI infrastructure; advertising growth; healthcare/pharmacy expansion",
-        "moat":     "AWS cloud leadership; Prime flywheel; last-mile logistics network",
+        "catalyst": "AWS AI cloud infrastructure growing 30%+ YoY; advertising business $60B+ run rate; Q1 2026 operating income $18.4B; stock +3.1% post US-Iran peace deal (Jun 2026)",
+        "moat":     "AWS hyperscale cloud leadership; Prime flywheel (200M+ members); last-mile logistics network; grocery/pharmacy expansion; Alexa AI refresh",
     },
     "META": {
-        "catalyst": "AI-driven ad targeting; Llama open-source ecosystem; Ray-Ban AI glasses",
-        "moat":     "3B+ user network effects (FB/IG/WhatsApp); ad data moat; Reels",
+        "catalyst": "AI ad targeting driving 20%+ revenue growth; Llama 4 open-source ecosystem; 168 MW AI data centre in India (Reliance partnership Jun 2026); Rosenblatt target $1,015; RBC target $810",
+        "moat":     "3.3B+ daily active people across FB/IG/WhatsApp; ad data moat; Reels short-video dominance; Ray-Ban AI glasses mainstream traction",
     },
     "TSM": {
-        "catalyst": "N2 node ramp; CoWoS advanced packaging demand; AI chip order surge",
-        "moat":     "Irreplaceable advanced node manufacturing; global customer dependency",
+        "catalyst": "N2 node production ramp H2 2026; CoWoS advanced packaging sold out through 2027; NVIDIA/Apple/AMD AI chip orders; stock +4.1% post US-Iran peace deal (Jun 2026)",
+        "moat":     "Sole manufacturer of <3nm chips; 60%+ global foundry market share; irreplaceable capital intensity ($40B+/yr capex); global customer dependency",
     },
     "PLTR": {
-        "catalyst": "US government AI contracts (AIP); commercial enterprise AIP adoption",
-        "moat":     "Gotham/Foundry/AIP platform stickiness; government clearances; ontology IP",
+        "catalyst": "Q1 2026 revenue $1.6B (+85% YoY); AIP commercial enterprise adoption accelerating; US government AI contracts expanding; Buy consensus 21 analysts (Jun 2026); positioned as AI cost-management platform",
+        "moat":     "Gotham (defence) + Foundry (enterprise) + AIP platform stickiness; government security clearances; ontology IP; multi-year data integration moats",
     },
     "VOO": {
-        "catalyst": "US economic resilience; S&P 500 earnings growth; dividend reinvestment",
-        "moat":     "Vanguard not-for-profit structure; near-zero expense ratio; index breadth",
+        "catalyst": "S&P 500 YTD gains ~1.7% (Jun 2026); US-Iran peace deal reduced risk; disinflation supportive; RSI recently moved out of overbought territory",
+        "moat":     "Vanguard not-for-profit mutual structure; 0.03% expense ratio; $1T+ AUM scale; instant diversification across 500 US large-caps",
     },
     "SPCX": {
-        "catalyst": "SPAC market revival; IPO pipeline recovery; M&A cycle upturn",
-        "moat":     "None — rules-based passive strategy",
+        "catalyst": "SpaceX Starship commercial launches; Starlink subscriber growth; Golden Cross on MAs (technical bullish); Buy consensus 6 analysts; avg target $188",
+        "moat":     "Reusable rocket technology monopoly; Starlink LEO satellite lead; DoD launch contracts; Elon Musk government access",
     },
 }
 
@@ -203,6 +203,47 @@ def derive_recommendation(price, ma50, ma200, rsi, analyst_rec, analyst_counts=N
     elif sells > buys:
         return "SELL"
     return "HOLD"
+
+def derive_reason(price, ma50, ma200, rsi, analyst_counts, recent_ratings):
+    """Returns a concise string explaining today's BUY/HOLD/SELL signal drivers."""
+    parts = []
+
+    if ma50 and ma200:
+        if price > ma50 > ma200:
+            parts.append(f"golden cross (MA50 ${ma50:,.2f} > MA200 ${ma200:,.2f}) + price above both MAs")
+        elif price < ma50 < ma200:
+            parts.append(f"death cross (MA50 ${ma50:,.2f} < MA200 ${ma200:,.2f}) + price below both MAs")
+        elif price > ma50 and ma50 < ma200:
+            parts.append(f"price above MA50 but MA50 < MA200 — weak/recovering trend")
+        elif price < ma50 and ma50 > ma200:
+            parts.append(f"price pulled back below MA50; golden cross still intact")
+        else:
+            parts.append(f"MA50 ${ma50:,.2f} | MA200 ${ma200:,.2f} — mixed trend")
+
+    if rsi is not None:
+        if rsi < 35:
+            parts.append(f"RSI {rsi} oversold — recovery opportunity")
+        elif rsi > 70:
+            parts.append(f"RSI {rsi} overbought — pullback risk")
+        else:
+            parts.append(f"RSI {rsi} neutral")
+
+    if analyst_counts:
+        total, buy_count, sell_count = analyst_counts
+        if total > 0:
+            buy_pct = buy_count / total * 100
+            if buy_pct >= 60:
+                parts.append(f"{buy_pct:.0f}% analyst buy consensus ({buy_count}/{total})")
+            elif buy_pct <= 30:
+                parts.append(f"weak analyst buy consensus ({buy_pct:.0f}% buy, {total} analysts)")
+            else:
+                parts.append(f"mixed analyst view ({buy_pct:.0f}% buy, {total} analysts)")
+
+    if recent_ratings:
+        parts.append(f"recent ratings: {recent_ratings[:80]}")
+
+    return "  |  ".join(parts) if parts else "Insufficient data for signal explanation"
+
 
 def rec_emoji(rec):
     return {"BUY": "🟢", "HOLD": "🟡", "SELL": "🔴"}.get(rec, "⚪")
@@ -347,6 +388,7 @@ def analyse_ticker(symbol) -> tuple[str, str]:
         analyst_summary, recent_ratings, analyst_counts = fetch_analyst_detail(tkr)
 
         rec     = derive_recommendation(price, ma50_val, ma200_val, rsi_val, analyst_rec, analyst_counts)
+        reason  = derive_reason(price, ma50_val, ma200_val, rsi_val, analyst_counts, recent_ratings)
         risks   = assess_risks(display, rsi_val, ma50_val, ma200_val, price, week52_high, week52_low)
         outlook = six_month_outlook(price, target_price, rec, rsi_val, ma50_val, ma200_val)
 
@@ -364,6 +406,7 @@ def analyse_ticker(symbol) -> tuple[str, str]:
 
         block = (
             f"{rec_emoji(rec)} <b>{display}</b> — {rec}\n"
+            f"  Why: {html.escape(reason)}\n"
             f"  Price: {fmt(price)}  {chg_arrow} {chg_sign}{day_chg} ({chg_sign}{day_pct}%)\n"
             f"  MA50: {fmt(ma50_val)} | MA200: {fmt(ma200_val)}\n"
             f"{analyst_line}"

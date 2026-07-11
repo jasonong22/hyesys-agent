@@ -22,7 +22,7 @@ from docx.oxml import OxmlElement
 import urllib.request
 import tempfile
 
-OUTPUT_PATH = r"C:\Users\JasonOng\Desktop\local docs\personal\viet\Danang_HoiAn_5D4N_Aug2026.docx"
+OUTPUT_PATH = r"C:\Users\JasonOng\Desktop\local docs\personal\viet\Danang_HoiAn_4D1M_Aug2026.docx"
 
 # ── Colour palette ──────────────────────────────────────────────────────────
 NAVY     = RGBColor(0x1A, 0x3A, 0x5C)   # deep navy – headings
@@ -361,6 +361,30 @@ def add_session_block(doc, session_emoji, session_name, details):
         add_bullet(doc, bullet_text)
 
 
+def add_tonight_hotel(doc, night_label, hotel_name, note=""):
+    """Add a coloured 'Tonight's Stay' block at the end of each day."""
+    p = doc.add_paragraph()
+    pf = p.paragraph_format
+    pf.space_before = Pt(10)
+    pf.space_after = Pt(2)
+    r = p.add_run(f"  TONIGHT — {night_label}")
+    r.font.name = "Calibri"
+    r.font.size = Pt(11)
+    r.font.bold = True
+    r.font.color.rgb = NAVY
+    p2 = doc.add_paragraph()
+    pf2 = p2.paragraph_format
+    pf2.space_before = Pt(1)
+    pf2.space_after = Pt(2)
+    r2 = p2.add_run(f"  {hotel_name}")
+    r2.font.name = "Calibri"
+    r2.font.size = Pt(11)
+    r2.font.bold = True
+    r2.font.color.rgb = GOLD
+    if note:
+        add_body(doc, f"  {note}", size=10, colour=TEAL, italic=True, space_after=4)
+
+
 def add_info_row(doc, label, value):
     p = doc.add_paragraph()
     pf = p.paragraph_format
@@ -416,7 +440,7 @@ def build_document():
 
     p2 = doc.add_paragraph()
     p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r2 = p2.add_run("5 Days  •  4 Nights  •  2 Pax")
+    r2 = p2.add_run("4 Full Days + 1 Morning  •  4 Nights  •  2 Pax")
     r2.font.name = "Calibri"
     r2.font.size = Pt(18)
     r2.font.bold = False
@@ -453,8 +477,8 @@ def build_document():
         ("Travellers",     "Jason Ong + 1 companion  (2 pax, ~30 years old)"),
         ("Departure",      "Singapore Changi Airport (SIN)"),
         ("Destination",    "Da Nang International Airport (DAD)"),
-        ("Trip Dates",     "Wednesday 27 Aug – Sunday 31 Aug 2026  (5D4N)"),
-        ("Base Cities",    "Days 1–2: Da Nang  |  Days 3–4: Hoi An  |  Day 5: Da Nang"),
+        ("Trip Dates",     "Wednesday 27 Aug – Sunday 31 Aug 2026  (4 Full Days + 1 Morning)"),
+        ("Base Cities",    "Nights 1–2: Da Nang  |  Nights 3–4: Hoi An  |  Day 5 morning: fly home from Da Nang"),
         ("Flights",        "VietJet Air / Singapore Airlines  (direct, ~2h 50m)"),
         ("Currency",       "Vietnamese Dong (VND) — 1 SGD ≈ 17,000 VND"),
         ("Weather",        "28–33 °C, humid 80–90%, afternoon showers. Pack light + umbrella."),
@@ -501,8 +525,9 @@ def build_document():
                 space_before=6, space_after=2)
     add_bullet(doc, "Outbound (27 Aug Wed): Depart SIN ~07:00–09:00  →  Arrive DAD ~09:50–12:00. "
                "Gives full afternoon. SQ 954 departs SIN 07:05, arrives DAD 09:55.")
-    add_bullet(doc, "Return (31 Aug Sun): Depart DAD ~17:00–20:00  →  Arrive SIN ~20:00–23:00. "
-               "Maximises final morning in Da Nang.")
+    add_bullet(doc, "Return (31 Aug Sun): Depart DAD ~11:30–13:00  →  Arrive SIN ~14:00–15:30. "
+               "Midday departure keeps the full morning free in Hoi An. Book VietJet Air or SQ midday slot — "
+               "check availability at time of booking.")
 
     add_heading(doc, "Budget Estimate (Flights, per person)", level=2, colour=TEAL, size=12,
                 space_before=6, space_after=2)
@@ -591,7 +616,7 @@ def build_document():
     doc.add_page_break()
     add_heading(doc, "DAY 1  —  Wednesday, 27 August 2026", level=1,
                 colour=NAVY, size=17, space_before=0, space_after=2)
-    add_body(doc, "FLY SIN → DAN  |  Arrive & Settle In  |  Intensity: LOW",
+    add_body(doc, "FLY SIN → DAN  |  Full Day in Da Nang",
              size=11, bold=True, colour=GOLD, space_after=4)
     add_horizontal_rule(doc)
 
@@ -625,15 +650,19 @@ def build_document():
         "Dinner: Madame Lan Restaurant (4 Bach Dang, Han River) — beautifully designed courtyard "
         "mimicking a Vietnamese village. Signature dishes: Grilled Semi-Dried Squid, Banh Xeo "
         "(sizzling crepe). Budget: ~SGD 20–30 per person incl. drinks.",
-        "After dinner: Stroll along Bach Dang riverside. The Dragon Bridge lights up at 21:00 "
-        "on weekends — check if Sat/Sun show applies to your schedule.",
-        "Watch (if Sat/Sun): Dragon Bridge breathes fire and water at 21:00 and 21:30. "
-        "Free to watch from riverbank.",
-        "Return to hotel via Grab by 22:30. Rest up for an early Day 2.",
+        "After dinner: Stroll Bach Dang riverside and admire the Dragon Bridge lit up at night — "
+        "it is beautifully illuminated every evening. Note: the fire and water show runs on "
+        "Friday, Saturday and Sunday only. Today is Wednesday — no show tonight. "
+        "The show is saved for Day 3 (Friday)!",
+        "Return to hotel via Grab by 22:30. Early night — Ba Na Hills departs 07:30 tomorrow.",
     ])
 
     add_info_row(doc, "Day 1 Transport", "Grab from airport: ~SGD 5–7. Han River Grab: ~SGD 3 each way.")
     add_info_row(doc, "Day 1 Est. Cost", "~SGD 80–130 per person (incl. flight day share + meals + transport)")
+    add_tonight_hotel(doc, "NIGHT 1 OF 2 IN DA NANG",
+                      "Hyatt Regency Danang Resort & Spa  (or Novotel Han River / Azura Da Nang)",
+                      "Check-in from 14:00. My Khe Beach hotels are ~15–20 min Grab from airport. "
+                      "Drop luggage and head straight to the beach if room isn't ready.")
 
     # ── DAY 2 ─────────────────────────────────────────────────────────────────
     doc.add_page_break()
@@ -695,14 +724,18 @@ def build_document():
     add_info_row(doc, "Day 2 Transport", "Hotel→Ba Na Hills: ~SGD 20–26 one-way. "
                  "Return ~SGD 20–26. City Grab: ~SGD 2–4.")
     add_info_row(doc, "Day 2 Est. Cost", "~SGD 130–180 per person (Ba Na Hills ticket + meals + transport)")
+    add_tonight_hotel(doc, "NIGHT 2 OF 2 IN DA NANG",
+                      "Same Da Nang hotel as Night 1 — no check-out today.",
+                      "Last night in Da Nang. Tomorrow you check out and transfer to Hoi An "
+                      "— after watching the Dragon Bridge fire show (Friday evening).")
 
     # ── DAY 3 ─────────────────────────────────────────────────────────────────
     doc.add_page_break()
     add_heading(doc, "DAY 3  —  Friday, 29 August 2026", level=1,
                 colour=NAVY, size=17, space_before=0, space_after=2)
-    add_body(doc, "MARBLE MOUNTAINS  →  TRAVEL TO HOI AN  →  HOI AN ANCIENT TOWN",
+    add_body(doc, "MARBLE MOUNTAINS  →  DRAGON BRIDGE FIRE SHOW  →  LATE HOI AN CHECK-IN",
              size=11, bold=True, colour=GOLD, space_after=2)
-    add_body(doc, "Intensity: MEDIUM  |  Check out Da Nang, check in Hoi An",
+    add_body(doc, "Intensity: MEDIUM  |  Check out Da Nang — catch the Friday fire show — arrive Hoi An late",
              size=10, italic=True, colour=DARK, space_after=4)
     add_horizontal_rule(doc)
 
@@ -726,47 +759,47 @@ def build_document():
         add_image_to_doc(doc, buf, label, width_inches=5.0)
 
     add_session_block(doc, "☀", "Afternoon", [
-        "Quick lunch near Marble Mountains or at a roadside stop: "
-        "Bun Cha Ca (Da Nang-style fish cake noodle soup) at local eateries — ~30,000–50,000 VND.",
-        "Collect luggage from Da Nang hotel.",
-        "Travel Da Nang → Hoi An: ~30 km, 30–40 min. "
-        "Options: (a) Grab Car — ~250,000–320,000 VND (~SGD 15–19), most convenient with luggage. "
-        "(b) Shuttle bus from Da Nang to Hoi An — ~120,000–180,000 VND (~SGD 7–11) per person.",
-        "Check in to La Siesta Hoi An Resort & Spa (or chosen Hoi An hotel). "
-        "Rooms from 14:00. Pool time to cool down.",
-        "Banh Mi Phuong (2B Phan Chau Trinh) — Anthony Bourdain's favourite banh mi in the world. "
-        "~30,000–50,000 VND (~SGD 1.80–3.00). Queue is part of the experience. Go before 15:00.",
+        "Quick lunch near Marble Mountains: Bun Cha Ca (Da Nang-style fish cake noodle soup) "
+        "at local eateries — ~30,000–50,000 VND.",
+        "Return to Da Nang hotel and collect luggage (~13:30–14:30). "
+        "Don't transfer to Hoi An yet — you're staying in Da Nang until after the Dragon Bridge show.",
+        "Head to Han Market (Cho Han, Tran Phu St) for an hour of souvenir shopping and browsing "
+        "— silk scarves, lacquerware, Vietnamese coffee, dried goods. Cash only.",
+        "Stroll along Bach Dang promenade and the Han Riverfront. Coffee or a drink at a riverside "
+        "café (~15:00–17:00). This is a relaxed Friday afternoon — no rush.",
     ])
 
     add_session_block(doc, "🌙", "Evening", [
-        "First night in Hoi An Ancient Town — buy your entrance ticket (~120,000 VND/~SGD 7) "
-        "at the booth on Le Loi Street. Ticket grants entry to 5 heritage sites.",
-        "Wander the Japanese Covered Bridge (Chùa Cầu) — the most photographed landmark in "
-        "Hoi An. Built in the 1590s by Japanese traders. Beautiful at night with lantern glow.",
-        "White Rose Restaurant (533 Hai Ba Trung) — the only authentic source of White Rose "
-        "Dumplings (Banh Bao Vac). Watch women fold each dumpling by hand. "
-        "~60,000–80,000 VND for a plate (~SGD 3.50–4.70). Must try.",
-        "Dinner: Morning Glory Signature Restaurant (106 Nguyen Thai Hoc) — "
-        "riverfront balcony seating. Central Vietnamese classics elevated to fine dining. "
-        "Chef Vy's signature dishes: Cao Lau, Banh Xeo, White Rose. ~SGD 20–35 per person.",
-        "After dinner: River lanterns. Buy silk lanterns on the riverside (~SGD 1–2 each) "
-        "and float them on the Thu Bon River for good luck.",
-        "Stroll Nguyen Hoang Night Market for handcrafted souvenirs, lanterns, and tailor samples.",
+        "Dinner at Madame Lan (4 Bach Dang) or any Bach Dang riverside restaurant (~18:30–20:30). "
+        "Position yourself near the Dragon Bridge viewing area on Bach Dang promenade.",
+        "DRAGON BRIDGE FIRE & WATER SHOW — 21:00 sharp (Friday, Saturday, Sunday only). "
+        "The 150m dragon breathes real fire and water from the riverbank — free to watch. "
+        "Today is Friday: this is the one evening of your entire trip where the show fires. Don't miss it.",
+        "After the show (~21:30): Grab Car directly to Hoi An — ~30–40 min, "
+        "~250,000–320,000 VND (~SGD 15–19). Arrive Hoi An ~22:15–22:30.",
+        "Late check-in at La Siesta Hoi An (or chosen Hoi An hotel) — pre-advise the hotel of "
+        "late arrival. All reputable hotels handle late check-ins routinely, front desk is 24h.",
+        "Drop bags, freshen up, and rest. Full Hoi An day tomorrow.",
     ])
 
     # Japanese Bridge image
-    buf, label = imgs.get("japanese_bridge", (None, "Japanese Covered Bridge, Hoi An"))
+    buf, label = imgs.get("japanese_bridge", (None, "Hoi An Ancient Town Street"))
     if buf:
         add_image_to_doc(doc, buf, label, width_inches=5.0)
 
-    add_info_row(doc, "Day 3 Transport", "Marble Mtns Grab: ~SGD 6–9. Da Nang→Hoi An Grab: ~SGD 15–19.")
-    add_info_row(doc, "Day 3 Est. Cost", "~SGD 80–120 per person (transport + Marble Mtns + meals + Old Town ticket)")
+    add_info_row(doc, "Day 3 Transport", "Marble Mtns Grab: ~SGD 6–9. Da Nang→Hoi An Grab (late): ~SGD 15–19.")
+    add_info_row(doc, "Day 3 Est. Cost", "~SGD 80–120 per person (transport + Marble Mtns + meals + Dragon Bridge)")
+    add_tonight_hotel(doc, "NIGHT 3 OF 4 — FIRST NIGHT IN HOI AN (late arrival ~22:30)",
+                      "La Siesta Hoi An Resort & Spa  (or RiverTown / The Silk River / Little Hoi An)",
+                      "Inform hotel at booking that you will check in after 22:00. "
+                      "Located near Old Town — 5-min tuk-tuk to Ancient Town entrance. "
+                      "Full Hoi An day starts tomorrow morning.")
 
     # ── DAY 4 ─────────────────────────────────────────────────────────────────
     doc.add_page_break()
     add_heading(doc, "DAY 4  —  Saturday, 30 August 2026", level=1,
                 colour=NAVY, size=17, space_before=0, space_after=2)
-    add_body(doc, "AN BANG BEACH  |  COOKING CLASS  |  TAILORS  |  LANTERN FESTIVAL NIGHT",
+    add_body(doc, "AN BANG BEACH  |  TAILORS  |  COOKING CLASS  |  HOI AN OLD TOWN EVENING",
              size=11, bold=True, colour=GOLD, space_after=2)
     add_body(doc, "Intensity: LOW–MEDIUM  |  Best day of the trip",
              size=10, italic=True, colour=DARK, space_after=4)
@@ -791,36 +824,40 @@ def build_document():
         add_image_to_doc(doc, buf, label, width_inches=5.0)
 
     add_session_block(doc, "☀", "Afternoon", [
-        "Return to Old Town. Head to tailor shops — Hoi An tailors are world-famous for "
-        "24–48 hour turnaround. Visit on Day 4 (Sat) afternoon to collect on Day 5 Sunday morning.",
-        "Recommended tailors: Yaly Couture (358 Nguyen Duy Hieu) — most respected, "
-        "professional fittings, wide fabric selection. A Dong Silk (62 Tran Phu) — good variety, "
-        "competitive pricing. B'lan Silk (2 Nguyen Hoang) — custom ao dai and western suits.",
+        "Return to Old Town (~12:00). First stop: Banh Mi Phuong (2B Phan Chau Trinh) — "
+        "Anthony Bourdain's famous banh mi. ~30,000–50,000 VND (~SGD 1.80–3.00). Queue expected.",
+        "Tailor shops — Hoi An tailors deliver in 24 hours. Visit today (Sat) to collect "
+        "tomorrow morning (Sun) before your flight.",
+        "Recommended: Yaly Couture (358 Nguyen Duy Hieu) — most respected, professional fittings. "
+        "A Dong Silk (62 Tran Phu) — competitive pricing. B'lan Silk (2 Nguyen Hoang) — ao dai + suits.",
         "Prices: Men's 3-piece suit SGD 90–200, women's dress SGD 25–60, custom shirt SGD 20–45. "
-        "Bring reference photos. First fitting today; collect tomorrow.",
-        "Vietnamese Cooking Class (13:00–17:00): Book in advance via Klook/GetYourGuide. "
-        "Recommended: Red Bridge Cooking School (~SGD 45–55 per person, includes market tour + "
-        "4 dishes + boat ride to school). Or Morning Glory Cooking Class (~SGD 35–45).",
-        "Cooking class teaches: Cao Lau noodles, fresh spring rolls, Banh Xeo, White Rose dumplings. "
-        "You eat everything you cook.",
-        "Mid-afternoon snack: Thanh Cao Lau (26 Thai Phien) — tiny family noodle shop, "
-        "best Cao Lau in town. Arrive before 17:00. ~40,000–60,000 VND (~SGD 2.40–3.50).",
+        "Bring reference photos. Confirm your collection time explicitly (aim for 08:00–09:00 Sunday).",
+        "Vietnamese Cooking Class (13:00–17:00): Book in advance via Klook or GetYourGuide. "
+        "Red Bridge Cooking School (~SGD 45–55 per person — includes market tour, 4 dishes, "
+        "short boat ride to school). Or Morning Glory Cooking Class (~SGD 35–45).",
+        "Class covers: Cao Lau noodles, fresh spring rolls, Banh Xeo sizzling crepe, "
+        "White Rose dumplings. You eat everything you cook — come hungry.",
     ])
 
     add_session_block(doc, "🌙", "Evening", [
-        "Dinner at Cargo Club Restaurant (107–109 Nguyen Thai Hoc) — multi-level restaurant "
-        "with river views. Vietnamese + Western fusion. Famous for its patisserie and cakes. "
-        "~SGD 18–30 per person.",
-        "Hoi An Full Moon / Lantern Festival Night: 29 August falls near the full moon "
-        "(29th lunar month of July 2026). Check exact date — typically 13th–15th lunar day. "
-        "If the festival is on 30 Aug, all electric lights go out and the Ancient Town "
-        "glows entirely by lantern light. Absolutely spectacular.",
+        "Buy your Hoi An Ancient Town entrance ticket (~120,000 VND/~SGD 7) at the booth on "
+        "Le Loi Street. Ticket grants entry to 5 heritage sites — valid for the whole evening.",
+        "Wander to the Japanese Covered Bridge (Chùa Cầu) — Hoi An's most iconic landmark, "
+        "built in the 1590s by Japanese traders. Glows with golden lantern light after dark.",
+        "White Rose Restaurant (533 Hai Ba Trung) — the only authentic source of White Rose "
+        "Dumplings (Banh Bao Vac). Watch women fold each dumpling by hand. "
+        "~60,000–80,000 VND a plate (~SGD 3.50–4.70). Go before dinner as a starter.",
+        "Dinner: Morning Glory Signature Restaurant (106 Nguyen Thai Hoc) — riverfront balcony. "
+        "Central Vietnamese classics elevated. Cao Lau, Banh Xeo, White Rose. ~SGD 20–35/person. "
+        "Or Cargo Club (107–109 Nguyen Thai Hoc) for multi-level river views + patisserie.",
+        "Note: The Hoi An Full Moon Lantern Festival (electric lights off, entire Old Town lit "
+        "only by lanterns) falls on 26 August 2026 — the day before you arrive. This trip misses "
+        "it by one day. However, Hoi An is lantern-lit every evening year-round and is "
+        "still extraordinarily atmospheric after dark.",
         "Lantern-Making Workshop (pre-book): 30–45 min sessions in Old Town. "
-        "~100,000–150,000 VND (~SGD 6–9). You build your own silk lantern to take home.",
-        "Float paper lanterns on the Thu Bon River from Cam Nam Bridge — "
-        "beautiful and deeply atmospheric. Lanterns ~SGD 1–2 each.",
-        "Riverside stroll: walk from Japanese Bridge to the Night Market, "
-        "then along the riverfront. Old Town is at its most beautiful after dark.",
+        "~100,000–150,000 VND (~SGD 6–9). Build your own silk lantern to take home.",
+        "Float paper lanterns on the Thu Bon River from Cam Nam Bridge — ~SGD 1–2 each. "
+        "Stroll from Japanese Bridge to the Night Market along the riverfront.",
     ])
 
     # Hoi An Lanterns image
@@ -830,26 +867,40 @@ def build_document():
 
     add_info_row(doc, "Day 4 Transport", "Bicycle An Bang: ~SGD 3–5. Old Town tuk-tuk/Grab: ~SGD 2–4.")
     add_info_row(doc, "Day 4 Est. Cost", "~SGD 120–180 per person (cooking class + tailors + meals + activities)")
+    add_tonight_hotel(doc, "NIGHT 4 OF 4 — LAST NIGHT IN HOI AN",
+                      "La Siesta Hoi An Resort & Spa  (or chosen Hoi An hotel)",
+                      "Final night. Check-out tomorrow 11:00. Confirm tailor collection for "
+                      "08:00–09:00 Sunday. Set an early alarm — midday flight means leaving "
+                      "Hoi An by 09:30–10:00 at the latest.")
 
     # ── DAY 5 ─────────────────────────────────────────────────────────────────
     doc.add_page_break()
     add_heading(doc, "DAY 5  —  Sunday, 31 August 2026", level=1,
                 colour=NAVY, size=17, space_before=0, space_after=2)
-    add_body(doc, "HOI AN → DA NANG  |  LAST MEAL  |  FLY HOME",
+    add_body(doc, "MORNING ONLY  |  LAST BITES  |  FLY HOME MIDDAY",
              size=11, bold=True, colour=GOLD, space_after=2)
-    add_body(doc, "Intensity: LOW  |  Fly home evening",
+    add_body(doc, "Intensity: LOW  |  Check out by 11:00 — midday departure from Da Nang",
              size=10, italic=True, colour=DARK, space_after=4)
     add_horizontal_rule(doc)
 
     add_session_block(doc, "☀", "Morning", [
-        "Leisurely breakfast at hotel. Check out by 11:00 (store luggage).",
-        "Collect tailored garments from tailor shop (should be ready by 09:00–10:00).",
-        "Final wander through the Ancient Town market — buy last-minute souvenirs: "
-        "silk scarves, hand-painted lanterns, lacquerware, Vietnamese coffee, and pho spice mix.",
-        "Com Linh Restaurant (Cam Pho area) — highly recommended for Hoi An Com Ga "
-        "(chicken rice). Iconic late-morning meal. ~50,000–70,000 VND (~SGD 3–4).",
-        "Visit Hoi An Market (Cho Hoi An, 46 Tran Phu) for fresh fruit, dried goods, "
-        "and local snacks to bring back to Singapore.",
+        "Early breakfast at hotel (07:00). Check out by 09:00 — store luggage at reception "
+        "if needed while you do final errands.",
+        "Collect tailored garments from tailor shop (confirm 08:00–09:00 collection the night before). "
+        "Try items on quickly — minor adjustments may be possible on the spot.",
+        "Com Linh Restaurant (Cam Pho area) — Hoi An's best Com Ga (chicken rice). "
+        "Perfect quick breakfast. ~50,000–70,000 VND (~SGD 3–4). Go before 08:30.",
+        "Quick pass through Hoi An Market (Cho Hoi An, 46 Tran Phu) — last-minute dried goods, "
+        "Vietnamese coffee packs, and pho spice mix to bring back to Singapore.",
+        "09:30 sharp: Grab Car from Hoi An to Da Nang Airport — ~250,000–320,000 VND (~SGD 15–19). "
+        "Journey ~30–40 min. Allow 90 min before departure for check-in and security.",
+        "Da Nang International Airport: International terminal is compact — 30 min for security "
+        "is sufficient. Grab a coffee or pho at airport cafes airside.",
+        "Midday departure: VietJet Air or Singapore Airlines ~11:30–13:00 from Da Nang. "
+        "Arrive Singapore Changi ~14:00–15:30.",
+        "Back in Singapore by mid-afternoon — plenty of day left. "
+        "Tip: all Vietnamese dried goods, coffee, and cookies clear Singapore customs with no issues. "
+        "Declare durian products if any (generally prohibited).",
     ])
 
     # Hoi An Ancient Town image
@@ -857,26 +908,8 @@ def build_document():
     if buf:
         add_image_to_doc(doc, buf, label, width_inches=5.0)
 
-    add_session_block(doc, "☀", "Afternoon", [
-        "Travel Hoi An → Da Nang Airport: Grab Car (~250,000–320,000 VND/~SGD 15–19). "
-        "Journey ~30–40 min. Allow 2.5 hours before departure.",
-        "If time allows before leaving Hoi An: Banh Mi Phuong for one last sandwich.",
-        "Arrive Da Nang Airport: Check in, clear security. International terminal is compact "
-        "— 30 min is sufficient for security.",
-        "Lunch/snacks at airport: noodle stalls and cafes airside.",
-        "Recommended return flight: SQ 955 departs DAD 17:10, arrives SIN 20:10. "
-        "Or VietJet Air evening flight ~19:00 arrives SIN ~22:00.",
-    ])
-
-    add_session_block(doc, "🌙", "Evening", [
-        "Board flight back to Singapore. Arrive Changi Airport.",
-        "Tip: Declare any durian products (prohibited) but all other Vietnamese food items "
-        "(packed dried goods, coffee, cookies) are allowed into Singapore.",
-        "Last Vietnamese meal in the air or at Changi: Jewel Changi has Pho Hoa if craving strikes.",
-    ])
-
-    add_info_row(doc, "Day 5 Transport", "Hoi An→Da Nang Airport Grab: ~SGD 15–20.")
-    add_info_row(doc, "Day 5 Est. Cost", "~SGD 50–80 per person (transport + souvenirs + airport + last meals)")
+    add_info_row(doc, "Day 5 Transport", "Hoi An→Da Nang Airport Grab: ~SGD 15–20. No overnight stay.")
+    add_info_row(doc, "Day 5 Est. Cost", "~SGD 40–70 per person (transport + last meal + airport + souvenirs)")
 
     # ── FOOD GUIDE ────────────────────────────────────────────────────────────
     doc.add_page_break()
@@ -1086,15 +1119,22 @@ def build_document():
         ("Bargaining",
          "Expected at night markets and souvenir stalls — start at 50% of asking price. "
          "Polite and friendly. Not appropriate at restaurants with set menus or fixed-price shops."),
+        ("Dragon Bridge Fire Show",
+         "The Dragon Bridge fire and water show runs every Friday, Saturday, and Sunday at 21:00 "
+         "(free, from Bach Dang promenade). Days 1 and 2 of this itinerary are Wednesday and Thursday — "
+         "no show. Day 3 is Friday: the show is built into the evening plan. "
+         "Do not leave Da Nang before 21:30 on Day 3."),
         ("Hoi An Lantern Festival",
-         "The monthly lantern festival (electric lights off, Old Town lit only by lanterns) occurs "
-         "on the 14th day of the lunar calendar. In August 2026, the full moon falls around "
-         "28–29 August — check the exact date. Even without the festival, evenings in Hoi An "
-         "are magical and lantern-lit year-round."),
+         "The full moon lantern festival (electric lights off, Old Town lit entirely by lanterns) "
+         "falls on the 14th day of each lunar month. The August 2026 full moon is 26 August (Wednesday) "
+         "— one day before this trip begins. The festival is missed this trip. "
+         "However, Hoi An's Old Town is lantern-lit every single evening year-round and is "
+         "atmospheric and beautiful on any night."),
         ("Tailoring Tips",
-         "Visit tailor shops on Day 4 (Saturday afternoon) to allow 24-hour turnaround. "
-         "Yaly Couture is the most professional. Bring photos of what you want. "
-         "Confirm fitting appointment and collection time explicitly. Haggle politely."),
+         "Visit tailor shops on Day 4 (Saturday, after the beach — by 12:00). "
+         "This gives exactly 20–21 hours before your 08:00–09:00 Sunday morning collection. "
+         "Yaly Couture (358 Nguyen Duy Hieu) is the most professional and experienced. "
+         "Bring reference photos, confirm collection time to 08:00 Sunday explicitly. Haggle politely."),
         ("Health & Safety",
          "Drink only bottled water. Street food at busy stalls is generally safe. "
          "Carry basic meds: Panadol, Imodium, antihistamine, band-aids. "
@@ -1130,8 +1170,8 @@ def build_document():
     doc.add_paragraph()
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = p.add_run("Itinerary prepared for Jason Ong & companion  |  5D4N Danang + Hoi An  |  "
-                  "27–31 August 2026")
+    r = p.add_run("Itinerary prepared for Jason Ong & companion  |  4 Full Days + 1 Morning  |  "
+                  "Danang + Hoi An  |  27–31 August 2026")
     r.font.name = "Calibri"; r.font.size = Pt(9); r.font.italic = True
     r.font.color.rgb = RGBColor(0x88, 0x88, 0x88)
     p2 = doc.add_paragraph()

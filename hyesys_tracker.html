@@ -5,133 +5,258 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HyESys Project Tracker</title>
 <style>
-:root{--primary:#0f4c81;--primary-light:#1a6db5;--accent:#00c897;--danger:#e53e3e;--warning:#dd6b20;--success:#38a169;--bg:#f7f8fc;--card:#fff;--border:#e2e8f0;--text:#1a202c;--muted:#718096;--shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);--shadow-lg:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05)}
+:root{
+  --primary:#0f4c81;--primary-light:#1a6db5;--accent:#00c897;
+  --danger:#e53e3e;--warning:#dd6b20;--success:#38a169;
+  --bg:#f0f4f9;--card:#fff;--border:#e2e8f0;--text:#1a202c;--muted:#718096;
+  --shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 25px -5px rgba(0,0,0,.15),0 4px 6px -2px rgba(0,0,0,.05);
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px}
-.header{background:var(--primary);color:#fff;padding:0 24px;display:flex;align-items:center;height:60px;gap:16px;box-shadow:var(--shadow);position:sticky;top:0;z-index:100}
-.logo{font-size:19px;font-weight:700;flex-shrink:0}.logo span{color:var(--accent)}
-.search-wrap{flex:1;max-width:300px}
-.search-wrap input{width:100%;padding:7px 12px;border:1px solid rgba(255,255,255,.3);border-radius:6px;background:rgba(255,255,255,.15);color:#fff;font-size:13px}
-.search-wrap input::placeholder{color:rgba(255,255,255,.55)}
+
+/* ── Header ── */
+.header{background:linear-gradient(135deg,#0a3259 0%,var(--primary) 100%);color:#fff;padding:0 28px;display:flex;align-items:center;height:64px;gap:18px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:800;flex-shrink:0;letter-spacing:-.5px}.logo em{color:var(--accent);font-style:normal}
+.logo-sub{font-weight:400;font-size:12px;opacity:.6;margin-left:6px;letter-spacing:0}
 .hdr-right{display:flex;align-items:center;gap:10px;margin-left:auto}
-#syncStatus{font-size:12px;color:rgba(255,255,255,.65)}
-.btn{padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
-.btn-accent{background:var(--accent);color:#000}.btn-accent:hover{background:#00b085}
-.btn-ghost{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)}.btn-ghost:hover{background:rgba(255,255,255,.25)}
-.btn-outline{background:#f7f8fc;color:var(--text);border:1px solid var(--border)}.btn-outline:hover{background:#edf2f7}
+#syncStatus{font-size:11px;color:rgba(255,255,255,.6);padding:4px 10px;border-radius:12px;background:rgba(255,255,255,.1)}
+
+/* ── Buttons ── */
+.btn{padding:8px 18px;border-radius:7px;border:none;cursor:pointer;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
+.btn-accent{background:var(--accent);color:#003d2e}.btn-accent:hover{background:#00b085;transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25)}.btn-ghost:hover{background:rgba(255,255,255,.22)}
+.btn-outline{background:var(--card);color:var(--text);border:1px solid var(--border)}.btn-outline:hover{background:#f0f4f9}
 .btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#c53030}
-.btn-sm{padding:4px 10px;font-size:12px}
-.btn-icon{padding:5px 7px;background:none;border:none;cursor:pointer;color:var(--muted);border-radius:4px;font-size:15px;transition:all .15s}.btn-icon:hover{background:var(--border);color:var(--text)}
-.main{padding:24px;max-width:1440px;margin:0 auto}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.stat{background:var(--card);border-radius:10px;padding:16px 20px;box-shadow:var(--shadow);border-left:4px solid}
-.stat.s1{border-color:var(--primary)}.stat.s2{border-color:var(--success)}.stat.s3{border-color:var(--warning)}.stat.s4{border-color:var(--accent)}
-.stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.stat-val{font-size:28px;font-weight:700}
-.card{background:var(--card);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}
+.btn-sm{padding:5px 12px;font-size:12px;font-weight:500}
+.btn-icon{padding:5px 8px;background:none;border:none;cursor:pointer;border-radius:5px;font-size:15px;transition:all .15s;color:var(--muted)}.btn-icon:hover{background:var(--border)}
+
+/* ── Main ── */
+.main{padding:24px 28px;max-width:1500px;margin:0 auto}
+
+/* ── Stats ── */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:22px}
+.stat{background:var(--card);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);border-top:3px solid}
+.stat.s1{border-color:var(--primary)}.stat.s2{border-color:var(--success)}.stat.s3{border-color:var(--warning)}.stat.s4{border-color:var(--accent)}.stat.s5{border-color:#e53e3e}
+.stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;font-weight:600}
+.stat-val{font-size:30px;font-weight:800;line-height:1}
+
+/* ── Filter bar ── */
+.filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.filter-group{display:flex;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+.filter-btn{padding:7px 18px;border:none;cursor:pointer;font-size:13px;font-weight:500;background:none;color:var(--muted);transition:all .15s}
+.filter-btn.active{background:var(--primary);color:#fff}
+.search-box{flex:1;max-width:320px;position:relative}
+.search-box input{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);box-shadow:var(--shadow)}
+.search-box::before{content:'🔍';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
+
+/* ── Table Card ── */
+.card{background:var(--card);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
 .card-hdr{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.card-title{font-size:15px;font-weight:600}
+.card-title{font-size:15px;font-weight:700}
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
-th{background:#f8fafc;padding:9px 14px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+th{background:#f8fafc;padding:9px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid #f0f4f9;vertical-align:middle}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:#f8fafc}
-.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:500;white-space:nowrap}
+tr:hover td{background:#f8fbff}
+tr.inactive-row td{opacity:.5}
+tr.inactive-row{background:#fafafa}
+
+/* ── Badges ── */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;gap:3px}
 .b-green{background:#e6fffa;color:#276749}.b-blue{background:#ebf8ff;color:#2b6cb0}
 .b-yellow{background:#fffbeb;color:#92400e}.b-red{background:#fff5f5;color:#c53030}
-.b-gray{background:#f7fafc;color:#4a5568;border:1px solid var(--border)}.b-purple{background:#faf5ff;color:#6b46c1}
-.model-chip{background:var(--primary);color:#fff;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:700}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto}
+.b-gray{background:#f0f4f9;color:#4a5568;border:1px solid var(--border)}
+.b-purple{background:#faf5ff;color:#6b46c1}.b-orange{background:#fffaf0;color:#c05621}
+.b-active{background:#e6fffa;color:#276749}.b-inactive{background:#fff5f5;color:#c53030}
+
+/* ── Model chip ── */
+.model-chip{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:3px 10px;border-radius:5px;font-size:12px;font-weight:700;letter-spacing:.3px}
+
+/* ── Progress dots ── */
+.prog-dots{display:flex;gap:4px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:#eee;flex-shrink:0}
+.dot.done{background:var(--success);border-color:#276749}
+.dot.partial{background:var(--warning);border-color:#c05621}
+
+/* ── Active toggle ── */
+.toggle-wrap{display:flex;align-items:center;gap:6px;cursor:pointer}
+.toggle{width:36px;height:20px;border-radius:10px;border:none;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.toggle::after{content:'';position:absolute;width:14px;height:14px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle.on{background:var(--success)}.toggle.on::after{transform:translateX(16px)}
+.toggle.off{background:#cbd5e0}
+.toggle-lbl{font-size:11px;font-weight:600;color:var(--muted)}
+
+/* ── Overlays ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;backdrop-filter:blur(2px)}
 .overlay.hidden{display:none}
-.modal{background:var(--card);border-radius:12px;width:100%;max-width:860px;box-shadow:var(--shadow-lg);margin:auto}
-.modal-sm{max-width:420px}
-.modal-hdr{padding:20px 24px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.modal-title{font-size:17px;font-weight:700}
-.modal-x{background:none;border:none;cursor:pointer;font-size:22px;color:var(--muted);line-height:1}.modal-x:hover{color:var(--text)}
-.tabs{display:flex;padding:0 24px;border-bottom:1px solid var(--border);overflow-x:auto}
-.tab{padding:11px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);white-space:nowrap;transition:all .15s}
+.modal{background:var(--card);border-radius:14px;width:100%;box-shadow:var(--shadow-lg);margin:auto}
+.modal-lg{max-width:920px}.modal-md{max-width:520px}.modal-sm{max-width:420px}
+.modal-hdr{padding:20px 26px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.modal-title{font-size:18px;font-weight:800}
+.modal-x{background:none;border:none;cursor:pointer;font-size:24px;color:var(--muted);line-height:1;padding:0 4px}.modal-x:hover{color:var(--text)}
+
+/* ── Tabs (edit modal) ── */
+.tabs{display:flex;padding:0 26px;border-bottom:1px solid var(--border);overflow-x:auto;gap:0}
+.tab{padding:12px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--muted);white-space:nowrap;transition:all .15s}
 .tab.active{color:var(--primary);border-bottom-color:var(--primary)}
 .tab:hover:not(.active){color:var(--text)}
-.tab-body{padding:24px}
+.tab-body{padding:26px}
 .tab-panel{display:none}.tab-panel.active{display:block}
+
+/* ── View modal sections ── */
+.view-body{padding:26px;display:flex;flex-direction:column;gap:24px;max-height:80vh;overflow-y:auto}
+.vsec{border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.vsec-hdr{background:#f8fafc;padding:10px 16px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--primary);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.vsec-body{padding:16px}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.vgrid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.vitem{display:flex;flex-direction:column;gap:3px}
+.vitem-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+.vitem-val{font-size:13px;font-weight:500;color:var(--text)}
+.vitem-val.mono{font-family:monospace;font-size:11px;background:#f8fafc;padding:3px 7px;border-radius:4px;border:1px solid var(--border);word-break:break-all}
+.vitem-val.empty{color:var(--muted);font-style:italic}
+.meter-view-card{border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;background:#fafbfc}
+.meter-view-card:last-child{margin-bottom:0}
+.meter-view-hdr{font-size:12px;font-weight:700;color:var(--primary);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.check-row{display:flex;align-items:center;gap:8px;font-size:13px}
+.check-icon{font-size:16px}
+.inactive-banner{background:#fff5f5;border:1px solid #fed7d7;border-radius:8px;padding:12px 16px;display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#c53030}
+
+/* ── Form fields ── */
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 .full{grid-column:1/-1}
-.fgrp{display:flex;flex-direction:column;gap:4px}
-.fgrp label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
-.fgrp input,.fgrp select,.fgrp textarea{padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--text);background:#fff;transition:border-color .15s}
+.fgrp{display:flex;flex-direction:column;gap:5px}
+.fgrp label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+.fgrp input,.fgrp select,.fgrp textarea{padding:9px 11px;border:1px solid var(--border);border-radius:7px;font-size:13px;color:var(--text);background:#fff;transition:border-color .15s}
 .fgrp input:focus,.fgrp select:focus,.fgrp textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(15,76,129,.1)}
-.fgrp textarea{resize:vertical;min-height:68px;font-family:monospace;font-size:12px}
+.fgrp textarea{resize:vertical;min-height:70px;font-family:monospace;font-size:12px}
 .fcheck{display:flex;align-items:center;gap:8px}
 .fcheck input[type=checkbox]{width:15px;height:15px;accent-color:var(--primary)}
 .fcheck label{font-size:13px;font-weight:500;cursor:pointer}
 .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px}
-.meter-card{border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;background:#fafbfc}
+.meter-card{border:1px solid var(--border);border-radius:9px;padding:16px;margin-bottom:12px;background:#fafbfc}
 .meter-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.meter-num{font-size:13px;font-weight:600;color:var(--primary)}
-.modal-ftr{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
-.empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px}
-.toast{position:fixed;bottom:24px;right:24px;background:#1a202c;color:#fff;padding:12px 18px;border-radius:8px;font-size:13px;box-shadow:var(--shadow-lg);z-index:999;display:flex;align-items:center;gap:8px;transition:all .3s}
+.meter-num{font-size:13px;font-weight:700;color:var(--primary)}
+.modal-ftr{padding:16px 26px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+
+/* ── Inactive reason modal ── */
+.reason-modal{padding:26px}
+.reason-modal h3{font-size:17px;font-weight:700;margin-bottom:8px}
+.reason-modal p{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:24px;right:24px;background:#1a202c;color:#fff;padding:12px 18px;border-radius:9px;font-size:13px;box-shadow:var(--shadow-lg);z-index:999;display:flex;align-items:center;gap:8px;transition:all .3s}
 .toast.hidden{transform:translateY(80px);opacity:0;pointer-events:none}
 .toast.ok::before{content:'✓';color:var(--accent);font-weight:700}
 .toast.err::before{content:'✕';color:#fc8181;font-weight:700}
-.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.2);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.15);border-top-color:#003d2e;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.flags{SG:'🇸🇬'}
-@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.fg{grid-template-columns:1fr}}
+
+/* ── Empty ── */
+.empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px}
+
+@media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.vgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.fg{grid-template-columns:1fr}.main{padding:16px}}
 </style>
 </head>
 <body>
 
+<!-- ═══ Header ═══ -->
 <header class="header">
-  <div class="logo">Hy<span>E</span>Sys <span style="font-weight:400;font-size:13px;opacity:.7">Project Tracker</span></div>
-  <div class="search-wrap"><input type="text" id="searchInput" placeholder="Search projects…" oninput="renderTable()"></div>
+  <div class="logo">Hy<em>E</em>Sys <span class="logo-sub">Project Tracker</span></div>
   <div class="hdr-right">
     <span id="syncStatus">Not connected</span>
-    <button class="btn btn-ghost" onclick="openSettings()">⚙ Settings</button>
+    <button class="btn btn-ghost btn-sm" onclick="openSettings()">⚙ Settings</button>
     <button class="btn btn-accent" onclick="openAdd()">+ Add Project</button>
   </div>
 </header>
 
 <div class="main">
+
+  <!-- ═══ Stats ═══ -->
   <div class="stats">
     <div class="stat s1"><div class="stat-lbl">Total Projects</div><div class="stat-val" id="sTotal">0</div></div>
-    <div class="stat s2"><div class="stat-lbl">Meter Installed</div><div class="stat-val" id="sActive">0</div></div>
+    <div class="stat s2"><div class="stat-lbl">Active</div><div class="stat-val" id="sActive">0</div></div>
+    <div class="stat s5"><div class="stat-lbl">Inactive</div><div class="stat-val" id="sInactive">0</div></div>
     <div class="stat s3"><div class="stat-lbl">Pending SCDF</div><div class="stat-val" id="sPending">0</div></div>
     <div class="stat s4"><div class="stat-lbl">T&amp;C Complete</div><div class="stat-val" id="sComplete">0</div></div>
   </div>
 
-  <div class="card">
-    <div class="card-hdr">
-      <div class="card-title">Projects</div>
-      <button class="btn btn-outline btn-sm" onclick="exportJSON()">↓ Export JSON</button>
+  <!-- ═══ Filter bar ═══ -->
+  <div class="filter-bar">
+    <div class="filter-group">
+      <button class="filter-btn active" id="fb-all"      onclick="setFilter('all')">All Projects</button>
+      <button class="filter-btn"        id="fb-active"   onclick="setFilter('active')">Active</button>
+      <button class="filter-btn"        id="fb-inactive" onclick="setFilter('inactive')">Inactive</button>
     </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search projects…" oninput="render()">
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="exportJSON()" style="margin-left:auto">↓ Export JSON</button>
+  </div>
+
+  <!-- ═══ Table ═══ -->
+  <div class="card">
     <div class="tbl-wrap">
       <table>
         <thead><tr>
-          <th>Company / Project</th><th>Type</th><th>Country</th><th>Location</th>
-          <th>Model</th><th>Meters</th><th>Meter Progress</th><th>Install Date</th>
-          <th>SCDF</th><th>T&amp;C</th><th style="text-align:right">Actions</th>
+          <th>#</th>
+          <th>Company / Project</th>
+          <th>Type</th>
+          <th>Country</th>
+          <th>Location</th>
+          <th>Model</th>
+          <th>Meter Progress</th>
+          <th>HyESys Install</th>
+          <th>SCDF</th>
+          <th>T&amp;C</th>
+          <th>Overall Progress</th>
+          <th>Status</th>
+          <th style="text-align:center">Actions</th>
         </tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
   </div>
+
+</div><!-- /main -->
+
+<!-- ═══════════════════════════════════════════════
+     VIEW DETAIL MODAL
+═══════════════════════════════════════════════ -->
+<div class="overlay hidden" id="viewOverlay">
+ <div class="modal modal-lg">
+  <div class="modal-hdr">
+    <div>
+      <div class="modal-title" id="viewTitle">Project Details</div>
+      <div id="viewSubtitle" style="font-size:12px;color:var(--muted);margin-top:2px"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="btn btn-outline btn-sm" id="viewEditBtn" onclick="switchToEdit()">✏ Edit</button>
+      <button class="modal-x" onclick="closeOverlay('viewOverlay')">×</button>
+    </div>
+  </div>
+  <div class="view-body" id="viewBody"></div>
+ </div>
 </div>
 
-<!-- Edit/Add Modal -->
+<!-- ═══════════════════════════════════════════════
+     EDIT / ADD MODAL
+═══════════════════════════════════════════════ -->
 <div class="overlay hidden" id="editOverlay">
- <div class="modal">
+ <div class="modal modal-lg">
   <div class="modal-hdr">
     <div class="modal-title" id="modalTitle">Add Project</div>
     <button class="modal-x" onclick="closeOverlay('editOverlay')">×</button>
   </div>
   <div class="tabs">
-    <div class="tab active" onclick="switchTab(0)">Project Info</div>
-    <div class="tab" onclick="switchTab(1)">Meters &amp; MQTT</div>
-    <div class="tab" onclick="switchTab(2)">HyESys Deploy</div>
-    <div class="tab" onclick="switchTab(3)">T&amp;C &amp; Notes</div>
+    <div class="tab active" onclick="switchTab(0)">① Project Info</div>
+    <div class="tab" onclick="switchTab(1)">② Meters &amp; MQTT</div>
+    <div class="tab" onclick="switchTab(2)">③ HyESys Deploy</div>
+    <div class="tab" onclick="switchTab(3)">④ T&amp;C &amp; Notes</div>
   </div>
   <div class="tab-body">
 
@@ -144,10 +269,8 @@ tr:hover td{background:#f8fafc}
         <div class="fgrp"><label>Country</label>
           <select id="f_country">
             <option value="">— Select —</option>
-            <option value="SG">Singapore (SG)</option>
-            <option value="MY">Malaysia (MY)</option>
-            <option value="CN">China (CN)</option>
-            <option value="AU">Australia (AU)</option>
+            <option value="SG">Singapore (SG)</option><option value="MY">Malaysia (MY)</option>
+            <option value="CN">China (CN)</option><option value="AU">Australia (AU)</option>
             <option value="OTHER">Other</option>
           </select>
         </div>
@@ -173,8 +296,8 @@ tr:hover td{background:#f8fafc}
           <select id="f_mprog">
             <option value="">—</option><option value="pending">Pending</option>
             <option value="data collecting">Data Collecting</option>
-            <option value="decoding">Decoding</option>
-            <option value="verified">Verified</option><option value="N/A">N/A</option>
+            <option value="decoding">Decoding</option><option value="verified">Verified</option>
+            <option value="N/A">N/A</option>
           </select>
         </div>
         <div class="fgrp"><label>Date of Meter Installation</label><input type="date" id="f_mdate"></div>
@@ -227,7 +350,7 @@ tr:hover td{background:#f8fafc}
       <div class="fgrp"><textarea id="f_remarks" rows="5" placeholder="Observations, issues, notes…"></textarea></div>
     </div>
 
-  </div><!-- tab-body -->
+  </div>
   <div class="modal-ftr">
     <button class="btn btn-outline" onclick="closeOverlay('editOverlay')">Cancel</button>
     <button class="btn btn-accent" id="saveBtn" onclick="saveProject()">Save Project</button>
@@ -235,35 +358,59 @@ tr:hover td{background:#f8fafc}
  </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════
+     INACTIVE REASON MODAL
+═══════════════════════════════════════════════ -->
+<div class="overlay hidden" id="reasonOverlay">
+ <div class="modal modal-sm reason-modal">
+  <h3>Mark as Inactive?</h3>
+  <p>Please provide a reason for marking this project as inactive. This will be visible in the project record.</p>
+  <div class="fgrp" style="margin-bottom:18px">
+    <label>Reason *</label>
+    <select id="reasonPreset" onchange="applyReasonPreset()" style="margin-bottom:8px">
+      <option value="">— Select a preset or type below —</option>
+      <option value="ROI too long">ROI too long</option>
+      <option value="Analog meter — digital meter required">Analog meter — digital meter required</option>
+      <option value="Client on hold">Client on hold</option>
+      <option value="Project cancelled">Project cancelled</option>
+      <option value="SCDF approval pending">SCDF approval pending</option>
+      <option value="Budget not approved">Budget not approved</option>
+      <option value="Other">Other (specify below)</option>
+    </select>
+    <textarea id="inactiveReason" rows="3" placeholder="Enter reason…"></textarea>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-outline" style="flex:1" onclick="cancelInactive()">Cancel</button>
+    <button class="btn btn-danger" style="flex:1" onclick="confirmInactive()">Mark Inactive</button>
+  </div>
+ </div>
+</div>
+
 <!-- Settings Modal -->
 <div class="overlay hidden" id="settingsOverlay">
- <div class="modal modal-sm" style="padding:24px">
+ <div class="modal modal-sm" style="padding:26px">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
     <div style="font-size:17px;font-weight:700">JSONBin Settings</div>
     <button class="modal-x" onclick="closeOverlay('settingsOverlay')">×</button>
   </div>
   <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5">
-    Data is stored on <strong>JSONBin.io</strong> (free).
-    Create a free account → API Keys → Create Key, then create a Bin and paste the details below.
+    Data is stored on <strong>JSONBin.io</strong> (free). Sign up → API Keys → Create Key,
+    then create a Bin with content <code>{}</code> and paste the Bin ID below.
   </p>
   <div style="display:flex;flex-direction:column;gap:14px">
-    <div class="fgrp"><label>Master API Key</label><input type="password" id="s_key" placeholder="$2a$10$..."></div>
-    <div class="fgrp"><label>Bin ID</label><input id="s_bin" placeholder="64abc123..."></div>
-    <div style="font-size:12px;color:var(--muted);background:#f8fafc;padding:12px;border-radius:6px;border:1px solid var(--border);line-height:1.6">
-      <strong>Steps:</strong> jsonbin.io → Sign up → API Keys → Create key<br>
-      Bins → Create Bin (content: <code>{}</code>) → copy Bin ID from URL
-    </div>
+    <div class="fgrp"><label>Master API Key</label><input type="password" id="s_key" placeholder="$2a$10$…"></div>
+    <div class="fgrp"><label>Bin ID</label><input id="s_bin" placeholder="64abc123…"></div>
   </div>
   <div style="display:flex;gap:10px;margin-top:20px">
     <button class="btn btn-outline" style="flex:1" onclick="closeOverlay('settingsOverlay')">Cancel</button>
-    <button class="btn btn-accent" style="flex:1;color:#000" onclick="saveSettings()">Connect</button>
+    <button class="btn btn-accent" style="flex:1;color:#003d2e" onclick="saveSettings()">Connect</button>
   </div>
  </div>
 </div>
 
 <!-- Delete Confirm -->
 <div class="overlay hidden" id="delOverlay">
- <div class="modal modal-sm" style="padding:24px">
+ <div class="modal modal-sm" style="padding:26px">
   <div style="font-size:17px;font-weight:700;margin-bottom:8px">Delete Project?</div>
   <p style="font-size:13px;color:var(--muted);margin-bottom:20px">This cannot be undone.</p>
   <div style="display:flex;gap:10px">
@@ -275,10 +422,14 @@ tr:hover td{background:#f8fafc}
 
 <div class="toast hidden" id="toast"></div>
 
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════ -->
 <script>
-// ── Seed data ──────────────────────────────────────────────────────────────
+// ─── Seed data ─────────────────────────────────────────────────────────────
 const SEED = [
-  { id:'p1', company:'AST Office', type:'', capbank:false, solar:false, sellback:false,
+  { id:'p1', active:true, inactive_reason:'',
+    company:'AST Office', type:'', capbank:false, solar:false, sellback:false,
     pid:'AHY-AST101', country:'SG', location:'', sld:'', mprog:'data collecting',
     mdate:'', nmeters:5, feeders:null,
     meters:[
@@ -291,14 +442,16 @@ const SEED = [
     offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
     tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
 
-  { id:'p2', company:'HangZhou Longchi', type:'', capbank:false, solar:false, sellback:false,
+  { id:'p2', active:true, inactive_reason:'',
+    company:'HangZhou Longchi', type:'', capbank:false, solar:false, sellback:false,
     pid:'', country:'CN', location:'Longchi', sld:'', mprog:'data collecting',
     mdate:'', nmeters:1, feeders:null,
     meters:[{id:'m6',mid:'',loc:'',verified:false,login:'',aems:'202506270D4B',topic:'',retired:'',cmd_topic:'stsc/aems/cabinet/202506270D4B/multi/operate/tx',cmd:'',restart_topic:'',restart_cmd:''}],
     offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
     tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
 
-  { id:'p3', company:'MAS', type:'office', capbank:false, solar:false, sellback:false,
+  { id:'p3', active:true, inactive_reason:'',
+    company:'MAS', type:'office', capbank:false, solar:false, sellback:false,
     pid:'', country:'SG', location:'Shenton Way', sld:'yes', mprog:'data collecting',
     mdate:'2026-01-24', nmeters:2, feeders:null,
     meters:[
@@ -308,14 +461,16 @@ const SEED = [
     offgrid:false,db:'Level 24 AHU spare',dloc:'L24 AHU',hdate:'',scdf:'Conditional Approval',pcs:50,kwh:110,packs:'11',fw:'',
     tc1:false,tc2:false,tc3:false,tcdate:'',logic:'kvar, kvar+kw',remarks:'Poor PF avg 0.7. Copper loss 1kW due to long cable (200m)' },
 
-  { id:'p4', company:'Baoyuan', type:'fabric factory', capbank:true, solar:false, sellback:false,
+  { id:'p4', active:true, inactive_reason:'',
+    company:'Baoyuan', type:'fabric factory', capbank:true, solar:false, sellback:false,
     pid:'', country:'CN', location:'Zhuji', sld:'', mprog:'data collecting',
     mdate:'2026-02-27', nmeters:3, feeders:12,
     meters:[{id:'m9',mid:'TCP & MQTT (044 is HyESys)',loc:'?',verified:true,login:'',aems:'stsc/aems/message/26022703840003',topic:'hyesys/data/dev/26022703840003',retired:'stsc/aems/cabinet/26022703840003/multi/operate/tx (Retired)',cmd_topic:'stsc/aems/cabinet/26022703840003/multi2/operate/tx',cmd:'',restart_topic:'stsc/aems/cabinet/26022703840003/operate/tx',restart_cmd:'{"cabinetId":"26022703840003","index":1,"key":"lems_restart","value":1,"remote":true}'}],
     offgrid:false,db:'LV room Cabinet A',dloc:'',hdate:'2026-02-27',scdf:'NIL',pcs:125,kwh:232,packs:'B1-4',fw:'',
     tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'Load side poor PF avg 0.6 — existing cap bank on site' },
 
-  { id:'p5', company:'Baoyuan (Capbank)', type:'', capbank:true, solar:false, sellback:false,
+  { id:'p5', active:true, inactive_reason:'',
+    company:'Baoyuan (Capbank)', type:'', capbank:true, solar:false, sellback:false,
     pid:'', country:'CN', location:'Zhuji', sld:'', mprog:'data collecting',
     mdate:'2026-02-17', nmeters:2, feeders:null,
     meters:[
@@ -325,14 +480,16 @@ const SEED = [
     offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
     tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
 
-  { id:'p6', company:'Shan Poornam Factory', type:'metals factory', capbank:false, solar:true, sellback:true,
+  { id:'p6', active:true, inactive_reason:'',
+    company:'Shan Poornam Factory', type:'metals factory', capbank:false, solar:true, sellback:true,
     pid:'', country:'MY', location:'Penang', sld:'', mprog:'data collecting',
     mdate:'2025-12-22', nmeters:1, feeders:null,
     meters:[{id:'m12',mid:'24e124445e275325',loc:'',verified:true,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''}],
     offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
     tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
 
-  { id:'p7', company:'Federal Oat Mills', type:'oat processing factory', capbank:false, solar:false, sellback:false,
+  { id:'p7', active:true, inactive_reason:'',
+    company:'Federal Oat Mills', type:'oat processing factory', capbank:false, solar:false, sellback:false,
     pid:'', country:'MY', location:'Penang', sld:'', mprog:'data collecting',
     mdate:'2025-12-22', nmeters:2, feeders:null,
     meters:[
@@ -342,13 +499,15 @@ const SEED = [
     offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
     tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
 
-  { id:'p8', company:'Singtel City South', type:'office', capbank:false, solar:false, sellback:false,
+  { id:'p8', active:false, inactive_reason:'Analog meter on site — digital meter required before HyESys deployment',
+    company:'Singtel City South', type:'office', capbank:false, solar:false, sellback:false,
     pid:'analog meter', country:'SG', location:'Tanjong Pagar', sld:'', mprog:'',
     mdate:'', nmeters:0, feeders:null, meters:[],
     offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
     tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'Analog meter on site — digital meter required before HyESys deployment' },
 
-  { id:'p9', company:'Singtel Pickering', type:'office', capbank:false, solar:false, sellback:false,
+  { id:'p9', active:false, inactive_reason:'ROI too long',
+    company:'Singtel Pickering', type:'office', capbank:false, solar:false, sellback:false,
     pid:'ROI too long', country:'SG', location:'Tanjong Katong', sld:'yes', mprog:'data collecting',
     mdate:'2026-03-13', nmeters:2, feeders:2,
     meters:[
@@ -358,55 +517,60 @@ const SEED = [
     offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
     tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
 
-  { id:'p10', company:'Orchard Scotts', type:'condo', capbank:false, solar:false, sellback:false,
+  { id:'p10', active:true, inactive_reason:'',
+    company:'Orchard Scotts', type:'condo', capbank:false, solar:false, sellback:false,
     pid:'', country:'SG', location:'Orchard', sld:'', mprog:'decoding',
     mdate:'2026-03-04', nmeters:3, feeders:null, meters:[],
     offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
     tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'Meter installation done' }
 ];
 
-// ── State ──────────────────────────────────────────────────────────────────
+// ─── State ─────────────────────────────────────────────────────────────────
 let projects = [];
-let editId = null;
-let delId = null;
+let editId = null, delId = null, reasonId = null, viewId = null;
 let meterBuf = [];
+let filterMode = 'all';
 let API_KEY = localStorage.getItem('jb_key') || '';
 let BIN_ID  = localStorage.getItem('jb_bin')  || '';
 
-// ── JSONBin ────────────────────────────────────────────────────────────────
+// ─── JSONBin ───────────────────────────────────────────────────────────────
 async function load() {
   if (!API_KEY || !BIN_ID) {
     projects = JSON.parse(localStorage.getItem('hye_data') || 'null') || SEED;
-    render(); stats(); setSync('Local mode (no JSONBin configured)', false); return;
+    render(); updateStats(); setSync('Local mode — no JSONBin configured', false); return;
   }
   setSync('Loading…', false);
   try {
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,
-      { headers:{ 'X-Master-Key': API_KEY } });
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers:{'X-Master-Key':API_KEY} });
     const d = await r.json();
     projects = Array.isArray(d.record?.projects) ? d.record.projects : SEED;
     if (!Array.isArray(d.record?.projects)) await push();
-    render(); stats(); setSync('Synced ' + now(), true);
-  } catch { setSync('Connect failed — local mode', false); projects = JSON.parse(localStorage.getItem('hye_data')||'null')||SEED; render(); stats(); }
+    render(); updateStats(); setSync('Synced ' + now(), true);
+  } catch {
+    setSync('Connect failed — local mode', false);
+    projects = JSON.parse(localStorage.getItem('hye_data')||'null') || SEED;
+    render(); updateStats();
+  }
 }
-
 async function push() {
   localStorage.setItem('hye_data', JSON.stringify(projects));
   if (!API_KEY || !BIN_ID) return;
   try {
-    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,
-      { method:'PUT', headers:{'Content-Type':'application/json','X-Master-Key':API_KEY}, body:JSON.stringify({projects}) });
+    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      method:'PUT', headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
+      body: JSON.stringify({projects})
+    });
     setSync('Saved ' + now(), true);
   } catch { setSync('Save failed — stored locally', false); }
 }
-
 function setSync(msg, ok) {
   const el = document.getElementById('syncStatus');
-  el.textContent = msg; el.style.color = ok ? '#86efac' : 'rgba(255,255,255,.6)';
+  el.textContent = msg; el.style.background = ok ? 'rgba(0,200,150,.2)' : 'rgba(255,255,255,.1)';
+  el.style.color = ok ? '#86efac' : 'rgba(255,255,255,.6)';
 }
 function now() { return new Date().toLocaleTimeString(); }
 
-// ── Settings ───────────────────────────────────────────────────────────────
+// ─── Settings ──────────────────────────────────────────────────────────────
 function openSettings() {
   document.getElementById('s_key').value = API_KEY;
   document.getElementById('s_bin').value = BIN_ID;
@@ -419,12 +583,21 @@ function saveSettings() {
   closeOverlay('settingsOverlay'); load();
 }
 
-// ── Render ─────────────────────────────────────────────────────────────────
+// ─── Filter ────────────────────────────────────────────────────────────────
+function setFilter(mode) {
+  filterMode = mode;
+  ['all','active','inactive'].forEach(m => {
+    document.getElementById('fb-'+m).classList.toggle('active', m === mode);
+  });
+  render();
+}
+
+// ─── Helpers ───────────────────────────────────────────────────────────────
 const FLAG = {SG:'🇸🇬',MY:'🇲🇾',CN:'🇨🇳',AU:'🇦🇺'};
-function model(p) {
-  const k = Number(p.pcs);
-  if (!k) return ''; if (k<=30) return 'H30'; if (k<=50) return 'H50';
-  if (k<=60) return 'H60'; if (k<=100) return 'H100'; return 'H125';
+function modelOf(p) {
+  const k=Number(p.pcs); if(!k) return '';
+  if(k<=30) return 'H30'; if(k<=50) return 'H50';
+  if(k<=60) return 'H60'; if(k<=100) return 'H100'; return 'H125';
 }
 function mpBadge(v) {
   if (!v) return '<span class="badge b-gray">—</span>';
@@ -436,122 +609,234 @@ function mpBadge(v) {
 }
 function scdfBadge(v) {
   if (!v) return '<span class="badge b-gray">—</span>';
-  if (v==='Approved')              return '<span class="badge b-green">Approved</span>';
-  if (v==='Conditional Approval')  return '<span class="badge b-yellow">Conditional</span>';
-  if (v==='NIL')                   return '<span class="badge b-gray">NIL</span>';
-  if (v==='Submitted')             return '<span class="badge b-blue">Submitted</span>';
-  if (v==='Pending')               return '<span class="badge b-yellow">Pending</span>';
+  if (v==='Approved')             return '<span class="badge b-green">Approved</span>';
+  if (v==='Conditional Approval') return '<span class="badge b-yellow">Conditional</span>';
+  if (v==='NIL')                  return '<span class="badge b-gray">NIL</span>';
+  if (v==='Submitted')            return '<span class="badge b-blue">Submitted</span>';
+  if (v==='Pending')              return '<span class="badge b-orange">Pending</span>';
   return `<span class="badge b-gray">${v}</span>`;
 }
 function tcBadge(p) {
-  if (p.tc1&&p.tc2&&p.tc3) return '<span class="badge b-green">Complete</span>';
+  if (p.tc1&&p.tc2&&p.tc3) return '<span class="badge b-green">✓ Complete</span>';
   if (p.tc1||p.tc2||p.tc3) return '<span class="badge b-yellow">Partial</span>';
   return '<span class="badge b-gray">—</span>';
 }
+function progressDots(p) {
+  const steps = [
+    !!p.mdate,
+    p.mprog === 'data collecting' || p.mprog === 'verified',
+    !!p.hdate,
+    p.scdf === 'Approved' || p.scdf === 'NIL' || p.scdf === 'Conditional Approval',
+    p.tc1 && p.tc2 && p.tc3
+  ];
+  const labels = ['Meter Install','Data Collection','HyESys Install','SCDF','T&C'];
+  return '<div class="prog-dots">' + steps.map((done,i) =>
+    `<div class="dot ${done?'done':''}" title="${labels[i]}: ${done?'Done':'Pending'}"></div>`
+  ).join('') + `<span style="font-size:11px;color:var(--muted);margin-left:4px">${steps.filter(Boolean).length}/5</span></div>`;
+}
+function val(v, fallback='—') { return v || `<span style="color:var(--muted);font-style:italic">${fallback}</span>`; }
+function yn(v) { return v ? '<span class="badge b-green">Yes</span>' : '<span class="badge b-gray">No</span>'; }
+function ck(v) { return v ? '<span class="check-icon">✅</span>' : '<span class="check-icon" style="opacity:.3">☐</span>'; }
+function esc(v) { return (v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 
+// ─── Render table ──────────────────────────────────────────────────────────
 function render() {
   const q = document.getElementById('searchInput').value.toLowerCase();
-  const list = projects.filter(p => !q ||
-    [p.company,p.type,p.location,p.country,p.pid,p.remarks].some(v=>(v||'').toLowerCase().includes(q)));
+  let list = projects.filter(p => {
+    if (filterMode === 'active'   && !p.active) return false;
+    if (filterMode === 'inactive' &&  p.active) return false;
+    if (q && ![p.company,p.type,p.location,p.country,p.pid,p.remarks]
+              .some(v=>(v||'').toLowerCase().includes(q))) return false;
+    return true;
+  });
+
   const tb = document.getElementById('tbody');
-  if (!list.length) { tb.innerHTML = `<tr><td colspan="11"><div class="empty">No projects found</div></td></tr>`; return; }
-  tb.innerHTML = list.map(p => `<tr>
-    <td><div style="font-weight:600">${p.company}</div>${p.pid?`<div style="font-size:11px;color:var(--muted)">${p.pid}</div>`:''}</td>
-    <td style="color:var(--muted);font-size:12px">${p.type||'—'}</td>
-    <td>${p.country?`${FLAG[p.country]||''} ${p.country}`:'—'}</td>
-    <td style="font-size:13px">${p.location||'—'}</td>
-    <td>${model(p)?`<span class="model-chip">${model(p)}</span>`:'<span style="color:var(--muted)">—</span>'}</td>
-    <td style="text-align:center">${p.meters?.length||0}</td>
+  if (!list.length) {
+    tb.innerHTML = `<tr><td colspan="13"><div class="empty">No projects match this filter.</div></td></tr>`;
+    return;
+  }
+  tb.innerHTML = list.map((p, i) => `
+  <tr class="${p.active ? '' : 'inactive-row'}">
+    <td style="color:var(--muted);font-size:12px;font-weight:600">${i+1}</td>
+    <td>
+      <div style="font-weight:700;font-size:14px">${esc(p.company)}</div>
+      ${p.pid ? `<div style="font-size:11px;color:var(--muted)">${esc(p.pid)}</div>` : ''}
+    </td>
+    <td style="color:var(--muted);font-size:12px">${p.type || '—'}</td>
+    <td style="font-size:13px">${p.country ? `${FLAG[p.country]||''} ${p.country}` : '—'}</td>
+    <td style="font-size:13px">${p.location || '—'}</td>
+    <td>${modelOf(p) ? `<span class="model-chip">${modelOf(p)}</span>${p.pcs?`<div style="font-size:10px;color:var(--muted);margin-top:2px">${p.pcs}kW · ${p.kwh||'?'}kWh</div>`:''}`
+        : '<span style="color:var(--muted)">—</span>'}</td>
     <td>${mpBadge(p.mprog)}</td>
-    <td style="font-size:12px;color:var(--muted)">${p.mdate||'—'}</td>
+    <td style="font-size:12px;color:var(--muted)">${p.hdate || '<span style="color:var(--muted)">—</span>'}</td>
     <td>${scdfBadge(p.scdf)}</td>
     <td>${tcBadge(p)}</td>
-    <td style="text-align:right;white-space:nowrap">
+    <td>${progressDots(p)}</td>
+    <td>
+      <div class="toggle-wrap" onclick="toggleActive('${p.id}')">
+        <button class="toggle ${p.active?'on':'off'}" title="${p.active?'Click to mark inactive':'Click to mark active'}"></button>
+        <span class="toggle-lbl" style="color:${p.active?'var(--success)':'var(--danger)'}">${p.active?'Active':'Inactive'}</span>
+      </div>
+      ${!p.active && p.inactive_reason ? `<div style="font-size:10px;color:var(--muted);margin-top:3px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(p.inactive_reason)}">${esc(p.inactive_reason)}</div>` : ''}
+    </td>
+    <td style="text-align:center;white-space:nowrap">
+      <button class="btn-icon" title="View details" onclick="openView('${p.id}')">👁</button>
       <button class="btn-icon" title="Edit" onclick="openEdit('${p.id}')">✏</button>
-      <button class="btn-icon" style="color:#fc8181" title="Delete" onclick="openDel('${p.id}')">🗑</button>
+      <button class="btn-icon" title="Delete" style="color:#fc8181" onclick="openDel('${p.id}')">🗑</button>
     </td>
   </tr>`).join('');
 }
 
-function stats() {
-  document.getElementById('sTotal').textContent = projects.length;
-  document.getElementById('sActive').textContent = projects.filter(p=>p.mdate).length;
-  document.getElementById('sPending').textContent = projects.filter(p=>p.scdf&&p.scdf!=='NIL'&&p.scdf!=='Approved').length;
+function updateStats() {
+  document.getElementById('sTotal').textContent    = projects.length;
+  document.getElementById('sActive').textContent   = projects.filter(p=>p.active).length;
+  document.getElementById('sInactive').textContent = projects.filter(p=>!p.active).length;
+  document.getElementById('sPending').textContent  = projects.filter(p=>p.scdf&&p.scdf!=='NIL'&&p.scdf!=='Approved').length;
   document.getElementById('sComplete').textContent = projects.filter(p=>p.tc1&&p.tc2&&p.tc3).length;
 }
 
-// ── Tabs ───────────────────────────────────────────────────────────────────
-function switchTab(i) {
-  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',i===j));
-  document.querySelectorAll('.tab-panel').forEach((p,j)=>p.classList.toggle('active',i===j));
+// ─── Active / Inactive toggle ──────────────────────────────────────────────
+function toggleActive(id) {
+  const p = projects.find(x=>x.id===id); if (!p) return;
+  if (p.active) {
+    reasonId = id;
+    document.getElementById('inactiveReason').value = '';
+    document.getElementById('reasonPreset').value = '';
+    document.getElementById('reasonOverlay').classList.remove('hidden');
+  } else {
+    p.active = true; p.inactive_reason = '';
+    push(); render(); updateStats();
+    toast('Project marked Active','ok');
+  }
+}
+function applyReasonPreset() {
+  const v = document.getElementById('reasonPreset').value;
+  if (v && v !== 'Other') document.getElementById('inactiveReason').value = v;
+}
+function confirmInactive() {
+  const reason = document.getElementById('inactiveReason').value.trim();
+  if (!reason) { toast('Please enter a reason','err'); return; }
+  const p = projects.find(x=>x.id===reasonId); if (!p) return;
+  p.active = false; p.inactive_reason = reason;
+  push(); render(); updateStats();
+  closeOverlay('reasonOverlay');
+  toast('Project marked Inactive','ok');
+  reasonId = null;
+}
+function cancelInactive() {
+  closeOverlay('reasonOverlay'); reasonId = null;
 }
 
-// ── Meter Cards ────────────────────────────────────────────────────────────
-function addMeterCard(m=null) {
-  const id = m?.id || 'nm_'+Date.now();
-  const d = m || {id,mid:'',loc:'',verified:false,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''};
-  meterBuf.push(d);
-  const n = meterBuf.length;
-  const wrap = document.getElementById('meterCards');
-  const el = document.createElement('div');
-  el.className = 'meter-card'; el.dataset.mid = id;
-  el.innerHTML = `
-    <div class="meter-hdr">
-      <div class="meter-num">Meter ${n}</div>
-      <button class="btn btn-sm" style="background:#fff5f5;color:#c53030;border:1px solid #feb2b2" onclick="removeMeter('${id}')">Remove</button>
+// ─── View Detail Modal ─────────────────────────────────────────────────────
+function openView(id) {
+  const p = projects.find(x=>x.id===id); if (!p) return;
+  viewId = id;
+  document.getElementById('viewTitle').textContent = p.company;
+  document.getElementById('viewSubtitle').textContent =
+    [p.type, p.country ? `${FLAG[p.country]||''} ${p.country}` : '', p.location].filter(Boolean).join(' · ');
+  document.getElementById('viewEditBtn').onclick = () => { closeOverlay('viewOverlay'); openEdit(id); };
+
+  const tags = [];
+  if (p.capbank)  tags.push('<span class="badge b-orange">Cap Bank</span>');
+  if (p.solar)    tags.push('<span class="badge b-yellow">☀ Solar</span>');
+  if (p.sellback) tags.push('<span class="badge b-purple">↩ Sell-back</span>');
+
+  const metersHtml = (p.meters||[]).length === 0
+    ? '<p style="color:var(--muted);font-style:italic;font-size:13px">No meters configured.</p>'
+    : (p.meters||[]).map((m,i) => `
+      <div class="meter-view-card">
+        <div class="meter-view-hdr">Meter ${i+1}${m.loc ? ' — ' + esc(m.loc) : ''}</div>
+        <div class="vgrid">
+          <div class="vitem"><div class="vitem-lbl">Meter ID</div><div class="vitem-val mono">${val(m.mid)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Login Type</div><div class="vitem-val">${val(m.login)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Verified</div><div class="vitem-val">${yn(m.verified)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">AEMS ID</div><div class="vitem-val mono">${val(m.aems)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Meter Topic</div><div class="vitem-val mono">${val(m.topic)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Retired Topic</div><div class="vitem-val mono">${val(m.retired)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">kW/kVAr CMD Topic</div><div class="vitem-val mono">${val(m.cmd_topic)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">EMS Restart Topic</div><div class="vitem-val mono">${val(m.restart_topic)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">EMS Restart CMD</div><div class="vitem-val mono">${val(m.restart_cmd)}</div></div>
+        </div>
+        ${m.cmd ? `<div style="margin-top:10px"><div class="vitem-lbl" style="margin-bottom:4px">CMD Payload</div><div class="vitem-val mono" style="display:block;padding:8px;line-height:1.5">${esc(m.cmd)}</div></div>` : ''}
+      </div>`).join('');
+
+  document.getElementById('viewBody').innerHTML = `
+    ${!p.active ? `<div class="inactive-banner">⚠ <div><strong>Inactive Project</strong><br>${esc(p.inactive_reason)}</div></div>` : ''}
+
+    <div class="vsec">
+      <div class="vsec-hdr">① Project Information</div>
+      <div class="vsec-body">
+        <div class="vgrid">
+          <div class="vitem"><div class="vitem-lbl">Company</div><div class="vitem-val" style="font-weight:700">${esc(p.company)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Application Type</div><div class="vitem-val">${val(p.type)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Project ID</div><div class="vitem-val">${val(p.pid)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Country</div><div class="vitem-val">${p.country ? `${FLAG[p.country]||''} ${p.country}` : '—'}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Location</div><div class="vitem-val">${val(p.location)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">SLD Acquired</div><div class="vitem-val">${val(p.sld)}</div></div>
+        </div>
+        ${tags.length ? `<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">${tags.join('')}</div>` : ''}
+      </div>
     </div>
-    <div class="fg">
-      <div class="fgrp"><label>Meter ID</label><input class="mc_mid" data-mid="${id}" value="${esc(d.mid)}" placeholder="e.g. 24e124445e271707"></div>
-      <div class="fgrp"><label>Name / Location</label><input class="mc_loc" data-mid="${id}" value="${esc(d.loc)}" placeholder="e.g. MSB1, tapoff"></div>
-      <div class="fgrp"><label>Login Type</label>
-        <select class="mc_login" data-mid="${id}">
-          <option value="" ${!d.login?'selected':''}>—</option>
-          <option value="ast" ${d.login==='ast'?'selected':''}>AST</option>
-          <option value="stsc" ${d.login==='stsc'?'selected':''}>STSC</option>
-        </select>
+
+    <div class="vsec">
+      <div class="vsec-hdr">② Meter Setup</div>
+      <div class="vsec-body">
+        <div class="vgrid" style="margin-bottom:16px">
+          <div class="vitem"><div class="vitem-lbl">Meter Progress</div><div class="vitem-val">${mpBadge(p.mprog)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Install Date</div><div class="vitem-val">${val(p.mdate)}</div></div>
+          <div class="vitem"><div class="vitem-lbl"># Meters</div><div class="vitem-val">${p.nmeters||'—'}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Feeders Measured</div><div class="vitem-val">${val(p.feeders)}</div></div>
+        </div>
+        ${metersHtml}
       </div>
-      <div class="fgrp" style="align-self:end;padding-bottom:8px">
-        <div class="fcheck"><input type="checkbox" class="mc_v" data-mid="${id}" id="mcv_${id}" ${d.verified?'checked':''}><label for="mcv_${id}">Verified</label></div>
+    </div>
+
+    <div class="vsec">
+      <div class="vsec-hdr">③ HyESys Deployment</div>
+      <div class="vsec-body">
+        <div class="vgrid">
+          <div class="vitem"><div class="vitem-lbl">Model</div><div class="vitem-val">${modelOf(p) ? `<span class="model-chip">${modelOf(p)}</span>` : '—'}</div></div>
+          <div class="vitem"><div class="vitem-lbl">PCS Rating</div><div class="vitem-val">${p.pcs ? p.pcs + ' kW' : '—'}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Battery</div><div class="vitem-val">${p.kwh ? p.kwh + ' kWh' : '—'}</div></div>
+          <div class="vitem"><div class="vitem-lbl"># Packs</div><div class="vitem-val">${val(p.packs)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Deploy DB (Cabinet)</div><div class="vitem-val">${val(p.db)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Deploy Location</div><div class="vitem-val">${val(p.dloc)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">HyESys Install Date</div><div class="vitem-val">${val(p.hdate)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">SCDF Progress</div><div class="vitem-val">${scdfBadge(p.scdf)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Need Off-Grid</div><div class="vitem-val">${yn(p.offgrid)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">EMS Firmware</div><div class="vitem-val">${val(p.fw)}</div></div>
+          <div class="vitem"><div class="vitem-lbl">Logic Strategy</div><div class="vitem-val">${val(p.logic)}</div></div>
+        </div>
       </div>
-      <div class="fgrp full"><label>AEMS ID (Cabinet)</label><input class="mc_aems" data-mid="${id}" value="${esc(d.aems)}" placeholder="stsc/aems/message/…"></div>
-      <div class="fgrp full"><label>Meter Topic</label><input class="mc_topic" data-mid="${id}" value="${esc(d.topic)}" placeholder="application/1/device/…/rx"></div>
-      <div class="fgrp full"><label>Retired Topic</label><input class="mc_ret" data-mid="${id}" value="${esc(d.retired)}" placeholder="(if topic was retired/changed)"></div>
-      <div class="fgrp full"><label>kW/kVAr CMD Topic</label><input class="mc_ctopic" data-mid="${id}" value="${esc(d.cmd_topic)}" placeholder="stsc/aems/cabinet/…/multi/operate/tx"></div>
-      <div class="fgrp full"><label>CMD Payload (JSON)</label><textarea class="mc_cmd" data-mid="${id}" rows="3" placeholder='{"cabinetId":"…","key":"set_reactive_power",…}'>${esc(d.cmd)}</textarea></div>
-      <div class="fgrp"><label>EMS Restart Topic</label><input class="mc_rtopic" data-mid="${id}" value="${esc(d.restart_topic)}" placeholder="Restart MQTT topic"></div>
-      <div class="fgrp"><label>EMS Restart CMD</label><input class="mc_rcmd" data-mid="${id}" value="${esc(d.restart_cmd)}" placeholder='{"key":"lems_restart",…}'></div>
-    </div>`;
-  wrap.appendChild(el);
+    </div>
+
+    <div class="vsec">
+      <div class="vsec-hdr">④ T&amp;C Testing</div>
+      <div class="vsec-body">
+        <div class="vgrid2">
+          <div class="vitem"><div class="check-row">${ck(p.tc1)} <span>PCS Function Tested</span></div></div>
+          <div class="vitem"><div class="check-row">${ck(p.tc2)} <span>EMS Remote Restart Tested</span></div></div>
+          <div class="vitem"><div class="check-row">${ck(p.tc3)} <span>PCS Remote Restart Tested</span></div></div>
+          <div class="vitem"><div class="vitem-lbl">T&amp;C Date</div><div class="vitem-val">${val(p.tcdate)}</div></div>
+        </div>
+      </div>
+    </div>
+
+    ${p.remarks ? `
+    <div class="vsec">
+      <div class="vsec-hdr">⑤ Remarks / Notes</div>
+      <div class="vsec-body">
+        <div style="font-size:13px;line-height:1.6;color:var(--text)">${esc(p.remarks)}</div>
+      </div>
+    </div>` : ''}
+  `;
+
+  document.getElementById('viewOverlay').classList.remove('hidden');
 }
 
-function esc(v) { return (v||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function switchToEdit() { closeOverlay('viewOverlay'); if (viewId) openEdit(viewId); }
 
-function removeMeter(id) {
-  meterBuf = meterBuf.filter(m=>m.id!==id);
-  document.querySelector(`.meter-card[data-mid="${id}"]`).remove();
-  document.querySelectorAll('.meter-num').forEach((el,i)=>el.textContent=`Meter ${i+1}`);
-}
-
-function collectMeters() {
-  return meterBuf.map(m => {
-    const c = document.querySelector(`.meter-card[data-mid="${m.id}"]`);
-    if (!c) return m;
-    return { id:m.id,
-      mid:   c.querySelector('.mc_mid').value.trim(),
-      loc:   c.querySelector('.mc_loc').value.trim(),
-      verified: c.querySelector('.mc_v').checked,
-      login: c.querySelector('.mc_login').value,
-      aems:  c.querySelector('.mc_aems').value.trim(),
-      topic: c.querySelector('.mc_topic').value.trim(),
-      retired: c.querySelector('.mc_ret').value.trim(),
-      cmd_topic: c.querySelector('.mc_ctopic').value.trim(),
-      cmd:   c.querySelector('.mc_cmd').value.trim(),
-      restart_topic: c.querySelector('.mc_rtopic').value.trim(),
-      restart_cmd:   c.querySelector('.mc_rcmd').value.trim() };
-  });
-}
-
-// ── Add / Edit ─────────────────────────────────────────────────────────────
+// ─── Edit / Add ────────────────────────────────────────────────────────────
 function openAdd() {
   editId = null;
   document.getElementById('modalTitle').textContent = 'Add Project';
@@ -565,10 +850,13 @@ function openEdit(id) {
   fillForm(p); switchTab(0);
   document.getElementById('editOverlay').classList.remove('hidden');
 }
-
+function switchTab(i) {
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',i===j));
+  document.querySelectorAll('.tab-panel').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
 function clearForm() {
   ['f_company','f_type','f_pid','f_location','f_mdate','f_db','f_dloc','f_hdate','f_fw','f_logic','f_remarks','f_tcdate']
-    .forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
+    .forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
   ['f_capbank','f_solar','f_sellback','f_offgrid','f_tc1','f_tc2','f_tc3']
     .forEach(id=>document.getElementById(id).checked=false);
   ['f_country','f_sld','f_mprog','f_scdf'].forEach(id=>document.getElementById(id).value='');
@@ -576,43 +864,43 @@ function clearForm() {
   document.getElementById('f_packs').value='';
   meterBuf=[]; document.getElementById('meterCards').innerHTML='';
 }
-
 function fillForm(p) {
-  const s=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v||'';};
+  const s=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v??'';};
   const c=(id,v)=>document.getElementById(id).checked=!!v;
-  s('f_company',p.company); s('f_type',p.type); s('f_pid',p.pid);
-  s('f_country',p.country); s('f_location',p.location); s('f_sld',p.sld);
-  c('f_capbank',p.capbank); c('f_solar',p.solar); c('f_sellback',p.sellback);
-  s('f_mprog',p.mprog); s('f_mdate',p.mdate);
-  s('f_nmeters',p.nmeters); s('f_feeders',p.feeders);
-  s('f_db',p.db); s('f_dloc',p.dloc); s('f_hdate',p.hdate); s('f_scdf',p.scdf);
-  s('f_pcs',p.pcs); s('f_kwh',p.kwh); s('f_packs',p.packs); s('f_fw',p.fw);
-  c('f_offgrid',p.offgrid); s('f_logic',p.logic);
-  c('f_tc1',p.tc1); c('f_tc2',p.tc2); c('f_tc3',p.tc3); s('f_tcdate',p.tcdate);
+  s('f_company',p.company);s('f_type',p.type);s('f_pid',p.pid);
+  s('f_country',p.country);s('f_location',p.location);s('f_sld',p.sld);
+  c('f_capbank',p.capbank);c('f_solar',p.solar);c('f_sellback',p.sellback);
+  s('f_mprog',p.mprog);s('f_mdate',p.mdate);
+  s('f_nmeters',p.nmeters);s('f_feeders',p.feeders);
+  s('f_db',p.db);s('f_dloc',p.dloc);s('f_hdate',p.hdate);s('f_scdf',p.scdf);
+  s('f_pcs',p.pcs);s('f_kwh',p.kwh);s('f_packs',p.packs);s('f_fw',p.fw);
+  c('f_offgrid',p.offgrid);s('f_logic',p.logic);
+  c('f_tc1',p.tc1);c('f_tc2',p.tc2);c('f_tc3',p.tc3);s('f_tcdate',p.tcdate);
   s('f_remarks',p.remarks);
   meterBuf=[]; document.getElementById('meterCards').innerHTML='';
   (p.meters||[]).forEach(m=>addMeterCard(m));
 }
-
 function collectForm() {
-  const g=(id)=>document.getElementById(id).value.trim();
-  const cb=(id)=>document.getElementById(id).checked;
+  const g=id=>document.getElementById(id).value.trim();
+  const cb=id=>document.getElementById(id).checked;
+  const existing = editId ? projects.find(x=>x.id===editId) : null;
   return {
     id: editId || crypto.randomUUID(),
-    company:g('f_company'), type:g('f_type'), capbank:cb('f_capbank'),
-    solar:cb('f_solar'), sellback:cb('f_sellback'), pid:g('f_pid'),
-    country:g('f_country'), location:g('f_location'), sld:g('f_sld'),
-    mprog:g('f_mprog'), mdate:g('f_mdate'),
-    nmeters:Number(g('f_nmeters'))||0, feeders:Number(g('f_feeders'))||null,
-    meters: collectMeters(),
-    offgrid:cb('f_offgrid'), db:g('f_db'), dloc:g('f_dloc'), hdate:g('f_hdate'),
-    scdf:g('f_scdf'), pcs:Number(g('f_pcs'))||null, kwh:Number(g('f_kwh'))||null,
-    packs:g('f_packs'), fw:g('f_fw'), logic:g('f_logic'),
-    tc1:cb('f_tc1'), tc2:cb('f_tc2'), tc3:cb('f_tc3'), tcdate:g('f_tcdate'),
+    active: existing ? existing.active : true,
+    inactive_reason: existing ? existing.inactive_reason : '',
+    company:g('f_company'),type:g('f_type'),capbank:cb('f_capbank'),
+    solar:cb('f_solar'),sellback:cb('f_sellback'),pid:g('f_pid'),
+    country:g('f_country'),location:g('f_location'),sld:g('f_sld'),
+    mprog:g('f_mprog'),mdate:g('f_mdate'),
+    nmeters:Number(g('f_nmeters'))||0,feeders:Number(g('f_feeders'))||null,
+    meters:collectMeters(),
+    offgrid:cb('f_offgrid'),db:g('f_db'),dloc:g('f_dloc'),hdate:g('f_hdate'),
+    scdf:g('f_scdf'),pcs:Number(g('f_pcs'))||null,kwh:Number(g('f_kwh'))||null,
+    packs:g('f_packs'),fw:g('f_fw'),logic:g('f_logic'),
+    tc1:cb('f_tc1'),tc2:cb('f_tc2'),tc3:cb('f_tc3'),tcdate:g('f_tcdate'),
     remarks:g('f_remarks')
   };
 }
-
 async function saveProject() {
   const p = collectForm();
   if (!p.company) { toast('Company name is required','err'); return; }
@@ -620,40 +908,91 @@ async function saveProject() {
   btn.innerHTML='<span class="spin"></span> Saving…'; btn.disabled=true;
   if (editId) { const i=projects.findIndex(x=>x.id===editId); if(i>=0) projects[i]=p; }
   else projects.push(p);
-  await push(); render(); stats();
+  await push(); render(); updateStats();
   closeOverlay('editOverlay');
   toast(editId?'Project updated':'Project added','ok');
   btn.innerHTML='Save Project'; btn.disabled=false;
 }
 
-// ── Delete ─────────────────────────────────────────────────────────────────
+// ─── Meter cards ───────────────────────────────────────────────────────────
+function addMeterCard(m=null) {
+  const id = m?.id || 'nm_'+Date.now();
+  const d = m || {id,mid:'',loc:'',verified:false,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''};
+  meterBuf.push(d);
+  const wrap = document.getElementById('meterCards');
+  const el = document.createElement('div');
+  el.className='meter-card'; el.dataset.mid=id;
+  el.innerHTML=`
+    <div class="meter-hdr">
+      <div class="meter-num">Meter ${meterBuf.length}</div>
+      <button class="btn btn-sm" style="background:#fff5f5;color:#c53030;border:1px solid #feb2b2" onclick="removeMeter('${id}')">Remove</button>
+    </div>
+    <div class="fg">
+      <div class="fgrp"><label>Meter ID</label><input class="mc_mid" data-mid="${id}" value="${esc(d.mid)}" placeholder="e.g. 24e124445e271707"></div>
+      <div class="fgrp"><label>Name / Location</label><input class="mc_loc" data-mid="${id}" value="${esc(d.loc)}" placeholder="e.g. MSB1, tapoff"></div>
+      <div class="fgrp"><label>Login Type</label>
+        <select class="mc_login" data-mid="${id}">
+          <option value="" ${!d.login?'selected':''}>—</option>
+          <option value="ast" ${d.login==='ast'?'selected':''}>AST</option>
+          <option value="stsc" ${d.login==='stsc'?'selected':''}>STSC</option>
+        </select>
+      </div>
+      <div class="fgrp" style="align-self:end;padding-bottom:8px">
+        <div class="fcheck"><input type="checkbox" class="mc_v" id="mcv_${id}" ${d.verified?'checked':''}><label for="mcv_${id}">Verified</label></div>
+      </div>
+      <div class="fgrp full"><label>AEMS ID (Cabinet)</label><input class="mc_aems" data-mid="${id}" value="${esc(d.aems)}" placeholder="stsc/aems/message/…"></div>
+      <div class="fgrp full"><label>Meter Topic</label><input class="mc_topic" data-mid="${id}" value="${esc(d.topic)}" placeholder="application/1/device/…/rx"></div>
+      <div class="fgrp full"><label>Retired Topic</label><input class="mc_ret" data-mid="${id}" value="${esc(d.retired)}" placeholder="(if retired/changed)"></div>
+      <div class="fgrp full"><label>kW/kVAr CMD Topic</label><input class="mc_ctopic" data-mid="${id}" value="${esc(d.cmd_topic)}" placeholder="stsc/aems/cabinet/…/multi/operate/tx"></div>
+      <div class="fgrp full"><label>CMD Payload (JSON)</label><textarea class="mc_cmd" data-mid="${id}" rows="3" placeholder='{"cabinetId":"…","key":"set_reactive_power",…}'>${esc(d.cmd)}</textarea></div>
+      <div class="fgrp"><label>EMS Restart Topic</label><input class="mc_rtopic" data-mid="${id}" value="${esc(d.restart_topic)}" placeholder="Restart MQTT topic"></div>
+      <div class="fgrp"><label>EMS Restart CMD</label><input class="mc_rcmd" data-mid="${id}" value="${esc(d.restart_cmd)}" placeholder='{"key":"lems_restart",…}'></div>
+    </div>`;
+  wrap.appendChild(el);
+}
+function removeMeter(id) {
+  meterBuf = meterBuf.filter(m=>m.id!==id);
+  document.querySelector(`.meter-card[data-mid="${id}"]`).remove();
+  document.querySelectorAll('.meter-num').forEach((el,i)=>el.textContent=`Meter ${i+1}`);
+}
+function collectMeters() {
+  return meterBuf.map(m => {
+    const c = document.querySelector(`.meter-card[data-mid="${m.id}"]`); if (!c) return m;
+    return { id:m.id,
+      mid:c.querySelector('.mc_mid').value.trim(), loc:c.querySelector('.mc_loc').value.trim(),
+      verified:c.querySelector('.mc_v').checked, login:c.querySelector('.mc_login').value,
+      aems:c.querySelector('.mc_aems').value.trim(), topic:c.querySelector('.mc_topic').value.trim(),
+      retired:c.querySelector('.mc_ret').value.trim(), cmd_topic:c.querySelector('.mc_ctopic').value.trim(),
+      cmd:c.querySelector('.mc_cmd').value.trim(), restart_topic:c.querySelector('.mc_rtopic').value.trim(),
+      restart_cmd:c.querySelector('.mc_rcmd').value.trim() };
+  });
+}
+
+// ─── Delete ────────────────────────────────────────────────────────────────
 function openDel(id) { delId=id; document.getElementById('delOverlay').classList.remove('hidden'); }
 async function confirmDelete() {
-  projects = projects.filter(p=>p.id!==delId);
-  await push(); render(); stats();
+  projects=projects.filter(p=>p.id!==delId);
+  await push(); render(); updateStats();
   closeOverlay('delOverlay'); toast('Project deleted','ok'); delId=null;
 }
 
-// ── Utils ──────────────────────────────────────────────────────────────────
+// ─── Utils ─────────────────────────────────────────────────────────────────
 function closeOverlay(id) { document.getElementById(id).classList.add('hidden'); }
-
 function exportJSON() {
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([JSON.stringify({projects},null,2)],{type:'application/json'}));
   a.download='hyesys_projects_'+new Date().toISOString().slice(0,10)+'.json'; a.click();
 }
-
 let _tt;
-function toast(msg, type='ok') {
+function toast(msg,type='ok') {
   const el=document.getElementById('toast');
   el.textContent=msg; el.className=`toast ${type}`;
   clearTimeout(_tt); _tt=setTimeout(()=>el.classList.add('hidden'),3200);
 }
-
 document.querySelectorAll('.overlay').forEach(o=>
   o.addEventListener('click',e=>{ if(e.target===o) o.classList.add('hidden'); }));
 
-// ── Init ───────────────────────────────────────────────────────────────────
+// ─── Init ──────────────────────────────────────────────────────────────────
 load();
 if (!API_KEY || !BIN_ID) openSettings();
 </script>

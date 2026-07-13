@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HyESys Project Tracker</title>
+<style>
+:root{--primary:#0f4c81;--primary-light:#1a6db5;--accent:#00c897;--danger:#e53e3e;--warning:#dd6b20;--success:#38a169;--bg:#f7f8fc;--card:#fff;--border:#e2e8f0;--text:#1a202c;--muted:#718096;--shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);--shadow-lg:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+.header{background:var(--primary);color:#fff;padding:0 24px;display:flex;align-items:center;height:60px;gap:16px;box-shadow:var(--shadow);position:sticky;top:0;z-index:100}
+.logo{font-size:19px;font-weight:700;flex-shrink:0}.logo span{color:var(--accent)}
+.search-wrap{flex:1;max-width:300px}
+.search-wrap input{width:100%;padding:7px 12px;border:1px solid rgba(255,255,255,.3);border-radius:6px;background:rgba(255,255,255,.15);color:#fff;font-size:13px}
+.search-wrap input::placeholder{color:rgba(255,255,255,.55)}
+.hdr-right{display:flex;align-items:center;gap:10px;margin-left:auto}
+#syncStatus{font-size:12px;color:rgba(255,255,255,.65)}
+.btn{padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.btn-accent{background:var(--accent);color:#000}.btn-accent:hover{background:#00b085}
+.btn-ghost{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)}.btn-ghost:hover{background:rgba(255,255,255,.25)}
+.btn-outline{background:#f7f8fc;color:var(--text);border:1px solid var(--border)}.btn-outline:hover{background:#edf2f7}
+.btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#c53030}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-icon{padding:5px 7px;background:none;border:none;cursor:pointer;color:var(--muted);border-radius:4px;font-size:15px;transition:all .15s}.btn-icon:hover{background:var(--border);color:var(--text)}
+.main{padding:24px;max-width:1440px;margin:0 auto}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat{background:var(--card);border-radius:10px;padding:16px 20px;box-shadow:var(--shadow);border-left:4px solid}
+.stat.s1{border-color:var(--primary)}.stat.s2{border-color:var(--success)}.stat.s3{border-color:var(--warning)}.stat.s4{border-color:var(--accent)}
+.stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.stat-val{font-size:28px;font-weight:700}
+.card{background:var(--card);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}
+.card-hdr{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:15px;font-weight:600}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{background:#f8fafc;padding:9px 14px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:500;white-space:nowrap}
+.b-green{background:#e6fffa;color:#276749}.b-blue{background:#ebf8ff;color:#2b6cb0}
+.b-yellow{background:#fffbeb;color:#92400e}.b-red{background:#fff5f5;color:#c53030}
+.b-gray{background:#f7fafc;color:#4a5568;border:1px solid var(--border)}.b-purple{background:#faf5ff;color:#6b46c1}
+.model-chip{background:var(--primary);color:#fff;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:700}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto}
+.overlay.hidden{display:none}
+.modal{background:var(--card);border-radius:12px;width:100%;max-width:860px;box-shadow:var(--shadow-lg);margin:auto}
+.modal-sm{max-width:420px}
+.modal-hdr{padding:20px 24px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.modal-title{font-size:17px;font-weight:700}
+.modal-x{background:none;border:none;cursor:pointer;font-size:22px;color:var(--muted);line-height:1}.modal-x:hover{color:var(--text)}
+.tabs{display:flex;padding:0 24px;border-bottom:1px solid var(--border);overflow-x:auto}
+.tab{padding:11px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);white-space:nowrap;transition:all .15s}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tab:hover:not(.active){color:var(--text)}
+.tab-body{padding:24px}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+.fgrp{display:flex;flex-direction:column;gap:4px}
+.fgrp label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+.fgrp input,.fgrp select,.fgrp textarea{padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--text);background:#fff;transition:border-color .15s}
+.fgrp input:focus,.fgrp select:focus,.fgrp textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(15,76,129,.1)}
+.fgrp textarea{resize:vertical;min-height:68px;font-family:monospace;font-size:12px}
+.fcheck{display:flex;align-items:center;gap:8px}
+.fcheck input[type=checkbox]{width:15px;height:15px;accent-color:var(--primary)}
+.fcheck label{font-size:13px;font-weight:500;cursor:pointer}
+.sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px}
+.meter-card{border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;background:#fafbfc}
+.meter-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.meter-num{font-size:13px;font-weight:600;color:var(--primary)}
+.modal-ftr{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+.empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px}
+.toast{position:fixed;bottom:24px;right:24px;background:#1a202c;color:#fff;padding:12px 18px;border-radius:8px;font-size:13px;box-shadow:var(--shadow-lg);z-index:999;display:flex;align-items:center;gap:8px;transition:all .3s}
+.toast.hidden{transform:translateY(80px);opacity:0;pointer-events:none}
+.toast.ok::before{content:'✓';color:var(--accent);font-weight:700}
+.toast.err::before{content:'✕';color:#fc8181;font-weight:700}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.2);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.flags{SG:'🇸🇬'}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.fg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Hy<span>E</span>Sys <span style="font-weight:400;font-size:13px;opacity:.7">Project Tracker</span></div>
+  <div class="search-wrap"><input type="text" id="searchInput" placeholder="Search projects…" oninput="renderTable()"></div>
+  <div class="hdr-right">
+    <span id="syncStatus">Not connected</span>
+    <button class="btn btn-ghost" onclick="openSettings()">⚙ Settings</button>
+    <button class="btn btn-accent" onclick="openAdd()">+ Add Project</button>
+  </div>
+</header>
+
+<div class="main">
+  <div class="stats">
+    <div class="stat s1"><div class="stat-lbl">Total Projects</div><div class="stat-val" id="sTotal">0</div></div>
+    <div class="stat s2"><div class="stat-lbl">Meter Installed</div><div class="stat-val" id="sActive">0</div></div>
+    <div class="stat s3"><div class="stat-lbl">Pending SCDF</div><div class="stat-val" id="sPending">0</div></div>
+    <div class="stat s4"><div class="stat-lbl">T&amp;C Complete</div><div class="stat-val" id="sComplete">0</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">Projects</div>
+      <button class="btn btn-outline btn-sm" onclick="exportJSON()">↓ Export JSON</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Company / Project</th><th>Type</th><th>Country</th><th>Location</th>
+          <th>Model</th><th>Meters</th><th>Meter Progress</th><th>Install Date</th>
+          <th>SCDF</th><th>T&amp;C</th><th style="text-align:right">Actions</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Edit/Add Modal -->
+<div class="overlay hidden" id="editOverlay">
+ <div class="modal">
+  <div class="modal-hdr">
+    <div class="modal-title" id="modalTitle">Add Project</div>
+    <button class="modal-x" onclick="closeOverlay('editOverlay')">×</button>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab(0)">Project Info</div>
+    <div class="tab" onclick="switchTab(1)">Meters &amp; MQTT</div>
+    <div class="tab" onclick="switchTab(2)">HyESys Deploy</div>
+    <div class="tab" onclick="switchTab(3)">T&amp;C &amp; Notes</div>
+  </div>
+  <div class="tab-body">
+
+    <!-- Tab 0 -->
+    <div class="tab-panel active" id="tp0">
+      <div class="fg">
+        <div class="fgrp"><label>Company / Project Name *</label><input id="f_company" placeholder="e.g. MAS"></div>
+        <div class="fgrp"><label>Application Type</label><input id="f_type" placeholder="e.g. office, factory, condo"></div>
+        <div class="fgrp"><label>Project ID</label><input id="f_pid" placeholder="e.g. AHY-AST101"></div>
+        <div class="fgrp"><label>Country</label>
+          <select id="f_country">
+            <option value="">— Select —</option>
+            <option value="SG">Singapore (SG)</option>
+            <option value="MY">Malaysia (MY)</option>
+            <option value="CN">China (CN)</option>
+            <option value="AU">Australia (AU)</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+        <div class="fgrp"><label>Location</label><input id="f_location" placeholder="e.g. Shenton Way"></div>
+        <div class="fgrp"><label>SLD Acquired?</label>
+          <select id="f_sld">
+            <option value="">—</option><option value="yes">Yes</option>
+            <option value="no">No</option><option value="pending">Pending</option>
+          </select>
+        </div>
+        <div class="full" style="display:flex;gap:24px;flex-wrap:wrap;padding-top:4px">
+          <div class="fcheck"><input type="checkbox" id="f_capbank"><label for="f_capbank">Existing Cap Bank</label></div>
+          <div class="fcheck"><input type="checkbox" id="f_solar"><label for="f_solar">Solar Panel</label></div>
+          <div class="fcheck"><input type="checkbox" id="f_sellback"><label for="f_sellback">Solar Sell-back to Grid</label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 1 -->
+    <div class="tab-panel" id="tp1">
+      <div class="fg">
+        <div class="fgrp"><label>Meter Progress</label>
+          <select id="f_mprog">
+            <option value="">—</option><option value="pending">Pending</option>
+            <option value="data collecting">Data Collecting</option>
+            <option value="decoding">Decoding</option>
+            <option value="verified">Verified</option><option value="N/A">N/A</option>
+          </select>
+        </div>
+        <div class="fgrp"><label>Date of Meter Installation</label><input type="date" id="f_mdate"></div>
+        <div class="fgrp"><label># Meters</label><input type="number" id="f_nmeters" min="0" placeholder="0"></div>
+        <div class="fgrp"><label>Feeders Measured</label><input type="number" id="f_feeders" min="0" placeholder="0"></div>
+      </div>
+      <div style="margin-top:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="sec-lbl" style="margin:0">Meter Details</div>
+          <button class="btn btn-sm" style="background:#f0f4ff;color:var(--primary);border:1px solid #c3d4f5" onclick="addMeterCard()">+ Add Meter</button>
+        </div>
+        <div id="meterCards"></div>
+      </div>
+    </div>
+
+    <!-- Tab 2 -->
+    <div class="tab-panel" id="tp2">
+      <div class="fg">
+        <div class="fgrp"><label>HyESys Deploy DB (Cabinet)</label><input id="f_db" placeholder="e.g. level 24 AHU spare"></div>
+        <div class="fgrp"><label>HyESys Deploy Location</label><input id="f_dloc" placeholder="e.g. L24 AHU"></div>
+        <div class="fgrp"><label>HyESys Installation Date</label><input type="date" id="f_hdate"></div>
+        <div class="fgrp"><label>SCDF Progress</label>
+          <select id="f_scdf">
+            <option value="">—</option><option value="NIL">NIL (Not Required)</option>
+            <option value="Pending">Pending</option><option value="Submitted">Submitted</option>
+            <option value="Conditional Approval">Conditional Approval</option><option value="Approved">Approved</option>
+          </select>
+        </div>
+        <div class="fgrp"><label>PCS kW Rating</label><input type="number" id="f_pcs" placeholder="e.g. 50"></div>
+        <div class="fgrp"><label>Battery kWh</label><input type="number" id="f_kwh" placeholder="e.g. 110"></div>
+        <div class="fgrp"><label># Battery Packs</label><input id="f_packs" placeholder="e.g. 11 or B1-4"></div>
+        <div class="fgrp"><label>EMS Firmware / Trip Version</label><input id="f_fw" placeholder="Version or note"></div>
+        <div class="fgrp"><label>Logic Strategy</label><input id="f_logic" placeholder="e.g. kvar, kvar+kw"></div>
+        <div class="fgrp" style="align-self:end;padding-bottom:8px">
+          <div class="fcheck"><input type="checkbox" id="f_offgrid"><label for="f_offgrid">Need Off-Grid? (firmware trips system)</label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3 -->
+    <div class="tab-panel" id="tp3">
+      <div class="sec-lbl">T&amp;C Testing</div>
+      <div class="fg" style="margin-bottom:20px">
+        <div class="fgrp"><div class="fcheck"><input type="checkbox" id="f_tc1"><label for="f_tc1">PCS Function Tested</label></div></div>
+        <div class="fgrp"><div class="fcheck"><input type="checkbox" id="f_tc2"><label for="f_tc2">EMS Remote Restart Tested</label></div></div>
+        <div class="fgrp"><div class="fcheck"><input type="checkbox" id="f_tc3"><label for="f_tc3">PCS Remote Restart Tested</label></div></div>
+        <div class="fgrp"><label>T&amp;C Date of Test</label><input type="date" id="f_tcdate"></div>
+      </div>
+      <div class="sec-lbl">Problem Nature / Remarks</div>
+      <div class="fgrp"><textarea id="f_remarks" rows="5" placeholder="Observations, issues, notes…"></textarea></div>
+    </div>
+
+  </div><!-- tab-body -->
+  <div class="modal-ftr">
+    <button class="btn btn-outline" onclick="closeOverlay('editOverlay')">Cancel</button>
+    <button class="btn btn-accent" id="saveBtn" onclick="saveProject()">Save Project</button>
+  </div>
+ </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="overlay hidden" id="settingsOverlay">
+ <div class="modal modal-sm" style="padding:24px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <div style="font-size:17px;font-weight:700">JSONBin Settings</div>
+    <button class="modal-x" onclick="closeOverlay('settingsOverlay')">×</button>
+  </div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5">
+    Data is stored on <strong>JSONBin.io</strong> (free).
+    Create a free account → API Keys → Create Key, then create a Bin and paste the details below.
+  </p>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div class="fgrp"><label>Master API Key</label><input type="password" id="s_key" placeholder="$2a$10$..."></div>
+    <div class="fgrp"><label>Bin ID</label><input id="s_bin" placeholder="64abc123..."></div>
+    <div style="font-size:12px;color:var(--muted);background:#f8fafc;padding:12px;border-radius:6px;border:1px solid var(--border);line-height:1.6">
+      <strong>Steps:</strong> jsonbin.io → Sign up → API Keys → Create key<br>
+      Bins → Create Bin (content: <code>{}</code>) → copy Bin ID from URL
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:20px">
+    <button class="btn btn-outline" style="flex:1" onclick="closeOverlay('settingsOverlay')">Cancel</button>
+    <button class="btn btn-accent" style="flex:1;color:#000" onclick="saveSettings()">Connect</button>
+  </div>
+ </div>
+</div>
+
+<!-- Delete Confirm -->
+<div class="overlay hidden" id="delOverlay">
+ <div class="modal modal-sm" style="padding:24px">
+  <div style="font-size:17px;font-weight:700;margin-bottom:8px">Delete Project?</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:20px">This cannot be undone.</p>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-outline" style="flex:1" onclick="closeOverlay('delOverlay')">Cancel</button>
+    <button class="btn btn-danger" style="flex:1" onclick="confirmDelete()">Delete</button>
+  </div>
+ </div>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<script>
+// ── Seed data ──────────────────────────────────────────────────────────────
+const SEED = [
+  { id:'p1', company:'AST Office', type:'', capbank:false, solar:false, sellback:false,
+    pid:'AHY-AST101', country:'SG', location:'', sld:'', mprog:'data collecting',
+    mdate:'', nmeters:5, feeders:null,
+    meters:[
+      {id:'m1',mid:'24e124445d414058',loc:'tapoff',verified:false,login:'',aems:'stsc/aems/message/e45f01FFFEe9380f',topic:'application/1/device/24e124445d414058/rx',retired:'',cmd_topic:'stsc/aems/cabinet/e45f01FFFEe9380f/multi/operate/tx',cmd:'{"cabinetId":"e45f01FFFEe9380f","index":1,"key":"set_reactive_power","params":{"reactivePowerA":0,"reactivePowerB":0,"reactivePowerC":0},"remote":true}',restart_topic:'',restart_cmd:''},
+      {id:'m2',mid:'24e124445d414297',loc:'outgoing',verified:false,login:'',aems:'',topic:'application/1/device/24e124445d414297/rx',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''},
+      {id:'m3',mid:'24e124445e016933',loc:'incoming',verified:false,login:'',aems:'',topic:'application/1/device/24e124445e016933/rx',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''},
+      {id:'m4',mid:'24e124445e017391',loc:'load simulator',verified:false,login:'',aems:'',topic:'application/1/device/24e124445e017391/rx',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''},
+      {id:'m5',mid:'24e124746f063761',loc:'Neutral',verified:false,login:'',aems:'',topic:'application/1/device/24e124746f063761/rx',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''}
+    ],
+    offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
+    tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
+
+  { id:'p2', company:'HangZhou Longchi', type:'', capbank:false, solar:false, sellback:false,
+    pid:'', country:'CN', location:'Longchi', sld:'', mprog:'data collecting',
+    mdate:'', nmeters:1, feeders:null,
+    meters:[{id:'m6',mid:'',loc:'',verified:false,login:'',aems:'202506270D4B',topic:'',retired:'',cmd_topic:'stsc/aems/cabinet/202506270D4B/multi/operate/tx',cmd:'',restart_topic:'',restart_cmd:''}],
+    offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
+    tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
+
+  { id:'p3', company:'MAS', type:'office', capbank:false, solar:false, sellback:false,
+    pid:'', country:'SG', location:'Shenton Way', sld:'yes', mprog:'data collecting',
+    mdate:'2026-01-24', nmeters:2, feeders:null,
+    meters:[
+      {id:'m7',mid:'24e124445e271707',loc:'L&R R4 riser',verified:true,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''},
+      {id:'m8',mid:'24e124445e275226',loc:'LV room',verified:false,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''}
+    ],
+    offgrid:false,db:'Level 24 AHU spare',dloc:'L24 AHU',hdate:'',scdf:'Conditional Approval',pcs:50,kwh:110,packs:'11',fw:'',
+    tc1:false,tc2:false,tc3:false,tcdate:'',logic:'kvar, kvar+kw',remarks:'Poor PF avg 0.7. Copper loss 1kW due to long cable (200m)' },
+
+  { id:'p4', company:'Baoyuan', type:'fabric factory', capbank:true, solar:false, sellback:false,
+    pid:'', country:'CN', location:'Zhuji', sld:'', mprog:'data collecting',
+    mdate:'2026-02-27', nmeters:3, feeders:12,
+    meters:[{id:'m9',mid:'TCP & MQTT (044 is HyESys)',loc:'?',verified:true,login:'',aems:'stsc/aems/message/26022703840003',topic:'hyesys/data/dev/26022703840003',retired:'stsc/aems/cabinet/26022703840003/multi/operate/tx (Retired)',cmd_topic:'stsc/aems/cabinet/26022703840003/multi2/operate/tx',cmd:'',restart_topic:'stsc/aems/cabinet/26022703840003/operate/tx',restart_cmd:'{"cabinetId":"26022703840003","index":1,"key":"lems_restart","value":1,"remote":true}'}],
+    offgrid:false,db:'LV room Cabinet A',dloc:'',hdate:'2026-02-27',scdf:'NIL',pcs:125,kwh:232,packs:'B1-4',fw:'',
+    tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'Load side poor PF avg 0.6 — existing cap bank on site' },
+
+  { id:'p5', company:'Baoyuan (Capbank)', type:'', capbank:true, solar:false, sellback:false,
+    pid:'', country:'CN', location:'Zhuji', sld:'', mprog:'data collecting',
+    mdate:'2026-02-17', nmeters:2, feeders:null,
+    meters:[
+      {id:'m10',mid:'86040215999996',loc:'',verified:true,login:'ast',aems:'',topic:'hyesys/data/dev/0086040215999997',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''},
+      {id:'m11',mid:'86040215999997',loc:'',verified:true,login:'ast',aems:'',topic:'hyesys/data/dev/0086040215999996',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''}
+    ],
+    offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
+    tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
+
+  { id:'p6', company:'Shan Poornam Factory', type:'metals factory', capbank:false, solar:true, sellback:true,
+    pid:'', country:'MY', location:'Penang', sld:'', mprog:'data collecting',
+    mdate:'2025-12-22', nmeters:1, feeders:null,
+    meters:[{id:'m12',mid:'24e124445e275325',loc:'',verified:true,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''}],
+    offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
+    tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
+
+  { id:'p7', company:'Federal Oat Mills', type:'oat processing factory', capbank:false, solar:false, sellback:false,
+    pid:'', country:'MY', location:'Penang', sld:'', mprog:'data collecting',
+    mdate:'2025-12-22', nmeters:2, feeders:null,
+    meters:[
+      {id:'m13',mid:'24e124445e219041',loc:'MSB1',verified:true,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''},
+      {id:'m14',mid:'24e124445e275161',loc:'MSB2',verified:false,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''}
+    ],
+    offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
+    tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
+
+  { id:'p8', company:'Singtel City South', type:'office', capbank:false, solar:false, sellback:false,
+    pid:'analog meter', country:'SG', location:'Tanjong Pagar', sld:'', mprog:'',
+    mdate:'', nmeters:0, feeders:null, meters:[],
+    offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
+    tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'Analog meter on site — digital meter required before HyESys deployment' },
+
+  { id:'p9', company:'Singtel Pickering', type:'office', capbank:false, solar:false, sellback:false,
+    pid:'ROI too long', country:'SG', location:'Tanjong Katong', sld:'yes', mprog:'data collecting',
+    mdate:'2026-03-13', nmeters:2, feeders:2,
+    meters:[
+      {id:'m15',mid:'24e124445e218062',loc:'EMSB1',verified:true,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''},
+      {id:'m16',mid:'24e124445e275894',loc:'EMSB1',verified:true,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''}
+    ],
+    offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
+    tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'' },
+
+  { id:'p10', company:'Orchard Scotts', type:'condo', capbank:false, solar:false, sellback:false,
+    pid:'', country:'SG', location:'Orchard', sld:'', mprog:'decoding',
+    mdate:'2026-03-04', nmeters:3, feeders:null, meters:[],
+    offgrid:false,db:'',dloc:'',hdate:'',scdf:'',pcs:null,kwh:null,packs:'',fw:'',
+    tc1:false,tc2:false,tc3:false,tcdate:'',logic:'',remarks:'Meter installation done' }
+];
+
+// ── State ──────────────────────────────────────────────────────────────────
+let projects = [];
+let editId = null;
+let delId = null;
+let meterBuf = [];
+let API_KEY = localStorage.getItem('jb_key') || '';
+let BIN_ID  = localStorage.getItem('jb_bin')  || '';
+
+// ── JSONBin ────────────────────────────────────────────────────────────────
+async function load() {
+  if (!API_KEY || !BIN_ID) {
+    projects = JSON.parse(localStorage.getItem('hye_data') || 'null') || SEED;
+    render(); stats(); setSync('Local mode (no JSONBin configured)', false); return;
+  }
+  setSync('Loading…', false);
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,
+      { headers:{ 'X-Master-Key': API_KEY } });
+    const d = await r.json();
+    projects = Array.isArray(d.record?.projects) ? d.record.projects : SEED;
+    if (!Array.isArray(d.record?.projects)) await push();
+    render(); stats(); setSync('Synced ' + now(), true);
+  } catch { setSync('Connect failed — local mode', false); projects = JSON.parse(localStorage.getItem('hye_data')||'null')||SEED; render(); stats(); }
+}
+
+async function push() {
+  localStorage.setItem('hye_data', JSON.stringify(projects));
+  if (!API_KEY || !BIN_ID) return;
+  try {
+    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,
+      { method:'PUT', headers:{'Content-Type':'application/json','X-Master-Key':API_KEY}, body:JSON.stringify({projects}) });
+    setSync('Saved ' + now(), true);
+  } catch { setSync('Save failed — stored locally', false); }
+}
+
+function setSync(msg, ok) {
+  const el = document.getElementById('syncStatus');
+  el.textContent = msg; el.style.color = ok ? '#86efac' : 'rgba(255,255,255,.6)';
+}
+function now() { return new Date().toLocaleTimeString(); }
+
+// ── Settings ───────────────────────────────────────────────────────────────
+function openSettings() {
+  document.getElementById('s_key').value = API_KEY;
+  document.getElementById('s_bin').value = BIN_ID;
+  document.getElementById('settingsOverlay').classList.remove('hidden');
+}
+function saveSettings() {
+  API_KEY = document.getElementById('s_key').value.trim();
+  BIN_ID  = document.getElementById('s_bin').value.trim();
+  localStorage.setItem('jb_key', API_KEY); localStorage.setItem('jb_bin', BIN_ID);
+  closeOverlay('settingsOverlay'); load();
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+const FLAG = {SG:'🇸🇬',MY:'🇲🇾',CN:'🇨🇳',AU:'🇦🇺'};
+function model(p) {
+  const k = Number(p.pcs);
+  if (!k) return ''; if (k<=30) return 'H30'; if (k<=50) return 'H50';
+  if (k<=60) return 'H60'; if (k<=100) return 'H100'; return 'H125';
+}
+function mpBadge(v) {
+  if (!v) return '<span class="badge b-gray">—</span>';
+  if (v==='data collecting') return '<span class="badge b-blue">Data Collecting</span>';
+  if (v==='decoding')        return '<span class="badge b-yellow">Decoding</span>';
+  if (v==='verified')        return '<span class="badge b-green">Verified</span>';
+  if (v==='pending')         return '<span class="badge b-gray">Pending</span>';
+  return `<span class="badge b-gray">${v}</span>`;
+}
+function scdfBadge(v) {
+  if (!v) return '<span class="badge b-gray">—</span>';
+  if (v==='Approved')              return '<span class="badge b-green">Approved</span>';
+  if (v==='Conditional Approval')  return '<span class="badge b-yellow">Conditional</span>';
+  if (v==='NIL')                   return '<span class="badge b-gray">NIL</span>';
+  if (v==='Submitted')             return '<span class="badge b-blue">Submitted</span>';
+  if (v==='Pending')               return '<span class="badge b-yellow">Pending</span>';
+  return `<span class="badge b-gray">${v}</span>`;
+}
+function tcBadge(p) {
+  if (p.tc1&&p.tc2&&p.tc3) return '<span class="badge b-green">Complete</span>';
+  if (p.tc1||p.tc2||p.tc3) return '<span class="badge b-yellow">Partial</span>';
+  return '<span class="badge b-gray">—</span>';
+}
+
+function render() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const list = projects.filter(p => !q ||
+    [p.company,p.type,p.location,p.country,p.pid,p.remarks].some(v=>(v||'').toLowerCase().includes(q)));
+  const tb = document.getElementById('tbody');
+  if (!list.length) { tb.innerHTML = `<tr><td colspan="11"><div class="empty">No projects found</div></td></tr>`; return; }
+  tb.innerHTML = list.map(p => `<tr>
+    <td><div style="font-weight:600">${p.company}</div>${p.pid?`<div style="font-size:11px;color:var(--muted)">${p.pid}</div>`:''}</td>
+    <td style="color:var(--muted);font-size:12px">${p.type||'—'}</td>
+    <td>${p.country?`${FLAG[p.country]||''} ${p.country}`:'—'}</td>
+    <td style="font-size:13px">${p.location||'—'}</td>
+    <td>${model(p)?`<span class="model-chip">${model(p)}</span>`:'<span style="color:var(--muted)">—</span>'}</td>
+    <td style="text-align:center">${p.meters?.length||0}</td>
+    <td>${mpBadge(p.mprog)}</td>
+    <td style="font-size:12px;color:var(--muted)">${p.mdate||'—'}</td>
+    <td>${scdfBadge(p.scdf)}</td>
+    <td>${tcBadge(p)}</td>
+    <td style="text-align:right;white-space:nowrap">
+      <button class="btn-icon" title="Edit" onclick="openEdit('${p.id}')">✏</button>
+      <button class="btn-icon" style="color:#fc8181" title="Delete" onclick="openDel('${p.id}')">🗑</button>
+    </td>
+  </tr>`).join('');
+}
+
+function stats() {
+  document.getElementById('sTotal').textContent = projects.length;
+  document.getElementById('sActive').textContent = projects.filter(p=>p.mdate).length;
+  document.getElementById('sPending').textContent = projects.filter(p=>p.scdf&&p.scdf!=='NIL'&&p.scdf!=='Approved').length;
+  document.getElementById('sComplete').textContent = projects.filter(p=>p.tc1&&p.tc2&&p.tc3).length;
+}
+
+// ── Tabs ───────────────────────────────────────────────────────────────────
+function switchTab(i) {
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',i===j));
+  document.querySelectorAll('.tab-panel').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+
+// ── Meter Cards ────────────────────────────────────────────────────────────
+function addMeterCard(m=null) {
+  const id = m?.id || 'nm_'+Date.now();
+  const d = m || {id,mid:'',loc:'',verified:false,login:'',aems:'',topic:'',retired:'',cmd_topic:'',cmd:'',restart_topic:'',restart_cmd:''};
+  meterBuf.push(d);
+  const n = meterBuf.length;
+  const wrap = document.getElementById('meterCards');
+  const el = document.createElement('div');
+  el.className = 'meter-card'; el.dataset.mid = id;
+  el.innerHTML = `
+    <div class="meter-hdr">
+      <div class="meter-num">Meter ${n}</div>
+      <button class="btn btn-sm" style="background:#fff5f5;color:#c53030;border:1px solid #feb2b2" onclick="removeMeter('${id}')">Remove</button>
+    </div>
+    <div class="fg">
+      <div class="fgrp"><label>Meter ID</label><input class="mc_mid" data-mid="${id}" value="${esc(d.mid)}" placeholder="e.g. 24e124445e271707"></div>
+      <div class="fgrp"><label>Name / Location</label><input class="mc_loc" data-mid="${id}" value="${esc(d.loc)}" placeholder="e.g. MSB1, tapoff"></div>
+      <div class="fgrp"><label>Login Type</label>
+        <select class="mc_login" data-mid="${id}">
+          <option value="" ${!d.login?'selected':''}>—</option>
+          <option value="ast" ${d.login==='ast'?'selected':''}>AST</option>
+          <option value="stsc" ${d.login==='stsc'?'selected':''}>STSC</option>
+        </select>
+      </div>
+      <div class="fgrp" style="align-self:end;padding-bottom:8px">
+        <div class="fcheck"><input type="checkbox" class="mc_v" data-mid="${id}" id="mcv_${id}" ${d.verified?'checked':''}><label for="mcv_${id}">Verified</label></div>
+      </div>
+      <div class="fgrp full"><label>AEMS ID (Cabinet)</label><input class="mc_aems" data-mid="${id}" value="${esc(d.aems)}" placeholder="stsc/aems/message/…"></div>
+      <div class="fgrp full"><label>Meter Topic</label><input class="mc_topic" data-mid="${id}" value="${esc(d.topic)}" placeholder="application/1/device/…/rx"></div>
+      <div class="fgrp full"><label>Retired Topic</label><input class="mc_ret" data-mid="${id}" value="${esc(d.retired)}" placeholder="(if topic was retired/changed)"></div>
+      <div class="fgrp full"><label>kW/kVAr CMD Topic</label><input class="mc_ctopic" data-mid="${id}" value="${esc(d.cmd_topic)}" placeholder="stsc/aems/cabinet/…/multi/operate/tx"></div>
+      <div class="fgrp full"><label>CMD Payload (JSON)</label><textarea class="mc_cmd" data-mid="${id}" rows="3" placeholder='{"cabinetId":"…","key":"set_reactive_power",…}'>${esc(d.cmd)}</textarea></div>
+      <div class="fgrp"><label>EMS Restart Topic</label><input class="mc_rtopic" data-mid="${id}" value="${esc(d.restart_topic)}" placeholder="Restart MQTT topic"></div>
+      <div class="fgrp"><label>EMS Restart CMD</label><input class="mc_rcmd" data-mid="${id}" value="${esc(d.restart_cmd)}" placeholder='{"key":"lems_restart",…}'></div>
+    </div>`;
+  wrap.appendChild(el);
+}
+
+function esc(v) { return (v||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+function removeMeter(id) {
+  meterBuf = meterBuf.filter(m=>m.id!==id);
+  document.querySelector(`.meter-card[data-mid="${id}"]`).remove();
+  document.querySelectorAll('.meter-num').forEach((el,i)=>el.textContent=`Meter ${i+1}`);
+}
+
+function collectMeters() {
+  return meterBuf.map(m => {
+    const c = document.querySelector(`.meter-card[data-mid="${m.id}"]`);
+    if (!c) return m;
+    return { id:m.id,
+      mid:   c.querySelector('.mc_mid').value.trim(),
+      loc:   c.querySelector('.mc_loc').value.trim(),
+      verified: c.querySelector('.mc_v').checked,
+      login: c.querySelector('.mc_login').value,
+      aems:  c.querySelector('.mc_aems').value.trim(),
+      topic: c.querySelector('.mc_topic').value.trim(),
+      retired: c.querySelector('.mc_ret').value.trim(),
+      cmd_topic: c.querySelector('.mc_ctopic').value.trim(),
+      cmd:   c.querySelector('.mc_cmd').value.trim(),
+      restart_topic: c.querySelector('.mc_rtopic').value.trim(),
+      restart_cmd:   c.querySelector('.mc_rcmd').value.trim() };
+  });
+}
+
+// ── Add / Edit ─────────────────────────────────────────────────────────────
+function openAdd() {
+  editId = null;
+  document.getElementById('modalTitle').textContent = 'Add Project';
+  clearForm(); switchTab(0);
+  document.getElementById('editOverlay').classList.remove('hidden');
+}
+function openEdit(id) {
+  editId = id;
+  const p = projects.find(x=>x.id===id); if (!p) return;
+  document.getElementById('modalTitle').textContent = 'Edit — ' + p.company;
+  fillForm(p); switchTab(0);
+  document.getElementById('editOverlay').classList.remove('hidden');
+}
+
+function clearForm() {
+  ['f_company','f_type','f_pid','f_location','f_mdate','f_db','f_dloc','f_hdate','f_fw','f_logic','f_remarks','f_tcdate']
+    .forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
+  ['f_capbank','f_solar','f_sellback','f_offgrid','f_tc1','f_tc2','f_tc3']
+    .forEach(id=>document.getElementById(id).checked=false);
+  ['f_country','f_sld','f_mprog','f_scdf'].forEach(id=>document.getElementById(id).value='');
+  ['f_nmeters','f_feeders','f_pcs','f_kwh'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f_packs').value='';
+  meterBuf=[]; document.getElementById('meterCards').innerHTML='';
+}
+
+function fillForm(p) {
+  const s=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v||'';};
+  const c=(id,v)=>document.getElementById(id).checked=!!v;
+  s('f_company',p.company); s('f_type',p.type); s('f_pid',p.pid);
+  s('f_country',p.country); s('f_location',p.location); s('f_sld',p.sld);
+  c('f_capbank',p.capbank); c('f_solar',p.solar); c('f_sellback',p.sellback);
+  s('f_mprog',p.mprog); s('f_mdate',p.mdate);
+  s('f_nmeters',p.nmeters); s('f_feeders',p.feeders);
+  s('f_db',p.db); s('f_dloc',p.dloc); s('f_hdate',p.hdate); s('f_scdf',p.scdf);
+  s('f_pcs',p.pcs); s('f_kwh',p.kwh); s('f_packs',p.packs); s('f_fw',p.fw);
+  c('f_offgrid',p.offgrid); s('f_logic',p.logic);
+  c('f_tc1',p.tc1); c('f_tc2',p.tc2); c('f_tc3',p.tc3); s('f_tcdate',p.tcdate);
+  s('f_remarks',p.remarks);
+  meterBuf=[]; document.getElementById('meterCards').innerHTML='';
+  (p.meters||[]).forEach(m=>addMeterCard(m));
+}
+
+function collectForm() {
+  const g=(id)=>document.getElementById(id).value.trim();
+  const cb=(id)=>document.getElementById(id).checked;
+  return {
+    id: editId || crypto.randomUUID(),
+    company:g('f_company'), type:g('f_type'), capbank:cb('f_capbank'),
+    solar:cb('f_solar'), sellback:cb('f_sellback'), pid:g('f_pid'),
+    country:g('f_country'), location:g('f_location'), sld:g('f_sld'),
+    mprog:g('f_mprog'), mdate:g('f_mdate'),
+    nmeters:Number(g('f_nmeters'))||0, feeders:Number(g('f_feeders'))||null,
+    meters: collectMeters(),
+    offgrid:cb('f_offgrid'), db:g('f_db'), dloc:g('f_dloc'), hdate:g('f_hdate'),
+    scdf:g('f_scdf'), pcs:Number(g('f_pcs'))||null, kwh:Number(g('f_kwh'))||null,
+    packs:g('f_packs'), fw:g('f_fw'), logic:g('f_logic'),
+    tc1:cb('f_tc1'), tc2:cb('f_tc2'), tc3:cb('f_tc3'), tcdate:g('f_tcdate'),
+    remarks:g('f_remarks')
+  };
+}
+
+async function saveProject() {
+  const p = collectForm();
+  if (!p.company) { toast('Company name is required','err'); return; }
+  const btn = document.getElementById('saveBtn');
+  btn.innerHTML='<span class="spin"></span> Saving…'; btn.disabled=true;
+  if (editId) { const i=projects.findIndex(x=>x.id===editId); if(i>=0) projects[i]=p; }
+  else projects.push(p);
+  await push(); render(); stats();
+  closeOverlay('editOverlay');
+  toast(editId?'Project updated':'Project added','ok');
+  btn.innerHTML='Save Project'; btn.disabled=false;
+}
+
+// ── Delete ─────────────────────────────────────────────────────────────────
+function openDel(id) { delId=id; document.getElementById('delOverlay').classList.remove('hidden'); }
+async function confirmDelete() {
+  projects = projects.filter(p=>p.id!==delId);
+  await push(); render(); stats();
+  closeOverlay('delOverlay'); toast('Project deleted','ok'); delId=null;
+}
+
+// ── Utils ──────────────────────────────────────────────────────────────────
+function closeOverlay(id) { document.getElementById(id).classList.add('hidden'); }
+
+function exportJSON() {
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify({projects},null,2)],{type:'application/json'}));
+  a.download='hyesys_projects_'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+}
+
+let _tt;
+function toast(msg, type='ok') {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className=`toast ${type}`;
+  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.add('hidden'),3200);
+}
+
+document.querySelectorAll('.overlay').forEach(o=>
+  o.addEventListener('click',e=>{ if(e.target===o) o.classList.add('hidden'); }));
+
+// ── Init ───────────────────────────────────────────────────────────────────
+load();
+if (!API_KEY || !BIN_ID) openSettings();
+</script>
+</body>
+</html>

@@ -93,6 +93,8 @@ tr.inactive-row{background:#fafafa}
 .overlay.hidden{display:none}
 .modal{background:var(--card);border-radius:14px;width:100%;box-shadow:var(--shadow-lg);margin:auto}
 .modal-lg{max-width:920px}.modal-md{max-width:520px}.modal-sm{max-width:420px}
+#viewOverlay{align-items:center}
+#viewOverlay .modal{max-height:calc(100vh - 48px);display:flex;flex-direction:column;overflow:hidden}
 .modal-hdr{padding:20px 26px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
 .modal-title{font-size:18px;font-weight:800}
 .modal-x{background:none;border:none;cursor:pointer;font-size:24px;color:var(--muted);line-height:1;padding:0 4px}.modal-x:hover{color:var(--text)}
@@ -106,7 +108,7 @@ tr.inactive-row{background:#fafafa}
 .tab-panel{display:none}.tab-panel.active{display:block}
 
 /* ── View modal sections ── */
-.view-body{padding:26px;display:flex;flex-direction:column;gap:24px;max-height:80vh;overflow-y:auto}
+.view-body{padding:26px;display:flex;flex-direction:column;gap:24px;flex:1;min-height:0;overflow-y:auto}
 .vsec{border:1px solid var(--border);border-radius:10px;overflow:hidden}
 .vsec-hdr{background:#f8fafc;padding:10px 16px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--primary);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
 .vsec-body{padding:16px}

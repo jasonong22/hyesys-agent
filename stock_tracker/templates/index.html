@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Tracker</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root {
+  --primary: #0d4e8c;
+  --accent:  #00b4d8;
+  --in:      #17a363;
+  --out:     #d9534f;
+  --bg:      #f0f4f8;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; }
+
+/* ── Header ── */
+.app-header {
+  background: linear-gradient(135deg, #0a1628, #1a3a5c 60%, #0d4e8c);
+  color: white; padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 3px solid var(--accent);
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+.app-header h1 { font-size: 18px; font-weight: 700; margin: 0; }
+.app-header h1 span { color: var(--accent); }
+.app-header .tagline { font-size: 11px; color: #8ab4d4; }
+.header-right { display:flex; align-items:center; gap:10px; }
+.role-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; letter-spacing: .4px; text-transform: uppercase; }
+.role-viewer { background: #253a52; color: #8ab4d4; border: 1px solid #3a5a7a; }
+.role-editor { background: #17a363; color: white; }
+
+/* ── Tabs ── */
+.tab-bar { background: white; border-bottom: 2px solid #d8e4f0; padding: 0 24px; }
+.tab-bar .nav-link { color: #6080a0; font-size: 13px; font-weight: 600; padding: 12px 18px; border: none; border-bottom: 3px solid transparent; border-radius: 0; margin-bottom: -2px; }
+.tab-bar .nav-link.active { color: var(--primary); border-bottom-color: var(--primary); background: none; }
+.tab-bar .nav-link:hover:not(.active) { color: var(--primary); background: #f4f8ff; }
+
+/* ── Content ── */
+.tab-content { padding: 24px; }
+
+/* ── Stock cards ── */
+.stock-card { background: white; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 8px rgba(0,0,0,.07); border-left: 4px solid var(--primary); transition: transform .15s, box-shadow .15s; cursor: pointer; }
+.stock-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+.stock-card.low  { border-left-color: var(--out); }
+.stock-card.zero { border-left-color: #aaa; background: #f8f9fa; }
+.stock-card .item-category { font-size: 10px; font-weight: 700; color: #8090a0; text-transform: uppercase; letter-spacing: .5px; }
+.stock-card .item-name { font-size: 14px; font-weight: 700; color: #1a2a3a; margin: 2px 0; }
+.stock-card .item-desc { font-size: 11px; color: #8090a0; }
+.stock-card .qty-display { font-size: 28px; font-weight: 800; line-height: 1; color: var(--primary); }
+.stock-card .qty-display.zero-qty { color: #aaa; }
+.stock-card .qty-unit { font-size: 12px; color: #6080a0; font-weight: 600; }
+.stock-card .last-update { font-size: 10.5px; color: #9ab0c0; margin-top: 6px; }
+
+/* ── Form panel ── */
+.form-panel { background: white; border-radius: 10px; padding: 20px 22px; box-shadow: 0 2px 8px rgba(0,0,0,.07); border-top: 3px solid var(--primary); }
+.form-panel h5 { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 14px; }
+.form-label { font-size: 12px; font-weight: 600; color: #4a6080; margin-bottom: 3px; }
+.form-control, .form-select { font-size: 13px; border-color: #d0dce8; }
+.form-control:focus, .form-select:focus { border-color: var(--accent); box-shadow: 0 0 0 .2rem rgba(0,180,216,.15); }
+
+/* ── Typeahead ── */
+.item-input-wrap { position: relative; }
+.suggestions-dropdown {
+  position: absolute; top: calc(100% + 2px); left: 0; right: 0; z-index: 300;
+  background: white; border: 1.5px solid var(--accent); border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.12); max-height: 220px; overflow-y: auto;
+  display: none;
+}
+.suggestion-item {
+  padding: 9px 14px; cursor: pointer; font-size: 13px; border-bottom: 1px solid #f0f4f8;
+  display: flex; align-items: center; gap: 8px;
+}
+.suggestion-item:last-child { border-bottom: none; }
+.suggestion-item:hover, .suggestion-item.highlighted { background: #f0f8ff; }
+.suggestion-item .s-name { font-weight: 600; color: #1a2a3a; flex: 1; }
+.suggestion-item .s-cat { font-size: 11px; color: #8090a0; }
+.suggestion-item .s-stock { font-size: 11px; font-weight: 700; color: var(--primary); background: #e8f0fc; padding: 1px 7px; border-radius: 8px; }
+.suggestion-new { padding: 9px 14px; cursor: pointer; font-size: 12px; color: var(--primary); font-style: italic; }
+.suggestion-new:hover { background: #f0f8ff; }
+
+/* ── Sub-items section ── */
+.subitems-panel {
+  background: #f8fafd; border: 1.5px dashed #c8d8e8;
+  border-radius: 8px; padding: 14px 16px; margin-top: 4px;
+}
+.subitems-panel-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+}
+.subitems-panel-header .title { font-size: 12px; font-weight: 700; color: #4a6080; }
+.subitems-panel-header .title span { color: #8090a0; font-weight: 400; }
+.subitem-row {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  animation: slideIn .15s ease;
+}
+@keyframes slideIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
+.subitem-num { width: 22px; height: 22px; border-radius: 50%; background: var(--primary); color: white; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.subitem-empty { font-size: 11px; color: #a0b0c0; text-align: center; padding: 8px 0; }
+
+/* ── Table ── */
+.tx-table th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #6080a0; background: #f4f8fc; white-space: nowrap; }
+.tx-table td { font-size: 12.5px; vertical-align: middle; }
+.tx-table tr:hover > td { background: #f8fbff; }
+.badge-in  { background: #d4f5e9; color: #006644; font-weight: 700; padding: 3px 9px; border-radius: 8px; font-size: 11px; }
+.badge-out { background: #ffe4e2; color: #a02020; font-weight: 700; padding: 3px 9px; border-radius: 8px; font-size: 11px; }
+
+/* Sub-item expand in history */
+.subitems-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #e8f0fc; color: var(--primary); font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 8px; cursor: pointer; margin-left: 6px;
+  border: 1px solid #c8d8f0; user-select: none;
+}
+.subitems-badge:hover { background: #d8e8fc; }
+.subitem-expand-row td { padding: 0 !important; border: none !important; }
+.subitem-expand-content {
+  background: #f4f8fc; border-left: 3px solid var(--accent);
+  padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px;
+}
+.subitem-chip {
+  background: white; border: 1px solid #d0dce8; border-radius: 6px;
+  padding: 4px 10px; font-size: 11px; display: flex; flex-direction: column;
+}
+.subitem-chip .sc-name { font-weight: 700; color: #1a2a3a; }
+.subitem-chip .sc-notes { color: #8090a0; font-size: 10px; }
+
+/* ── Buttons ── */
+.btn-primary-custom { background: var(--primary); border: none; color: white; font-weight: 600; font-size: 13px; }
+.btn-primary-custom:hover { background: #0a3a6a; color: white; }
+.btn-in  { background: var(--in);  border: none; color: white; font-weight: 600; font-size: 13px; }
+.btn-in:hover  { background: #128050; color: white; }
+.btn-out { background: var(--out); border: none; color: white; font-weight: 600; font-size: 13px; }
+.btn-out:hover { background: #b02020; color: white; }
+
+/* ── PIN modal ── */
+.modal-header { background: var(--primary); color: white; }
+.modal-header .btn-close { filter: invert(1); }
+
+/* ── Filter bar ── */
+.filter-bar { background: white; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 6px rgba(0,0,0,.06); margin-bottom: 16px; }
+
+/* ── Toast ── */
+#toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+.toast-item { padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; color: white; opacity: 0; transform: translateY(10px); transition: all .25s; min-width: 200px; box-shadow: 0 3px 12px rgba(0,0,0,.2); }
+.toast-item.show { opacity: 1; transform: none; }
+.toast-ok   { background: var(--in); }
+.toast-err  { background: var(--out); }
+.toast-info { background: var(--primary); }
+
+/* ── Misc ── */
+.empty-state { text-align: center; padding: 48px 16px; color: #9ab0c0; }
+.empty-state .icon { font-size: 40px; margin-bottom: 10px; }
+.delete-btn { opacity: 0; transition: opacity .15s; }
+tr:hover .delete-btn { opacity: 1; }
+
+@media (max-width: 900px) {
+  .tab-content { padding: 14px; }
+  .tab-bar { padding: 0 10px; }
+  .app-header { padding: 10px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="app-header">
+  <div>
+    <h1>Stock <span>Tracker</span></h1>
+    <div class="tagline" id="app-subtitle">Loading…</div>
+  </div>
+  <div class="header-right">
+    <a href="/api/export/csv" class="btn btn-sm" style="background:#1a3a5c;color:#8ab4d4;font-size:12px;border:1px solid #3a5a7a">
+      Download CSV
+    </a>
+    <span class="role-badge role-viewer" id="role-badge">Viewer</span>
+    <button class="btn btn-sm btn-primary-custom" id="auth-btn" onclick="openAuthModal()">Edit Mode</button>
+  </div>
+</header>
+
+<!-- ═══ TABS ═══ -->
+<nav class="tab-bar">
+  <ul class="nav">
+    <li class="nav-item"><button class="nav-link active" onclick="switchTab('overview',this)">Stock Overview</button></li>
+    <li class="nav-item"><button class="nav-link" onclick="switchTab('history',this)">Transaction History</button></li>
+    <li class="nav-item" id="manage-tab-li" style="display:none">
+      <button class="nav-link" onclick="switchTab('manage',this)">+ Add / Manage Items</button>
+    </li>
+  </ul>
+</nav>
+
+<!-- ═══ CONTENT ═══ -->
+<div class="tab-content">
+
+  <!-- ── OVERVIEW ── -->
+  <div id="tab-overview">
+
+    <!-- Transaction form (editor only) -->
+    <div id="tx-panel" class="form-panel mb-4" style="display:none">
+      <h5>Log Stock Movement</h5>
+      <div class="row g-3">
+
+        <!-- Item typeahead -->
+        <div class="col-md-3">
+          <label class="form-label">Item *</label>
+          <div class="item-input-wrap">
+            <input type="text" class="form-control" id="tx-item-input"
+              placeholder="Type item name…" autocomplete="off"
+              oninput="onItemInput(this.value)"
+              onfocus="onItemFocus()"
+              onblur="onItemBlur()"
+              onkeydown="onItemKeydown(event)">
+            <div class="suggestions-dropdown" id="item-suggestions"></div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label">Type</label>
+          <select class="form-select" id="tx-type">
+            <option value="IN">IN — received</option>
+            <option value="OUT">OUT — issued</option>
+          </select>
+        </div>
+        <div class="col-md-1" style="min-width:100px">
+          <label class="form-label">Quantity *</label>
+          <input type="number" class="form-control" id="tx-qty" min="0.01" step="any" placeholder="0">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Reference</label>
+          <input type="text" class="form-control" id="tx-ref" placeholder="e.g. PO-001">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Logged By</label>
+          <input type="text" class="form-control" id="tx-by" placeholder="Your name">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Notes</label>
+          <input type="text" class="form-control" id="tx-notes" placeholder="Remarks">
+        </div>
+
+        <!-- Sub-items section -->
+        <div class="col-12">
+          <div class="subitems-panel">
+            <div class="subitems-panel-header">
+              <div class="title">Sub-items <span>(optional — e.g. Battery Unit 1, Battery Unit 2…)</span></div>
+              <button class="btn btn-sm btn-primary-custom" onclick="addSubitemRow()" style="font-size:12px;padding:3px 12px">
+                + Add Sub-item
+              </button>
+            </div>
+            <div id="subitems-list"></div>
+            <div id="subitems-empty" class="subitem-empty">No sub-items added — click "+ Add Sub-item" to break this entry into individual units.</div>
+          </div>
+        </div>
+
+        <div class="col-12 d-flex gap-2">
+          <button class="btn btn-in" onclick="submitTx('IN')">&#8679; &nbsp;Log IN</button>
+          <button class="btn btn-out" onclick="submitTx('OUT')">&#8681; &nbsp;Log OUT</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category filters -->
+    <div class="d-flex gap-2 mb-3 flex-wrap" id="cat-filters">
+      <button class="btn btn-sm btn-primary-custom" onclick="filterCat('',this)">All</button>
+    </div>
+
+    <!-- Cards grid -->
+    <div id="stock-grid" class="row g-3"></div>
+  </div>
+
+  <!-- ── HISTORY ── -->
+  <div id="tab-history" style="display:none">
+    <div class="filter-bar d-flex gap-2 flex-wrap align-items-end">
+      <div>
+        <label class="form-label mb-1">Filter Item</label>
+        <select class="form-select form-select-sm" id="hist-item-filter" onchange="loadHistory()" style="min-width:160px">
+          <option value="">All Items</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label mb-1">Type</label>
+        <select class="form-select form-select-sm" id="hist-type-filter" onchange="loadHistory()" style="width:110px">
+          <option value="">All</option>
+          <option value="IN">IN only</option>
+          <option value="OUT">OUT only</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label mb-1">Search</label>
+        <input type="text" class="form-control form-control-sm" id="hist-search"
+          placeholder="Item, ref, notes…" oninput="filterHistoryTable()" style="min-width:180px">
+      </div>
+      <button class="btn btn-sm btn-primary-custom ms-auto" onclick="loadHistory()">Refresh</button>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover tx-table">
+        <thead>
+          <tr>
+            <th>Date / Time</th>
+            <th>Item</th>
+            <th>Category</th>
+            <th>Type</th>
+            <th>Qty</th>
+            <th>Unit</th>
+            <th>Reference</th>
+            <th>Notes / Sub-items</th>
+            <th>Logged By</th>
+            <th id="del-col" style="display:none"></th>
+          </tr>
+        </thead>
+        <tbody id="hist-body"></tbody>
+      </table>
+      <div id="hist-empty" class="empty-state" style="display:none">
+        <div class="icon">📋</div>
+        <div>No transactions found.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MANAGE ── -->
+  <div id="tab-manage" style="display:none">
+    <div class="row g-4">
+      <div class="col-md-5">
+        <div class="form-panel">
+          <h5>Add New Item to Master List</h5>
+          <div class="mb-3">
+            <label class="form-label">Item Name *</label>
+            <input type="text" class="form-control" id="new-item-name" placeholder="e.g. H50 Unit">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Category</label>
+            <input type="text" class="form-control" id="new-item-cat" placeholder="e.g. HyESys Hardware">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Unit</label>
+            <input type="text" class="form-control" id="new-item-unit" placeholder="pcs / sets / packs" value="pcs">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-control" id="new-item-desc" placeholder="Optional">
+          </div>
+          <button class="btn btn-primary-custom" onclick="addItem()">+ Add to Master List</button>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="form-panel">
+          <h5>Current Master List</h5>
+          <table class="table table-sm tx-table">
+            <thead><tr><th>Name</th><th>Category</th><th>Unit</th><th>Stock</th><th></th></tr></thead>
+            <tbody id="manage-items-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ PIN MODAL ═══ -->
+<div class="modal fade" id="pinModal" tabindex="-1">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-size:15px">Enter Editor PIN</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="password" class="form-control" id="pin-input"
+          placeholder="PIN" onkeydown="if(event.key==='Enter')submitPin()">
+        <div class="text-danger mt-2" id="pin-error" style="font-size:12px;display:none"></div>
+      </div>
+      <div class="modal-footer" style="padding:12px 16px">
+        <button class="btn btn-sm btn-primary-custom w-100" onclick="submitPin()">Unlock Edit Mode</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let role = 'viewer';
+let items = [];
+let currentCat = '';
+let pinModal;
+let autoRefreshTimer;
+
+// Typeahead state
+let selectedItemId = null;
+let highlightedIdx = -1;
+let suggestionItems = [];
+
+// Sub-item counter
+let subitemCounter = 0;
+
+// History data
+let historyData = [];
+
+// ── Init ───────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  pinModal = new bootstrap.Modal(document.getElementById('pinModal'));
+  await checkAuth();
+  await loadItems();
+  startAutoRefresh();
+});
+
+async function checkAuth() {
+  const res = await fetch('/api/auth/check');
+  const d = await res.json();
+  role = d.role;
+  applyRole();
+}
+
+function applyRole() {
+  const badge   = document.getElementById('role-badge');
+  const authBtn = document.getElementById('auth-btn');
+  const txPanel = document.getElementById('tx-panel');
+  const manageLi = document.getElementById('manage-tab-li');
+  const delCol  = document.getElementById('del-col');
+
+  if (role === 'editor') {
+    badge.textContent = 'Editor';
+    badge.className = 'role-badge role-editor';
+    authBtn.textContent = 'Lock';
+    authBtn.onclick = logout;
+    txPanel.style.display = '';
+    manageLi.style.display = '';
+    if (delCol) delCol.style.display = '';
+  } else {
+    badge.textContent = 'Viewer';
+    badge.className = 'role-badge role-viewer';
+    authBtn.textContent = 'Edit Mode';
+    authBtn.onclick = openAuthModal;
+    txPanel.style.display = 'none';
+    manageLi.style.display = 'none';
+    if (delCol) delCol.style.display = 'none';
+  }
+  document.getElementById('app-subtitle').textContent =
+    role === 'editor'
+      ? 'Edit Mode — you can log stock movements'
+      : 'Read-only — contact admin for edit access';
+}
+
+// ── Tabs ───────────────────────────────────────────────────────────────────
+function switchTab(name, el) {
+  document.querySelectorAll('.tab-bar .nav-link').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  ['overview','history','manage'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t===name ? '' : 'none';
+  });
+  if (name === 'history') loadHistory();
+  if (name === 'manage')  renderManageItems();
+}
+
+// ── Load items ─────────────────────────────────────────────────────────────
+async function loadItems() {
+  const res = await fetch('/api/items');
+  items = await res.json();
+  renderCatFilters();
+  renderStockCards();
+  populateHistoryItemFilter();
+}
+
+function renderCatFilters() {
+  const cats = [...new Set(items.map(i => i.category).filter(Boolean))].sort();
+  const bar = document.getElementById('cat-filters');
+  bar.innerHTML = `<button class="btn btn-sm btn-primary-custom" onclick="filterCat('',this)">All</button>`;
+  cats.forEach(c => {
+    bar.innerHTML += `<button class="btn btn-sm" onclick="filterCat('${esc(c)}',this)"
+      style="background:white;border:1px solid #d0dce8;color:#4a6080;font-size:12px;font-weight:600">${esc(c)}</button>`;
+  });
+}
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('#cat-filters .btn').forEach(b => {
+    b.classList.remove('btn-primary-custom');
+    b.style.background = 'white'; b.style.color = '#4a6080';
+  });
+  btn.classList.add('btn-primary-custom');
+  btn.style.background = ''; btn.style.color = '';
+  renderStockCards();
+}
+
+function renderStockCards() {
+  const filtered = currentCat ? items.filter(i => i.category === currentCat) : items;
+  const grid = document.getElementById('stock-grid');
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="col-12"><div class="empty-state"><div class="icon">📦</div>
+      <div>No items yet. Log a transaction with a new name to auto-create, or add one via <strong>Manage Items</strong>.</div></div></div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(item => {
+    const qty = parseFloat(item.current_stock) || 0;
+    const cls = qty <= 0 ? 'zero' : qty < 3 ? 'low' : '';
+    const qtyClass = qty <= 0 ? 'zero-qty' : '';
+    const lastTx = item.last_transaction ? `Last: ${fmtDate(item.last_transaction)}` : 'No transactions yet';
+    return `
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="stock-card ${cls}" onclick="quickFilter(${item.id})">
+        ${item.category ? `<div class="item-category">${esc(item.category)}</div>` : ''}
+        <div class="item-name">${esc(item.name)}</div>
+        ${item.description ? `<div class="item-desc">${esc(item.description)}</div>` : ''}
+        <div class="mt-2 d-flex align-items-end gap-2">
+          <div class="qty-display ${qtyClass}">${fmtQty(qty)}</div>
+          <div class="qty-unit pb-1">${esc(item.unit)}</div>
+        </div>
+        <div class="last-update">${lastTx}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function populateHistoryItemFilter() {
+  const el = document.getElementById('hist-item-filter');
+  const was = el.value;
+  el.innerHTML = '<option value="">All Items</option>';
+  items.forEach(i => {
+    el.innerHTML += `<option value="${i.id}">${esc(i.name)}</option>`;
+  });
+  if (was) el.value = was;
+}
+
+function quickFilter(itemId) {
+  switchTab('history', document.querySelectorAll('.tab-bar .nav-link')[1]);
+  setTimeout(() => {
+    document.getElementById('hist-item-filter').value = itemId;
+    loadHistory();
+  }, 50);
+}
+
+// ── Typeahead ──────────────────────────────────────────────────────────────
+function onItemInput(val) {
+  selectedItemId = null;
+  highlightedIdx = -1;
+  renderSuggestions(val);
+}
+
+function onItemFocus() {
+  renderSuggestions(document.getElementById('tx-item-input').value);
+}
+
+function onItemBlur() {
+  setTimeout(() => {
+    document.getElementById('item-suggestions').style.display = 'none';
+    highlightedIdx = -1;
+  }, 160);
+}
+
+function onItemKeydown(e) {
+  const dd = document.getElementById('item-suggestions');
+  const rows = dd.querySelectorAll('.suggestion-item, .suggestion-new');
+  if (!rows.length) return;
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    highlightedIdx = Math.min(highlightedIdx + 1, rows.length - 1);
+    applyHighlight(rows);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    highlightedIdx = Math.max(highlightedIdx - 1, 0);
+    applyHighlight(rows);
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (highlightedIdx >= 0 && rows[highlightedIdx]) rows[highlightedIdx].dispatchEvent(new Event('mousedown'));
+  } else if (e.key === 'Escape') {
+    dd.style.display = 'none';
+  }
+}
+
+function applyHighlight(rows) {
+  rows.forEach((r, i) => r.classList.toggle('highlighted', i === highlightedIdx));
+  if (rows[highlightedIdx]) rows[highlightedIdx].scrollIntoView({ block: 'nearest' });
+}
+
+function renderSuggestions(val) {
+  const dd = document.getElementById('item-suggestions');
+  const q = (val || '').toLowerCase().trim();
+  const matches = q
+    ? items.filter(i => i.name.toLowerCase().includes(q))
+    : items.slice(0, 12);
+
+  suggestionItems = matches;
+  let html = matches.map((i, idx) => `
+    <div class="suggestion-item" onmousedown="selectSuggestion(${i.id},'${escJs(i.name)}')">
+      <span class="s-name">${highlightMatch(i.name, q)}</span>
+      ${i.category ? `<span class="s-cat">${esc(i.category)}</span>` : ''}
+      <span class="s-stock">${fmtQty(parseFloat(i.current_stock)||0)} ${esc(i.unit)}</span>
+    </div>`).join('');
+
+  const exactMatch = items.some(i => i.name.toLowerCase() === q);
+  if (q && !exactMatch) {
+    html += `<div class="suggestion-new" onmousedown="selectNewSuggestion('${escJs(val)}')">
+      + Create new item: "<strong>${esc(val)}</strong>"
+    </div>`;
+  }
+
+  if (!html) { dd.style.display = 'none'; return; }
+  dd.innerHTML = html;
+  dd.style.display = '';
+  highlightedIdx = -1;
+}
+
+function highlightMatch(name, q) {
+  if (!q) return esc(name);
+  const idx = name.toLowerCase().indexOf(q);
+  if (idx < 0) return esc(name);
+  return esc(name.slice(0,idx)) +
+    `<strong style="color:var(--primary)">${esc(name.slice(idx, idx+q.length))}</strong>` +
+    esc(name.slice(idx+q.length));
+}
+
+function selectSuggestion(id, name) {
+  selectedItemId = id;
+  document.getElementById('tx-item-input').value = name;
+  document.getElementById('item-suggestions').style.display = 'none';
+  document.getElementById('tx-qty').focus();
+}
+
+function selectNewSuggestion(name) {
+  selectedItemId = null;
+  document.getElementById('tx-item-input').value = name;
+  document.getElementById('item-suggestions').style.display = 'none';
+  document.getElementById('tx-qty').focus();
+}
+
+// ── Sub-items ──────────────────────────────────────────────────────────────
+function addSubitemRow() {
+  subitemCounter++;
+  const list = document.getElementById('subitems-list');
+  document.getElementById('subitems-empty').style.display = 'none';
+  const row = document.createElement('div');
+  row.className = 'subitem-row';
+  row.dataset.idx = subitemCounter;
+  row.innerHTML = `
+    <div class="subitem-num">${subitemCounter}</div>
+    <input type="text" class="form-control subitem-name" placeholder="Sub-item name (e.g. Battery Unit ${subitemCounter})"
+      style="flex:2" onkeydown="if(event.key==='Enter'){event.preventDefault();addSubitemRow();}">
+    <input type="text" class="form-control subitem-notes" placeholder="Notes (optional)" style="flex:1.2">
+    <button class="btn btn-sm" style="color:#d9534f;padding:2px 8px;flex-shrink:0"
+      onclick="removeSubitemRow(this)">&#10005;</button>
+  `;
+  list.appendChild(row);
+  row.querySelector('.subitem-name').focus();
+}
+
+function removeSubitemRow(btn) {
+  btn.closest('.subitem-row').remove();
+  // Renumber remaining rows
+  document.querySelectorAll('#subitems-list .subitem-row').forEach((row, i) => {
+    row.querySelector('.subitem-num').textContent = i + 1;
+  });
+  if (!document.querySelectorAll('#subitems-list .subitem-row').length) {
+    document.getElementById('subitems-empty').style.display = '';
+    subitemCounter = 0;
+  }
+}
+
+function getSubitems() {
+  return [...document.querySelectorAll('#subitems-list .subitem-row')]
+    .map(row => ({
+      name:  row.querySelector('.subitem-name').value.trim(),
+      notes: row.querySelector('.subitem-notes').value.trim()
+    }))
+    .filter(s => s.name);
+}
+
+function clearSubitems() {
+  document.getElementById('subitems-list').innerHTML = '';
+  document.getElementById('subitems-empty').style.display = '';
+  subitemCounter = 0;
+}
+
+// ── Submit transaction ─────────────────────────────────────────────────────
+async function submitTx(forcedType) {
+  const itemName = document.getElementById('tx-item-input').value.trim();
+  const type     = forcedType || document.getElementById('tx-type').value;
+  const qty      = parseFloat(document.getElementById('tx-qty').value);
+
+  if (!itemName) { toast('Please enter an item name', 'err'); document.getElementById('tx-item-input').focus(); return; }
+  if (!qty || qty <= 0) { toast('Enter a valid quantity > 0', 'err'); document.getElementById('tx-qty').focus(); return; }
+
+  document.getElementById('tx-type').value = type;
+  const subitems = getSubitems();
+
+  const body = {
+    type, quantity: qty,
+    reference: document.getElementById('tx-ref').value.trim(),
+    notes:     document.getElementById('tx-notes').value.trim(),
+    logged_by: document.getElementById('tx-by').value.trim(),
+    subitems
+  };
+
+  if (selectedItemId) {
+    body.item_id = selectedItemId;
+  } else {
+    body.item_name = itemName;
+  }
+
+  const res = await fetch('/api/transactions', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  const d = await res.json();
+  if (!res.ok) { toast(d.error, 'err'); return; }
+
+  const subMsg = subitems.length ? ` + ${subitems.length} sub-item${subitems.length>1?'s':''}` : '';
+  toast(`${type} logged: ${qty} x ${itemName}${subMsg}`, 'ok');
+
+  document.getElementById('tx-item-input').value = '';
+  document.getElementById('tx-qty').value = '';
+  document.getElementById('tx-ref').value = '';
+  document.getElementById('tx-notes').value = '';
+  selectedItemId = null;
+  clearSubitems();
+
+  await loadItems();
+  if (document.getElementById('tab-history').style.display !== 'none') loadHistory();
+}
+
+// ── History ────────────────────────────────────────────────────────────────
+async function loadHistory() {
+  const itemId = document.getElementById('hist-item-filter').value;
+  const type   = document.getElementById('hist-type-filter').value;
+  let url = '/api/transactions?limit=500';
+  if (itemId) url += `&item_id=${itemId}`;
+  if (type)   url += `&type=${type}`;
+  const res = await fetch(url);
+  historyData = await res.json();
+  renderHistoryTable(historyData);
+}
+
+function renderHistoryTable(data) {
+  const tbody = document.getElementById('hist-body');
+  const empty = document.getElementById('hist-empty');
+  const delCol = document.getElementById('del-col');
+  if (delCol) delCol.style.display = role === 'editor' ? '' : 'none';
+
+  if (!data.length) { tbody.innerHTML = ''; empty.style.display = ''; return; }
+  empty.style.display = 'none';
+
+  let html = '';
+  data.forEach(t => {
+    const hasSubitems = t.subitems && t.subitems.length > 0;
+    const subBadge = hasSubitems
+      ? `<span class="subitems-badge" onclick="toggleSubitems(${t.id},this)">
+           &#9654; ${t.subitems.length} sub-item${t.subitems.length>1?'s':''}
+         </span>`
+      : '';
+    const noteCell = `${esc(t.notes||'')}${subBadge}`;
+
+    // Main row
+    html += `<tr data-id="${t.id}">
+      <td style="white-space:nowrap;color:#6080a0;font-size:12px">${fmtDate(t.created_at)}</td>
+      <td><strong>${esc(t.item_name)}</strong></td>
+      <td style="color:#8090a0">${esc(t.category||'')}</td>
+      <td><span class="badge-${t.type.toLowerCase()}">${t.type}</span></td>
+      <td><strong>${fmtQty(t.quantity)}</strong></td>
+      <td style="color:#8090a0">${esc(t.unit)}</td>
+      <td style="color:#4060a0">${esc(t.reference||'')}</td>
+      <td>${noteCell}</td>
+      <td style="color:#6080a0">${esc(t.logged_by||'')}</td>
+      ${role==='editor'
+        ? `<td><button class="btn btn-sm delete-btn" style="color:#d9534f;padding:2px 6px;font-size:11px"
+             onclick="deleteTx(${t.id},this)">&#10005;</button></td>`
+        : '<td></td>'}
+    </tr>`;
+
+    // Hidden expand row for sub-items
+    if (hasSubitems) {
+      const chips = t.subitems.map(s => `
+        <div class="subitem-chip">
+          <div class="sc-name">${esc(s.name)}</div>
+          ${s.notes ? `<div class="sc-notes">${esc(s.notes)}</div>` : ''}
+        </div>`).join('');
+      html += `<tr class="subitem-expand-row" id="sub-expand-${t.id}" style="display:none">
+        <td colspan="10"><div class="subitem-expand-content">${chips}</div></td>
+      </tr>`;
+    }
+  });
+
+  tbody.innerHTML = html;
+}
+
+function toggleSubitems(txId, badge) {
+  const row = document.getElementById(`sub-expand-${txId}`);
+  if (!row) return;
+  const open = row.style.display !== 'none';
+  row.style.display = open ? 'none' : '';
+  badge.innerHTML = badge.innerHTML.replace(open ? '&#9660;' : '&#9654;', open ? '&#9654;' : '&#9660;');
+}
+
+function filterHistoryTable() {
+  const q = document.getElementById('hist-search').value.toLowerCase();
+  if (!q) { renderHistoryTable(historyData); return; }
+  renderHistoryTable(historyData.filter(t =>
+    [t.item_name, t.reference, t.notes, t.logged_by, t.category]
+      .some(f => (f||'').toLowerCase().includes(q))
+  ));
+}
+
+// ── Manage ─────────────────────────────────────────────────────────────────
+function renderManageItems() {
+  document.getElementById('manage-items-body').innerHTML = items.map(i => `
+    <tr>
+      <td><strong>${esc(i.name)}</strong></td>
+      <td style="color:#8090a0">${esc(i.category||'')}</td>
+      <td style="color:#8090a0">${esc(i.unit)}</td>
+      <td><strong>${fmtQty(parseFloat(i.current_stock)||0)} ${esc(i.unit)}</strong></td>
+      <td><button class="btn btn-sm" style="color:#d9534f;font-size:11px;padding:2px 8px"
+        onclick="deleteItem(${i.id},'${escJs(i.name)}')">Remove</button></td>
+    </tr>`).join('');
+}
+
+async function addItem() {
+  const name = document.getElementById('new-item-name').value.trim();
+  if (!name) { toast('Item name is required', 'err'); return; }
+  const res = await fetch('/api/items', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      name,
+      category:    document.getElementById('new-item-cat').value.trim(),
+      unit:        document.getElementById('new-item-unit').value.trim() || 'pcs',
+      description: document.getElementById('new-item-desc').value.trim()
+    })
+  });
+  const d = await res.json();
+  if (!res.ok) { toast(d.error, 'err'); return; }
+  toast(`"${name}" added`, 'ok');
+  ['new-item-name','new-item-cat','new-item-desc'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('new-item-unit').value = 'pcs';
+  await loadItems();
+  renderManageItems();
+}
+
+async function deleteItem(id, name) {
+  if (!confirm(`Remove "${name}" and ALL its transaction history? This cannot be undone.`)) return;
+  const res = await fetch(`/api/items/${id}`, { method: 'DELETE' });
+  const d = await res.json();
+  if (!res.ok) { toast(d.error, 'err'); return; }
+  toast(`"${name}" removed`, 'ok');
+  await loadItems();
+  renderManageItems();
+}
+
+async function deleteTx(id, btn) {
+  if (!confirm('Delete this transaction entry?')) return;
+  const res = await fetch(`/api/transactions/${id}`, { method:'DELETE' });
+  const d = await res.json();
+  if (!res.ok) { toast(d.error, 'err'); return; }
+  // Remove main row + expand row if present
+  const mainRow = btn.closest('tr');
+  const expandRow = document.getElementById(`sub-expand-${id}`);
+  if (expandRow) expandRow.remove();
+  mainRow.remove();
+  toast('Entry deleted', 'ok');
+  await loadItems();
+}
+
+// ── Auth ───────────────────────────────────────────────────────────────────
+function openAuthModal() {
+  document.getElementById('pin-input').value = '';
+  document.getElementById('pin-error').style.display = 'none';
+  pinModal.show();
+  setTimeout(() => document.getElementById('pin-input').focus(), 300);
+}
+
+async function submitPin() {
+  const pin = document.getElementById('pin-input').value;
+  const res = await fetch('/api/auth', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ pin })
+  });
+  const d = await res.json();
+  if (!res.ok) {
+    document.getElementById('pin-error').textContent = d.msg;
+    document.getElementById('pin-error').style.display = '';
+    return;
+  }
+  role = d.role;
+  pinModal.hide();
+  applyRole();
+  await loadItems();
+  toast('Edit mode unlocked', 'ok');
+}
+
+async function logout() {
+  await fetch('/api/auth/logout', { method:'POST' });
+  role = 'viewer';
+  applyRole();
+  toast('Locked — back to view-only mode', 'info');
+  const managTab = document.getElementById('tab-manage');
+  if (managTab && managTab.style.display !== 'none') {
+    switchTab('overview', document.querySelectorAll('.tab-bar .nav-link')[0]);
+  }
+}
+
+// ── Auto-refresh ───────────────────────────────────────────────────────────
+function startAutoRefresh() {
+  clearInterval(autoRefreshTimer);
+  autoRefreshTimer = setInterval(async () => {
+    await loadItems();
+    if (document.getElementById('tab-history').style.display !== 'none') loadHistory();
+  }, 30000);
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function fmtDate(s) {
+  if (!s) return '';
+  const d = new Date(s.replace(' ','T'));
+  return isNaN(d) ? s : d.toLocaleString('en-SG', {
+    day:'2-digit', month:'short', year:'numeric',
+    hour:'2-digit', minute:'2-digit', hour12: false
+  });
+}
+
+function fmtQty(n) {
+  return parseFloat(n) % 1 === 0 ? parseInt(n) : parseFloat(n).toFixed(2);
+}
+
+function esc(s) {
+  return String(s||'')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function escJs(s) {
+  return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+}
+
+function toast(msg, type) {
+  const el = document.createElement('div');
+  el.className = `toast-item toast-${type}`;
+  el.textContent = msg;
+  document.getElementById('toast-container').appendChild(el);
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 300);
+  }, 3000);
+}
+</script>
+</body>
+</html>

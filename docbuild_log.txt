@@ -1,0 +1,69 @@
+=== build_chapter_docs.py ===
+Building 32 Word docs -> C:\Users\JasonOng\Desktop\local docs\personal\rach
+
+[01/32] Ch 100: Small & Large Intestine — Anatomy and Developmental Anomalies
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch100_Anatomy_SmallLargeIntestine.docx
+[02/32] Ch 101: Small Intestinal Motor and Sensory Function
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch101_SmallIntestinal_Motor_Sensory.docx
+[03/32] Ch 102: Colonic Motor and Sensory Function
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch102_Colonic_Motor_Sensory.docx
+[04/32] Ch 103: Intestinal Electrolyte Absorption and Secretion
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch103_Electrolyte_Absorption_Secretion.docx
+[05/32] Ch 104: Digestion and Absorption of Carbohydrate, Protein, and Fat
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch104_Digestion_Absorption_Macro.docx
+[06/32] Ch 105: Digestion and Absorption of Micronutrients
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch105_Micronutrients_Absorption.docx
+[07/32] Ch 106: Maldigestion and Malabsorption
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch106_Maldigestion_Malabsorption.docx
+[08/32] Ch 107: Small Intestinal Bacterial Overgrowth (SIBO)
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch107_Small_Intestinal_Bacterial_Overgrowth.docx
+[09/32] Ch 108: Short Bowel Syndrome
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch108_Short_Bowel_Syndrome.docx
+[10/32] Ch 109: Celiac Disease
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch109_Celiac_Disease.docx
+[11/32] Ch 110: Tropical Diarrhea and Malabsorption
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch110_Tropical_Diarrhea_Malabsorption.docx
+[12/32] Ch 111: Whipple Disease
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch111_Whipple_Disease.docx
+[13/32] Ch 112: Infectious Enteritis and Proctocolitis
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch112_Infectious_Enteritis_Proctocolitis.docx
+[14/32] Ch 113: Food Poisoning
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch113_Food_Poisoning.docx
+[15/32] Ch 114: C. difficile Infection and Antibiotic-Associated Diarrhea
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch114_Cdiff_AAD.docx
+[16/32] Ch 115: Intestinal Protozoa
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch115_Intestinal_Protozoa.docx
+[17/32] Ch 116: Intestinal Worms
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch116_Intestinal_Worms.docx
+[18/32] Ch 117: IBD — Epidemiology, Pathogenesis, and Diagnosis
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch117_IBD_Epidemiology_Diagnosis.docx
+[19/32] Ch 118: IBD — Management
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch118_IBD_Management.docx
+[20/32] Ch 119: Ileostomies, Colostomies, and Anastomoses
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch119_Ileostomies_Colostomies.docx
+[21/32] Ch 120: Intestinal Ischemia
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch120_Intestinal_Ischemia.docx
+[22/32] Ch 121: Intestinal Ulcerations
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch121_Intestinal_Ulcerations.docx
+[23/32] Ch 122: Appendicitis
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch122_Appendicitis.docx
+[24/32] Ch 123: Diverticular Disease of the Colon
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch123_Diverticular_Disease.docx
+[25/32] Ch 124: Irritable Bowel Syndrome (IBS)
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch124_IBS.docx
+[26/32] Ch 125: Intestinal Obstruction
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch125_Intestinal_Obstruction.docx
+[27/32] Ch 126: Ileus and Pseudo-Obstruction Syndromes
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch126_Ileus_PseudoObstruction.docx
+[28/32] Ch 127: Tumors of the Small Intestine
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch127_Small_Bowel_Tumors.docx
+[29/32] Ch 128: Colonic Polyps and Polyposis Syndromes
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch128_Colonic_Polyps_Polyposis.docx
+[30/32] Ch 129: Colorectal Cancer
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch129_Colorectal_Cancer.docx
+[31/32] Ch 130: Other Diseases of the Colon
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch130_Other_Colon_Diseases.docx
+[32/32] Ch 131: Anal Diseases
+  -> Saved: C:\Users\JasonOng\Desktop\local docs\personal\rach\Ch131_Anal_Diseases.docx
+
+=== Done: 32/32 ===

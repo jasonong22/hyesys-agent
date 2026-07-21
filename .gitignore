@@ -21,6 +21,14 @@ research_bot/
 # Per-site Telegram tokens — keep off GitHub
 sites/**/telegram_config.json
 
+# Playwright browser profile (contains session cookies — never commit)
+.playwright_profile/
+
+# Elsevier extracted content (large, temporary)
+elsevier_*.txt
+elsevier_*.json
+elsevier_*.png
+
 # OS
 .DS_Store
 Thumbs.db

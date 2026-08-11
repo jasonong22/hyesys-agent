@@ -29,6 +29,14 @@ CONTRACTOR       = "Advancer Smart Technology Pte Ltd"
 DATE             = "11/08/26"
 COMPANY_LINE     = "Advancer Smart Technology Pte Ltd"
 
+WAIVER_REF_NO = "WVR/01156/26"
+WAIVER_DATE   = "25 June 2026"
+WAIVER_TITLE  = (
+    "PROPOSED INSTALLATION OF ABOVEGROUND BATTERY ENERGY STORAGE SYSTEM "
+    "AT LEVEL 1 PRODUCTION AREA OF A 3-STOREY BUILDING AT "
+    "249 JLN BOON LAY, SINGAPORE 619523"
+)
+
 # ── low-level helpers ─────────────────────────────────────────────────────────
 
 def _tcPr(cell):
@@ -322,6 +330,42 @@ def add_approval_form(doc, page_num, item, brand_model, supplier_origin,
     add_company_footer(doc)
 
 
+# ── SCDF Waiver reference page ────────────────────────────────────────────────
+
+def add_waiver_reference_page(doc):
+    """First page: SCDF Waiver Decision Letter reference (Ref, Date, full Title)."""
+    add_page_header(doc, "Ref")
+
+    tbl = doc.add_table(rows=0, cols=2)
+    tbl.style = "Table Grid"
+
+    # Section header
+    r = tbl.add_row(); set_row_height(r, 0.65, exact=True)
+    hdr = r.cells[0].merge(r.cells[1])
+    set_cell_bg(hdr, "D9D9D9")
+    cell_para(hdr, "SCDF WAIVER DECISION LETTER — REFERENCE",
+              bold=True, size=11, align=WD_ALIGN_PARAGRAPH.CENTER)
+
+    # Reference No.
+    r = tbl.add_row(); set_row_height(r, 0.7, exact=False)
+    cell_para(r.cells[0], "REFERENCE NO.", bold=True, size=9)
+    cell_para(r.cells[1], WAIVER_REF_NO,             size=10)
+
+    # Date
+    r = tbl.add_row(); set_row_height(r, 0.7, exact=False)
+    cell_para(r.cells[0], "DATE",           bold=True, size=9)
+    cell_para(r.cells[1], WAIVER_DATE,                size=10)
+
+    # Waiver title
+    r = tbl.add_row(); set_row_height(r, 1.5, exact=False)
+    cell_para(r.cells[0], "WAIVER TITLE",  bold=True, size=9)
+    cell_para(r.cells[1], WAIVER_TITLE,              size=10)
+
+    set_col_widths(tbl, [3.5, 13.5])
+    doc.add_paragraph()
+    add_company_footer(doc)
+
+
 # ── Table of Contents page ────────────────────────────────────────────────────
 
 def add_toc_page(doc, page_num):
@@ -481,6 +525,9 @@ def build_doc():
         section.bottom_margin = Cm(1.5)
         section.left_margin   = Cm(2.0)
         section.right_margin  = Cm(2.0)
+
+    add_waiver_reference_page(doc)
+    doc.add_page_break()
 
     for page_num, mat in enumerate(MATERIALS, start=1):
         add_approval_form(doc, page_num, **mat)

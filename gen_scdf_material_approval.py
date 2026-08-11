@@ -24,7 +24,7 @@ PROJECT_TITLE    = (
     "Energy Storage System (HySBatt H50) and Associated Fire Safety Works "
     "at Boon Lay, ST Engineering"
 )
-PROJECT_LOCATION = "Boon Lay, ST Engineering [Address To Be Confirmed]"
+PROJECT_LOCATION = "249 Jln Boon Lay, Singapore 619523"
 CONTRACTOR       = "Advancer Smart Technology Pte Ltd"
 DATE             = "11/08/26"
 COMPANY_LINE     = "Advancer Smart Technology Pte Ltd"
@@ -409,18 +409,26 @@ MATERIALS = [
         ),
     ),
     dict(
-        item            = "Rockwool — Mineral Wool Insulation",
-        brand_model     = "[Brand / Model — To Be Confirmed]",
-        supplier_origin = "[Manufacturer] / [Country of Origin]",
-        system          = "Passive Fire Protection — Thermal Insulation Infill within 2HR Fire-Rated ESS Room Walls",
+        item            = "Rock Wool Board (Mineral Wool Insulation)",
+        brand_model     = "Huaermeisin (Walmeison) / Rock Wool Board, 100 kg/m³, 50 mm",
+        supplier_origin = "Shanghai Heji Thermal Insulation Materials Co., Ltd / China",
+        system          = "Passive Fire Protection — Thermal and Acoustic Insulation Infill within 2HR Fire-Rated ESS Room Walls",
         standards       = (
-            "[Applicable fire resistance / reaction to fire standard — To Be Confirmed];"
-            "[Applicable thermal performance standard — To Be Confirmed]"
+            "GB/T 19686-2015 — Rock Wool Thermal Insulation Products for Buildings "
+            "(Steel Structure and Internal Insulation Rock Wool Board Type);"
+            "GB 8624-2012 — Combustion Performance Classification of Building Materials and Products: "
+            "Class A(A1) Non-Combustible (Flat Building Material);"
+            "Test Report No. JR226-230199, issued 31 July 2024, "
+            "Shanghai Jianke Testing Co., Ltd / National Building Engineering Materials Quality Testing Centre"
         ),
         description     = (
-            "Mineral wool (stone wool) insulation. Grade, thickness, density and dimensions "
-            "to be confirmed. Non-combustible. Infill between Supalux fire-rated board framework "
-            "to achieve overall 2HR fire-rated enclosure for ESS room."
+            "Rock wool board. Density 100 kg/m³, thickness 50 mm. "
+            "Thermal conductivity 0.037 W/(m·K) at 25°C (standard <=0.040). "
+            "Non-combustibility (GB/T 5464-2010): furnace temperature rise 16°C (<=30°C), "
+            "mass loss rate 5% (<=50%), sustained burning time 0 s (=0 s). "
+            "Total heat of combustion PCS 1.0 MJ/kg (<=2.0 MJ/kg). "
+            "Sound absorption NRC 0.95 (>=0.70). "
+            "Complies with GB 8624-2012 Class A(A1) for flat building materials and products."
         ),
     ),
     dict(
